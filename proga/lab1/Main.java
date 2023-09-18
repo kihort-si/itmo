@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Arrays;
 
 public class Main{
     public static void main(String[] args){
@@ -40,7 +41,7 @@ public class Main{
             }
         }
 
-//сортировка пузырьком в порядке убывания
+        //сортировка пузырьком в порядке убывания
 
         short temp;
         boolean isSorted = false;
@@ -72,8 +73,8 @@ public class Main{
 
         double[][] array = new double[C_LENGTH][X_LENGTH];
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 11; j++) {
+        for (int i = 0; i < C_LENGTH; i++) {
+            for (int j = 0; j < X_LENGTH; j++) {
                 if (c[i] == 17) {
                     array[i][j] = (0.5/(Math.sin((Math.sin(x[j])))));
                 }
@@ -88,12 +89,32 @@ public class Main{
 
 //вывод результата
 
+        System.out.print("Array c: " + Arrays.toString(c));
+
+        System.out.println();
+
+        System.out.print("Array x: " + Arrays.toString(x));
+
+        System.out.println();
+
+        // вывод номеров столбцов
+        System.out.print("\t\t");
+        for (int j = 0; j < X_LENGTH; j++) {
+            System.out.printf("[%d]\t\t\t", j + 1);
+        }
+        System.out.println();
+
         for (int i = 0; i < C_LENGTH; i++) {
+            // вывод номера строки
+            System.out.printf("[%d]\t", i + 1);
+
+            // вывод массива
             for (int j = 0; j < X_LENGTH; j++) {
-                System.out.printf("%.3f\t", array[i][j]);
+                System.out.printf("%8.3f\t", array[i][j]);
             }
             System.out.println();
         }
+
 
     }
 }
