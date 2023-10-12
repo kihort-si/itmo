@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.Arrays;
+import static java.lang.Math.*;
 
 public class Main{
     public static void main(String[] args){
@@ -16,47 +17,10 @@ public class Main{
 
         short[] c = new short[C_LENGTH];
 
+        short value = C_END;
         for (int i = 0; i < c.length; i++) {
-            for (int j = C_START; j <= C_END; j++) {
-                if (j % 2 != 0) {
-                    boolean exist = false; //существует ли элемент в массиве
-                    short value = (short) j; //текущее значение
-
-                    //проверяем, существует ли элемент в массиве
-
-                    for (int z = 0; z < i; z++) {
-                        if (c[z] == value) {
-                            exist = true;
-                            break;
-                        }
-                    }
-
-                    //если не существует, добавляем
-
-                    if (!exist) {
-                        c[i] = value;
-                        break;
-                    }
-                }
-            }
-        }
-
-        //сортировка пузырьком в порядке убывания
-
-        short temp;
-        boolean isSorted = false;
-
-        while (!isSorted) {
-            isSorted = true;
-
-            for (int i = 0; i < c.length - 1; i++) {
-                if (c[i] < c[i + 1]) {
-                    temp = c[i];
-                    c[i] = c[i + 1];
-                    c[i + 1] = temp;
-                    isSorted = false;
-                }
-            }
+            c[i] = value;
+            value -= 2;
         }
 
 //генератор случайных чисел от -7.0 до 8.0
@@ -75,14 +39,14 @@ public class Main{
 
         for (int i = 0; i < C_LENGTH; i++) {
             for (int j = 0; j < X_LENGTH; j++) {
-                if (c[i] == 17) {
-                    array[i][j] = (0.5/(Math.sin((Math.sin(x[j])))));
+                if (c[i] == 17) { // stop at
+                    array[i][j] = (0.5/(sin((sin(x[j])))));
                 }
                 else if (c[i] == 5 || c[i] == 11 || c[i] == 15 || c[i] == 19) {
-                    array[i][j] = (Math.pow((0.5 / (0.25 + Math.cbrt(x[j]))), 3)) / Math.atan(Math.pow(((x[j] +0.5) / 15), 2)) + 1;
+                    array[i][j] = (pow((0.5 / (0.25 + cbrt(x[j]))), 3)) / atan(pow(((x[j] +0.5) / 15), 2)) + 1;
                 }
                 else {
-                    array[i][j] = Math.asin(Math.cos(Math.atan(Math.cos(Math.cbrt(Math.atan(x[j] + 0.5 / 15))))));
+                    array[i][j] = asin(cos(atan(cos(cbrt(atan(x[j] + 0.5 / 15))))));
                 }
             }
         }
@@ -97,24 +61,13 @@ public class Main{
 
         System.out.println();
 
-        // вывод номеров столбцов
-        System.out.print("\t\t");
-        for (int j = 0; j < X_LENGTH; j++) {
-            System.out.printf("[%d]\t\t\t", j + 1);
-        }
-        System.out.println();
-
-        for (int i = 0; i < C_LENGTH; i++) {
-            // вывод номера строки
-            System.out.printf("[%d]\t", i + 1);
-
-            // вывод массива
+        // вывод массива
+        for (int i = 0; i < C_LENGTH; i++){
             for (int j = 0; j < X_LENGTH; j++) {
-                System.out.printf("%8.3f\t", array[i][j]);
+                System.out.printf("%10.3f\t", array[i][j]); // jdb 
             }
             System.out.println();
         }
-
 
     }
 }
