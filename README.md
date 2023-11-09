@@ -8,6 +8,6 @@
 - **История России и мира в ХХ веке**
 - **Линейная алгебра**
 - **Математический анализ**
-- **Основы дискретной математики**
+- [**Основы дискретной математики**](https://github.com/kihort-si/itmo/tree/main/discrete%20math)
 - [**Основы профессиональной деятельности**](https://github.com/kihort-si/itmo/tree/main/opd/labs)
 - [**Программирование**](https://github.com/kihort-si/itmo/tree/main/proga)
