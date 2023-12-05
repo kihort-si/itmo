@@ -64,6 +64,8 @@ chmod 404 yanmega9
 
 #task 3
 
+#Изменим права для работы
+
 chmod u=rwx yanmega9
 chmod u=rwx arbok3
 chmod u=rwx arbok3/natu
@@ -71,8 +73,8 @@ chmod u=rwx arbok3/bidoof
 
 
 cat vullaby8/chikorita vullaby8/gulpin > krookodile6_35
-ln yanmega9 minccino3/armaldoyanmega
-ln -s krookodile6 minccino3/armaldokrookodile
+ln yanmega9 minccino3/armaldoyanmega 
+ln -s ../krookodile6 ./minccino3/armaldokrookodile 
 cat yanmega9 > minccino3/armaldoyanmega
 cp -r arbok3 vullaby8/vanilluxe
 cp yanmega9 arbok3/bidoof
@@ -80,21 +82,26 @@ ln -s vullaby8 Copy_87
 
 #task 4
 
+#Изменим права для работы
+
 chmod u=rwx krookodile6
 
 wc -l minccino3/nosepass vullaby8/gulpin vullaby8/frillish 2>/tmp/mer | grep -v total | sort -r
-ls -Rc 2>/dev/null | grep ko | head -n 2
-grep -r ^m 2>/dev/null | cat -n | sort -k3 -r
-ls -Rut 2>/tmp/merrr | sort -r | grep chi | head -n 2
-cat krookodile6 | wc -l | cat >> krookodile6
+ls -Rla 2>/dev/null | grep -Ei ':[0-9][0-9] \S*ko.*\b' | sort -k7Mr -k6nr -k8r | tail -n 2
+cat -n `ls -R 2>/dev/null | grep -E ^k` 2>/dev/null | sort -k2 -r
+ls -Rula 2>/tmp/merrr | grep -Ei ':[0-9][0-9] \S*chi.*\b' | sort -k7M -k6n -k8 | head -n 2
+wc -l < krookodile6 | cat >> krookodile6
 grep Mo flygon6 2>/dev/null
 
 #task 5
+
+#Изменим права для работы
+
+chmod 777 vullaby8/tyranitar
 
 rm -f krookodile6
 rm -f minccino3/armaldo
 rm -f Copy_*
 rm -f minccino3/armaldoyanme*
-chmod 777 vullaby8/tyranitar
 rm -rf vullaby8
 rmdir arbok3/mienshao
