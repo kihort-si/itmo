@@ -1,4 +1,5 @@
 package ru.itmo.programming.actions;
+
 import ru.itmo.programming.enums.Forms;
 
 public interface Beable {

@@ -1,21 +1,32 @@
 package ru.itmo.programming.characters;
 
 import ru.itmo.programming.actions.Beable;
+import ru.itmo.programming.actions.Fallable;
+import ru.itmo.programming.actions.Smileable;
 import ru.itmo.programming.enums.Forms;
 
-public class Woman extends Substance implements Beable {
+public class Woman extends Character implements Beable, Smileable, Fallable {
+
+    private final String[] anatomy = {"лицо", "волосы", "глаза", "щеки", "губы", "голова", "плечи"};
+
+    public String getAnatomy(int index) {
+        return anatomy[index];
+    }
+
     public Woman() {
-        super("Женщина");
+        super("Женщина", Forms.SHE);
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode() + this.getName().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj.hashCode() == this.hashCode();
+    public void makeThink(Type type, String about) {
+        switch (type) {
+            case PLAN:
+                System.out.print("подумала " + about);
+                break;
+            case DONE:
+                System.out.print("сказала " + about);
+                break;
+        }
     }
 
     @Override
@@ -23,27 +34,31 @@ public class Woman extends Substance implements Beable {
         return "Имя:" + getName();
     }
 
-    public String preposition() {
-        return "она";
-    }
-
     @Override
     public void be(String object, String description, Forms forms) {
         switch (forms) {
-            case He:
-                System.out.print(object + "был" + description);
+            case HE:
+                System.out.print(object + " был " + description);
                 break;
-            case She:
-                System.out.print(object + "была" + description);
+            case SHE:
+                System.out.print(object + " была " + description);
                 break;
-            case It:
-                System.out.print(object + "было" + description);
+            case IT:
+                System.out.print(object + " было " + description);
                 break;
-            case They:
-                System.out.print(object + "были" + description);
+            case THEY:
+                System.out.print(object + " были " + description);
                 break;
-            default:
-                System.out.println();
         }
+    }
+
+    @Override
+    public void smile(String object, String description) {
+        System.out.print(object + description + " улыбалось ");
+    }
+
+    @Override
+    public void fall(String object, String description, String subject) {
+        System.out.print(object + description + " спадали на " + subject);
     }
 }
