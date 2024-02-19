@@ -9,5 +9,15 @@
 - **Линейная алгебра**
 - **Математический анализ**
 - [**Основы дискретной математики**](https://github.com/kihort-si/itmo/tree/main/discrete%20math)
-- [**Основы профессиональной деятельности**](https://github.com/kihort-si/itmo/tree/main/opd/labs)
+- [**Основы профессиональной деятельности**](https://github.com/kihort-si/itmo/tree/main/opd)
+- [**Программирование**](https://github.com/kihort-si/itmo/tree/main/proga)
+### **2 сем**
+- [**Базы данных**](https://github.com/kihort-si/itmo/tree/main/databases)
+- **Безопасность жизнедеятельности**
+- [**Дискретная математика**](https://github.com/kihort-si/itmo/tree/main/discrete%20math)
+- **Иностранный язык**
+- **Коммуникации и командообразование**
+- **Линейная алгебра**
+- **Математический анализ**
+- [**Основы профессиональной деятельности**](https://github.com/kihort-si/itmo/tree/main/opd)
 - [**Программирование**](https://github.com/kihort-si/itmo/tree/main/proga)
