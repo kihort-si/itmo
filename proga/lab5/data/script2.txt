@@ -1,0 +1,15 @@
+show
+clear
+execute_script data/script.txt
+add
+Никита
+367
+127
+183
+78
+blue
+france
+234
+12
+34
+show

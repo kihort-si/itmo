@@ -1,0 +1,4 @@
+{"id":1,"name":"Никита","coordinates":{"x":367.0,"y":127.0},"creationDate":"2024-02-29T11:16:12.2831354+03:00[Europe/Moscow]","height":183.0,"weight":78.0,"eyeColor":"BLUE","nationality":"FRANCE","location":{"x":234.0,"y":12,"z":34}}
+{"id":3,"name":"Настя","coordinates":{"x":23.0,"y":234.0},"creationDate":"2024-02-29T11:16:12.2911364+03:00[Europe/Moscow]","height":161.0,"weight":55.0,"eyeColor":"ORANGE","nationality":"THAILAND","location":{"x":23.0,"y":122,"z":34}}
+{"id":4,"name":"Глеб","coordinates":{"x":213.0,"y":12.0},"creationDate":"2024-02-29T11:16:12.2921367+03:00[Europe/Moscow]","height":166.0,"weight":71.0,"eyeColor":"WHITE","nationality":"SOUTH_KOREA","location":{"x":21.0,"y":32,"z":67}}
+{"id":2,"name":"Денис","coordinates":{"x":456.0,"y":13.0},"creationDate":"2024-02-29T11:16:12.3011394+03:00[Europe/Moscow]","height":195.0,"weight":66.0,"eyeColor":"YELLOW","nationality":"FRANCE","location":{"x":231.0,"y":23,"z":18}}
