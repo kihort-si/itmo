@@ -5,6 +5,9 @@ import ru.itmo.programming.utils.Verification;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+/**
+ * @author Nikita Vasilev
+ */
 public class Person implements Comparable<Person>, Verification {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой

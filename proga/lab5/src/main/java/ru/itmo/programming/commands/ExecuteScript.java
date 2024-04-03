@@ -2,7 +2,6 @@ package ru.itmo.programming.commands;
 
 import ru.itmo.programming.exceptions.WrongArgumentException;
 import ru.itmo.programming.managers.CommandManager;
-import ru.itmo.programming.managers.ScriptManager;
 import ru.itmo.programming.utils.Console;
 
 import java.io.*;
@@ -13,12 +12,10 @@ import java.io.*;
 public class ExecuteScript extends Command {
     private final Console console;
     private final CommandManager commandManager;
-    private final ScriptManager scriptManager;
-    public ExecuteScript(Console console, CommandManager commandManager, ScriptManager scriptManager) {
+    public ExecuteScript(Console console, CommandManager commandManager) {
         super("execute_script", "считать и исполнить скрипт из указанного файла");
         this.console = console;
         this.commandManager = commandManager;
-        this.scriptManager = scriptManager;
     }
 
     @Override
@@ -31,26 +28,7 @@ public class ExecuteScript extends Command {
                 return;
             }
         }
-
         String fileName = args[0];
-
-        File file = new File(fileName);
-        if (!file.isAbsolute()) {
-            try {
-                fileName = file.getCanonicalPath();
-            } catch (IOException e) {
-                console.println("Ошибка: Не удалось получить абсолютный путь к файлу.");
-                return;
-            }
-        }
-
-        if (scriptManager.isScriptInStack(fileName)) {
-            console.println("Ошибка: Обнаружено зацикливание. Файл скрипта \"" + fileName + "\" уже исполнялся.");
-            return;
-        }
-
-        scriptManager.addScript(fileName);
-
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -62,15 +40,13 @@ public class ExecuteScript extends Command {
                 if (command != null) {
                     command.execute(commandArgs);
                 } else {
-                    console.println("Ошибка: Команда \"" + commandName + "\" не найдена.");
+                    console.printError("Команда \"" + commandName + "\" не найдена.");
                 }
             }
         } catch (FileNotFoundException e) {
-            console.println("Ошибка: Файл скрипта не найден.");
+            console.printError("Файл скрипта не найден.");
         } catch (IOException e) {
-            console.println("Ошибка при чтении файла скрипта: " + e.getMessage());
-        } finally {
-            scriptManager.removeScript();
+            console.printError("Не удалось прочитать файл: " + e.getMessage());
         }
     }
 }

@@ -80,11 +80,11 @@ public class PersonBuilder extends CollectionBuilder<Person>{
                     console.println("Введите рост: ");
                 }
                 String input = Input.getUserScanner().nextLine().trim();
-                if (input.isEmpty()) {
-                    console.printError("Рост не может быть пустым");
+                height = Double.parseDouble(input);
+                if (height <= 0) {
+                    console.printError("Рост не может быть отрицательным.");
                     continue;
                 }
-                height = Double.parseDouble(input);
                 break;
             } catch (NumberFormatException e) {
                 console.printError("Некорректный формат роста. Введите число.");
@@ -114,6 +114,10 @@ public class PersonBuilder extends CollectionBuilder<Person>{
                     continue;
                 }
                 weight = Double.parseDouble(input);
+                if (weight <= 0) {
+                    console.printError("Вес не может быть отрицательным.");
+                    continue;
+                }
                 break;
             } catch (NoSuchElementException e) {
                 console.printError("Рост не распознан");

@@ -2,9 +2,11 @@ package ru.itmo.programming.utils;
 
 import ru.itmo.programming.commands.Command;
 import ru.itmo.programming.managers.CommandManager;
+import ru.itmo.programming.managers.ScriptManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -15,14 +17,16 @@ public class Runner {
 
     private final Console console;
     private final CommandManager commandManager;
+    private final ScriptManager scriptManager;
 
-    public Runner(Console console, CommandManager commandManager) {
+    public Runner(Console console, CommandManager commandManager, ScriptManager scriptManager) {
         this.console = console;
         this.commandManager = commandManager;
+        this.scriptManager = scriptManager;
     }
 
     /**
-     * works with console input
+     * Works with console input.
      */
     public void interactiveMode() {
         Scanner scanner = new Scanner(System.in);
@@ -37,7 +41,16 @@ public class Runner {
                 break;
             } else if (input.startsWith("execute_script")) {
                 String fileName = input.split(" ", 2)[1];
+                File file = new File(fileName);
+                try {
+                    fileName = file.getCanonicalPath();
+                } catch (IOException e) {
+                    console.printError("Не удалось получить абсолютный путь к файлу.");
+                    return;
+                }
+                scriptManager.addScript(fileName);
                 fileMode(fileName);
+                scriptManager.removeScript();
             } else {
                 executeCommand(input.split(" "));
             }
@@ -45,9 +58,11 @@ public class Runner {
     }
 
     /**
+     * Works when executing commands from the script file.
      * @param fileName name of the script file from which you want to read data
      */
     public void fileMode(String fileName) {
+        boolean previousFileMode = Input.isFileMode();
         try (Scanner fileScanner = new Scanner(new File(fileName))) {
             Scanner previousScanner = Input.getUserScanner();
             Input.setUserScanner(fileScanner);
@@ -59,16 +74,31 @@ public class Runner {
                 String commandName = commandAndArgs[0];
                 String[] commandArgs = commandAndArgs.length > 1 ? commandAndArgs[1].split("\\s+") : new String[0];
                 if (commandName.equals("execute_script")) {
-                    fileMode(commandArgs[0]);
+                    String scriptPath = commandArgs[0];
+                    File file = new File(scriptPath);
+                    try {
+                        scriptPath = file.getCanonicalPath();
+                    } catch (IOException e) {
+                        console.printError("Не удалось получить абсолютный путь к файлу.");
+                        return;
+                    }
+                    if (!scriptManager.isScriptInStack(scriptPath)) {
+                        scriptManager.addScript(scriptPath);
+                        fileMode(scriptPath);
+                        scriptManager.removeScript();
+                        //                        continue;
+                    } else {
+                        console.printError("Обнаружено зацикливание. Файл скрипта \"" + scriptPath + "\" уже исполняется. Выполнение будет пропущено.");
+                    }
                 } else {
                     executeCommand(commandLine.split(" "));
                 }
             }
-
             Input.setUserScanner(previousScanner);
-            Input.setFileMode(false);
         } catch (FileNotFoundException e) {
             console.printError("Файл не найден: " + fileName);
+        } finally {
+            Input.setFileMode(previousFileMode);
         }
     }
 

@@ -1,15 +1,12 @@
-show
-clear
-execute_script data/script.txt
 add
-Никита
-367
-127
-183
-78
-blue
-france
-234
-12
-34
-show
+Мария
+37
+11
+163
+55
+White
+Thailand
+73
+280
+67
+execute_script data/script.txt

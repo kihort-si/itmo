@@ -11,7 +11,7 @@ public class Console implements ConsoleCommand {
 
     @Override
     public void printError(Object object) {
-        System.err.println("Ошибка: " + object);
+        System.err.println("\u001B[0;31m" + "Ошибка: " + object + "\u001B[0;0m");
     }
 
 }

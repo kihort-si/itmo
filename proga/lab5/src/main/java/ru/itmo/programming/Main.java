@@ -7,14 +7,13 @@ import ru.itmo.programming.utils.Runner;
 
 public class Main {
     public static void main(String[] args) {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.err.println("Программа прервана");
-        }));
-
         CollectionManager collectionManager = new CollectionManager();
         Console console = new Console();
         ScriptManager scriptManager = new ScriptManager();
 
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            console.println("Программа завершена.");
+        }));
 
         String filePath = System.getenv("FILE_PATH");
         if (filePath == null) {
@@ -30,7 +29,7 @@ public class Main {
         commandManager.createCommand(new AddIfMin(console, collectionManager));
         commandManager.createCommand(new Clear(console, collectionManager));
         commandManager.createCommand(new CountGreaterThanWeight(console, collectionManager));
-        commandManager.createCommand(new ExecuteScript(console, commandManager, scriptManager));
+        commandManager.createCommand(new ExecuteScript(console, commandManager));
         commandManager.createCommand(new Exit(console));
         commandManager.createCommand(new FilterLessThanHeight(console, collectionManager));
         commandManager.createCommand(new Help(console, commandManager));
@@ -38,12 +37,12 @@ public class Main {
         commandManager.createCommand(new MaxByLocation(console, collectionManager));
         commandManager.createCommand(new RemoveById(console, collectionManager));
         commandManager.createCommand(new RemoveLower(console, collectionManager));
-        commandManager.createCommand(new Save(fileManager, collectionManager, filePath));
+        commandManager.createCommand(new Save(fileManager));
         commandManager.createCommand(new Show(console, collectionManager));
         commandManager.createCommand(new UpdateId(console, collectionManager));
 
-        fileManager.readCollection(collectionManager.getCollection(), filePath);
+        fileManager.readCollection();
 
-        new Runner(console, commandManager).interactiveMode();
+        new Runner(console, commandManager, scriptManager).interactiveMode();
     }
 }
