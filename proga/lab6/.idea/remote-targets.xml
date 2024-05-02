@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <option name="projectDefaultTargetUuid" value="2bfcf876-10fa-41cb-ac0e-6dc2a65e834d" />
+    <targets>
+      <target name="s366389@helios.cs.ifmo.ru:2222" type="ssh/sftp" uuid="2bfcf876-10fa-41cb-ac0e-6dc2a65e834d">
+        <config>
+          <option name="projectRootOnTarget" value="/home/studs/s366389/proga/lab6" />
+          <option name="serverName" value="s366389@helios.cs.ifmo.ru:2222 password" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="javaVersionString" value="17.0.2" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

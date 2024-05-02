@@ -1,0 +1,12 @@
+add
+Мария
+37
+11
+163
+55
+White
+Thailand
+73
+280
+67
+execute_script data/script.txt

@@ -1,0 +1,82 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    repositories {
+        mavenCentral()
+    }
+
+    compileJava.options.encoding = 'UTF-8'
+    javadoc.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+}
+
+project(':server') {
+    apply plugin: 'application'
+
+    dependencies {
+        implementation project(':common')
+        implementation 'com.google.code.gson:gson:2.10.1'
+        implementation 'org.slf4j:slf4j-api:1.7.32'
+        implementation 'ch.qos.logback:logback-classic:1.2.6'
+    }
+
+    // Настройка основного класса для сервера
+    shadowJar {
+        configurations = [project.configurations.runtimeClasspath]
+        mainClassName = 'ru.itmo.programming.server.App'
+    }
+}
+
+project(':client') {
+    apply plugin: 'application'
+
+    dependencies {
+        implementation project(':common')
+        implementation 'org.slf4j:slf4j-api:1.7.32'
+        implementation 'ch.qos.logback:logback-classic:1.2.6'
+    }
+
+    run {
+        standardInput = System.in
+    }
+
+    // Настройка основного класса для клиента
+    shadowJar {
+        configurations = [project.configurations.runtimeClasspath]
+        mainClassName = 'ru.itmo.programming.client.App'
+    }
+}
+
+project(':common') {
+    apply plugin: 'java'
+
+    jar {
+        archiveClassifier = 'common'
+    }
+}
+
+// Создание fatJar для всех подпроектов
+allprojects {
+    tasks.register('fatJar', Jar) {
+        archiveClassifier = 'fat'
+
+        from sourceSets.main.output
+        dependsOn configurations.runtimeClasspath
+
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        from {
+            configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+        }
+    }
+}
