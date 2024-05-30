@@ -1,0 +1,8 @@
+DROP TYPE IF EXISTS eyeColor;
+DROP TYPE IF EXISTS nationality;
+DROP TYPE IF EXISTS user_status;
+
+DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS coordinates;
+DROP TABLE IF EXISTS location;
+DROP TABLE IF EXISTS person;

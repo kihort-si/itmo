@@ -1,0 +1,30 @@
+package ru.itmo.client.commands;
+
+import ru.itmo.common.utils.Commands;
+import ru.itmo.common.utils.Console;
+
+/**
+ * @author Nikita Vasilev
+ */
+public class Exit extends Command {
+    private final Console console;
+    public Exit(Console console) {
+        super(Commands.EXIT.getName(), Commands.EXIT.getDescription());
+        this.console = console;
+    }
+
+    @Override
+    public boolean validateArgs(String[] args) {
+        return args.length == 0;
+    }
+
+    @Override
+    public void execute(String[] args) {
+        if (!validateArgs(args)) {
+            console.printError("У команды " + getName() + " не должно быть аргументов.");
+        } else {
+            console.println("Завершение работы программы...");
+            System.exit(1);
+        }
+    }
+}
