@@ -57,8 +57,6 @@ public class ServerManager {
         }).start();
     }
 
-    Future
-
     /**
      * Formation of an answer based on the request received from the client.
      * @param socketChannel The current network channel on which data is being transmitted.
