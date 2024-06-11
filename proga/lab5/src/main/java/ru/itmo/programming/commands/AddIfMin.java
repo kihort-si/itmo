@@ -1,5 +1,6 @@
 package ru.itmo.programming.commands;
 
+import ru.itmo.programming.collections.Person;
 import ru.itmo.programming.collections.builders.PersonBuilder;
 import ru.itmo.programming.managers.CollectionManager;
 import ru.itmo.programming.utils.Console;
@@ -17,17 +18,26 @@ public class AddIfMin extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
-        long nextId = collectionManager.freeIds();
-        collectionManager.addElementToCollection(new PersonBuilder(nextId, console).build());
-        long addedId = collectionManager.lastCreatedPerson();
-        double minHeight = collectionManager.getMinHeight();
+    public boolean validate(String[] args) {
+        return args.length == 0;
+    }
 
-        if (collectionManager.getElementById(addedId).getHeight() == minHeight) {
-            console.println("Человек успешно добавлен");
+    @Override
+    public void execute(String[] args) {
+        if (!validate(args)) {
+            console.printError("У команды " + getName() + " не должно быть аргумента");
         } else {
-            collectionManager.removeById(addedId);
-            console.println("Человек не добавлен, так как его рост больше минимального");
+            long nextId = collectionManager.freeIds();
+            Person person = new PersonBuilder(nextId, console).build();
+
+            double minHeight = collectionManager.getMinHeight();
+
+            if (person.getHeight() == minHeight) {
+                collectionManager.addElementToCollection(person);
+                console.println("Человек успешно добавлен");
+            } else {
+                console.println("Человек не добавлен, так как его рост больше минимального");
+            }
         }
     }
 }

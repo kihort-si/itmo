@@ -109,6 +109,17 @@ public class Person implements Comparable<Person>, Verification {
         else return true;
     }
 
+    public void update(Person person) {
+        this.name = person.getName();
+        this.coordinates = person.getCoordinates();
+        this.creationDate = person.getCreationDate();
+        this.height = person.getHeight();
+        this.weight = person.getWeight();
+        this.eyeColor = person.getEyeColor();
+        this.nationality = person.getNationality();
+        this.location = person.getLocation();
+    }
+
     @Override
     public String toString() {
         return "Person{" +

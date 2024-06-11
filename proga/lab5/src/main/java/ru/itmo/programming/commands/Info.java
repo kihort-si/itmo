@@ -16,13 +16,22 @@ public class Info extends Command {
     }
 
     @Override
+    public boolean validate(String[] args) {
+        return args.length == 0;
+    }
+
+    @Override
     public void execute(String[] args) {
-        console.println("Информация о текущей коллекции:");
-        console.println("Тип: " + collectionManager.getCollectionType());
-        if (collectionManager.getElementsType() != null) {
-            console.println("Класс коллекции: " + collectionManager.getElementsType());
-            console.println("Время инициализации: " + collectionManager.getInitializationDate());
+        if (!validate(args)) {
+            console.printError("У команды " + getName() + " не должно быть аргумента");
+        } else {
+            console.println("Информация о текущей коллекции:");
+            console.println("Тип: " + collectionManager.getCollectionType());
+            if (collectionManager.getElementsType() != null) {
+                console.println("Класс коллекции: " + collectionManager.getElementsType());
+                console.println("Время инициализации: " + collectionManager.getInitializationDate());
+            }
+            console.println("Количество элементов: " + collectionManager.getCollectionSize());
         }
-        console.println("Количество элементов: " + collectionManager.getCollectionSize());
     }
 }

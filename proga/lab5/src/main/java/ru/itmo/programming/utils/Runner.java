@@ -86,7 +86,6 @@ public class Runner {
                         scriptManager.addScript(scriptPath);
                         fileMode(scriptPath);
                         scriptManager.removeScript();
-                        //                        continue;
                     } else {
                         console.printError("Обнаружено зацикливание. Файл скрипта \"" + scriptPath + "\" уже исполняется. Выполнение будет пропущено.");
                     }

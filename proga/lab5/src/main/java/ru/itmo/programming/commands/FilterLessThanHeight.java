@@ -1,7 +1,6 @@
 package ru.itmo.programming.commands;
 
 import ru.itmo.programming.collections.Person;
-import ru.itmo.programming.exceptions.WrongArgumentException;
 import ru.itmo.programming.managers.CollectionManager;
 import ru.itmo.programming.utils.Console;
 
@@ -22,27 +21,27 @@ public class FilterLessThanHeight extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
-        if (args.length < 1) {
-            try {
-                throw new WrongArgumentException("Ошибка: " + getName() + " - Необходимо указать рост для сравнения.");
-            } catch (WrongArgumentException e) {
-                console.printError(e.getMessage());
-                return;
-            }
-        }
+    public boolean validate(String[] args) {
+        return args.length == 1;
+    }
 
-        try {
-            double height = Double.parseDouble(args[0]);
-            List<Person> sortedList = new ArrayList<>(collectionManager.getCollection());
-            Collections.sort(sortedList);
-            for (Person person : sortedList) {
-                if (person.getHeight() < height) {
-                    console.println(person.toString());
+    @Override
+    public void execute(String[] args) {
+        if (!validate(args)) {
+            console.printError("Для выполнения команды " + getName() + " введите рост для сравнения");
+        } else {
+            try {
+                double height = Double.parseDouble(args[0]);
+                List<Person> sortedList = new ArrayList<>(collectionManager.getCollection());
+                Collections.sort(sortedList);
+                for (Person person : sortedList) {
+                    if (person.getHeight() < height) {
+                        console.println(person.toString());
+                    }
                 }
+            } catch (NumberFormatException e) {
+                console.println("Ошибка: Некорректный формат роста.");
             }
-        } catch (NumberFormatException e) {
-            console.println("Ошибка: Некорректный формат роста.");
         }
     }
 }

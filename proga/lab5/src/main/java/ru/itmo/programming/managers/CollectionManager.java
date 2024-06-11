@@ -42,19 +42,6 @@ public class CollectionManager {
     }
 
     /**
-     * @param id id value of the element, information about which is to be obtained
-     * @return if there is an element with the given id in the collection, information about it, otherwise nothing
-     */
-    public Person getElementById(long id) {
-        for (Person person : collection) {
-            if (person.getId() == id) {
-                return person;
-            }
-        }
-        return null;
-    }
-
-    /**
      * @return the maximum height value of the collection elements
      */
     public double getMaxHeight() {
@@ -119,6 +106,19 @@ public class CollectionManager {
     }
 
     /**
+     * @param id The ID of the person to be retrieved.
+     * @return The person with the specified ID from the collection.
+     */
+    public Person getById(long id) {
+        for (Person person : collection) {
+            if (person.getId() == id) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    /**
      *
      * @param element element to be added to the current collection
      */
@@ -131,17 +131,6 @@ public class CollectionManager {
      */
     public void clearCollection() {
         collection.clear();
-    }
-
-    /**
-     * @return Id of the last created collection element
-     */
-    public long lastCreatedPerson() {
-        Person lastCreatedPerson = null;
-        for (Person person : collection) {
-            lastCreatedPerson = person;
-        }
-        return lastCreatedPerson.getId();
     }
 
     /**

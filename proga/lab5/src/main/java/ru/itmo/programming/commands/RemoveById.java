@@ -1,6 +1,5 @@
 package ru.itmo.programming.commands;
 
-import ru.itmo.programming.exceptions.WrongArgumentException;
 import ru.itmo.programming.managers.CollectionManager;
 import ru.itmo.programming.utils.Console;
 
@@ -17,25 +16,25 @@ public class RemoveById extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
-        if (args.length < 1) {
-            try {
-                throw new WrongArgumentException("Ошибка: " + getName() + " - Необходимо указать ID элемента для удаления.");
-            } catch (WrongArgumentException e) {
-                console.printError(e.getMessage());
-                return;
-            }
-        }
+    public boolean validate(String[] args) {
+        return args.length == 1;
+    }
 
-        try {
-            int idToRemove = Integer.parseInt(args[0]);
-            if (collectionManager.removeById(idToRemove)) {
-                console.println("Элемент с ID " + idToRemove + " успешно удален.");
-            } else {
-                console.println("Элемент с ID " + idToRemove + " не найден.");
+    @Override
+    public void execute(String[] args) {
+        if (!validate(args)) {
+            console.printError("Для выполнения команды " + getName() + " введите ID элемента для удаления");
+        } else {
+            try {
+                int idToRemove = Integer.parseInt(args[0]);
+                if (collectionManager.removeById(idToRemove)) {
+                    console.println("Элемент с ID " + idToRemove + " успешно удален.");
+                } else {
+                    console.println("Элемент с ID " + idToRemove + " не найден.");
+                }
+            } catch (NumberFormatException e) {
+                console.println("Ошибка: Некорректный формат ID. ID должен быть целым числом.");
             }
-        } catch (NumberFormatException e) {
-            console.println("Ошибка: Некорректный формат ID. ID должен быть целым числом.");
         }
     }
 }

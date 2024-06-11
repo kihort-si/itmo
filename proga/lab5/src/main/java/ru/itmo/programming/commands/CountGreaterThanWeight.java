@@ -1,7 +1,6 @@
 package ru.itmo.programming.commands;
 
 import ru.itmo.programming.collections.Person;
-import ru.itmo.programming.exceptions.WrongArgumentException;
 import ru.itmo.programming.managers.CollectionManager;
 import ru.itmo.programming.utils.Console;
 
@@ -18,27 +17,27 @@ public class CountGreaterThanWeight extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
-        if (args.length < 1) {
-            try {
-                throw new WrongArgumentException("Ошибка: " + getName() + " - Необходимо указать вес для сравнения.");
-            } catch (WrongArgumentException e) {
-                console.printError(e.getMessage());
-                return;
-            }
-        }
+    public boolean validate(String[] args) {
+        return args.length == 1;
+    }
 
-        try {
-            double weight = Double.parseDouble(args[0]);
-            int count = 0;
-            for (Person person : collectionManager.getCollection()) {
-                if (person.getWeight() > weight) {
-                    count++;
+    @Override
+    public void execute(String[] args) {
+        if (!validate(args)) {
+            console.printError("Для выполнения команды " + getName() + " введите вес для сравнения");
+        } else {
+            try {
+                double weight = Double.parseDouble(args[0]);
+                int count = 0;
+                for (Person person : collectionManager.getCollection()) {
+                    if (person.getWeight() > weight) {
+                        count++;
+                    }
                 }
+                console.println("Количество элементов с весом больше " + weight + ": " + count);
+            } catch (NumberFormatException e) {
+                console.println("Ошибка: Некорректный формат веса.");
             }
-            console.println("Количество элементов с весом больше " + weight + ": " + count);
-        } catch (NumberFormatException e) {
-            console.println("Ошибка: Некорректный формат веса.");
         }
     }
 }

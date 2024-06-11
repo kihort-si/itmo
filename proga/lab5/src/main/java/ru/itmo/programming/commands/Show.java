@@ -21,18 +21,27 @@ public class Show extends Command {
     }
 
     @Override
+    public boolean validate(String[] args) {
+        return args.length == 0;
+    }
+
+    @Override
     public void execute(String[] args) {
-        if (collectionManager.getCollection().isEmpty()) {
-            console.println("Коллекция пуста.");
-            return;
-        }
+        if (!validate(args)) {
+            console.printError("У команды " + getName() + " не должно быть аргумента");
+        } else {
+            if (collectionManager.getCollection().isEmpty()) {
+                console.println("Коллекция пуста.");
+                return;
+            }
 
-        List<Person> sortedList = new ArrayList<>(collectionManager.getCollection());
-        Collections.sort(sortedList);
+            List<Person> sortedList = new ArrayList<>(collectionManager.getCollection());
+            Collections.sort(sortedList);
 
 
-        for (Person person : sortedList) {
-            console.println(person.toString());
+            for (Person person : sortedList) {
+                console.println(person.toString());
+            }
         }
     }
 }

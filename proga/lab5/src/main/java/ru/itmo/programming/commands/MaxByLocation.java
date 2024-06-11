@@ -22,36 +22,41 @@ public class MaxByLocation extends Command {
     }
 
     @Override
+    public boolean validate(String[] args) {
+        return args.length == 0;
+    }
+
+    @Override
     public void execute(String[] args) {
-        if (args.length != 0) {
-            console.println("Ошибка: Неправильное количество аргументов. Использование: max_by_location");
-            return;
-        }
+        if (!validate(args)) {
+            console.printError("У команды " + getName() + " не должно быть аргумента");
+        } else {
+            try {
+                if (collectionManager.getCollection().isEmpty())
+                    throw new EmptyCollectionException("Ошибка: Коллекция пуста.");
+                Comparator<Location> locationComparator = Comparator.comparing(Location::getX)
+                        .thenComparing(Location::getY)
+                        .thenComparing(Location::getZ);
+                Optional<Location> maxLocation = collectionManager.getCollection().stream()
+                        .map(Person::getLocation)
+                        .max(locationComparator);
 
-        try {
-            if (collectionManager.getCollection().isEmpty()) throw new EmptyCollectionException("Ошибка: Коллекция пуста.");
-            Comparator<Location> locationComparator = Comparator.comparing(Location::getX)
-                    .thenComparing(Location::getY)
-                    .thenComparing(Location::getZ);
-            Optional<Location> maxLocation = collectionManager.getCollection().stream()
-                    .map(Person::getLocation)
-                    .max(locationComparator);
 
+                if (maxLocation.isPresent()) {
+                    Optional<Person> personWithMaxLocation = collectionManager.getCollection().stream()
+                            .filter(person -> person.getLocation().equals(maxLocation.get()))
+                            .findFirst();
 
-            if (maxLocation.isPresent()) {
-                Optional<Person> personWithMaxLocation = collectionManager.getCollection().stream()
-                        .filter(person -> person.getLocation().equals(maxLocation.get()))
-                        .findFirst();
-
-                personWithMaxLocation.ifPresentOrElse(
-                        person -> console.println("Человек с максимальным значением location: " + person),
-                        () -> console.println("Ошибка: Не удалось найти человека с максимальным значением location.")
-                );
-            } else {
-                console.println("Ошибка: Не удалось найти человека с максимальным значением location.");
+                    personWithMaxLocation.ifPresentOrElse(
+                            person -> console.println("Человек с максимальным значением location: " + person),
+                            () -> console.println("Ошибка: Не удалось найти человека с максимальным значением location.")
+                    );
+                } else {
+                    console.println("Ошибка: Не удалось найти человека с максимальным значением location.");
+                }
+            } catch (EmptyCollectionException e) {
+                e.getMessage();
             }
-        } catch (EmptyCollectionException e) {
-            e.getMessage();
         }
     }
 }

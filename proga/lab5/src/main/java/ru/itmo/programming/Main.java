@@ -29,7 +29,7 @@ public class Main {
         commandManager.createCommand(new AddIfMin(console, collectionManager));
         commandManager.createCommand(new Clear(console, collectionManager));
         commandManager.createCommand(new CountGreaterThanWeight(console, collectionManager));
-        commandManager.createCommand(new ExecuteScript(console, commandManager));
+        commandManager.createCommand(new ExecuteScript(console));
         commandManager.createCommand(new Exit(console));
         commandManager.createCommand(new FilterLessThanHeight(console, collectionManager));
         commandManager.createCommand(new Help(console, commandManager));
@@ -37,7 +37,7 @@ public class Main {
         commandManager.createCommand(new MaxByLocation(console, collectionManager));
         commandManager.createCommand(new RemoveById(console, collectionManager));
         commandManager.createCommand(new RemoveLower(console, collectionManager));
-        commandManager.createCommand(new Save(fileManager));
+        commandManager.createCommand(new Save(console, fileManager));
         commandManager.createCommand(new Show(console, collectionManager));
         commandManager.createCommand(new UpdateId(console, collectionManager));
 

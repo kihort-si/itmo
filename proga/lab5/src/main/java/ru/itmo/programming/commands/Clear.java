@@ -16,8 +16,17 @@ public class Clear extends Command {
     }
 
     @Override
+    public boolean validate(String[] args) {
+        return args.length == 0;
+    }
+
+    @Override
     public void execute(String[] args) {
-        collectionManager.clearCollection();
-        console.println("Коллекция очищена.");
+        if (!validate(args)) {
+            console.printError("У команды " + getName() + " не должно быть аргумента");
+        } else {
+            collectionManager.clearCollection();
+            console.println("Коллекция очищена");
+        }
     }
 }

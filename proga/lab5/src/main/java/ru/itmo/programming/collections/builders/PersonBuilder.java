@@ -48,7 +48,7 @@ public class PersonBuilder extends CollectionBuilder<Person>{
                     console.println("Введите имя: ");
                 }
                 name = Input.getUserScanner().nextLine().trim();
-                if (name.equals("") || name.equals(null)) throw new NullPointerException();
+                if (name.isEmpty()) throw new NullPointerException();
                 break;
             } catch (NoSuchElementException e) {
                 console.printError("Имя не распознано");
