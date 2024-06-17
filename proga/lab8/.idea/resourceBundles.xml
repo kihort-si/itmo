@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/client/src/main/resources/LocalizationBundle_es_PR.properties" />
+    <file url="file://$PROJECT_DIR$/client/src/main/resources/LocalizationBundle_mk.properties" />
+    <file url="file://$PROJECT_DIR$/client/src/main/resources/LocalizationBundle_ru.properties" />
+    <file url="file://$PROJECT_DIR$/client/src/main/resources/LocalizationBundle_uk.properties" />
+  </component>
+</project>
