@@ -17,6 +17,7 @@ import java.io.IOException;
 public class Add extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Add(Console console, ClientManager clientManager) {
         super(Commands.ADD.getName(), Commands.ADD.getDescription());
         this.console = console;

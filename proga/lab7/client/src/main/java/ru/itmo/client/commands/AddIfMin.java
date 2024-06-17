@@ -14,7 +14,6 @@ import java.io.IOException;
  * @author Nikita Vasilev
  */
 public class AddIfMin extends Command {
-
     private final Console console;
     private final ClientManager clientManager;
 
@@ -23,7 +22,6 @@ public class AddIfMin extends Command {
         this.console = console;
         this.clientManager = clientManager;
     }
-
 
     @Override
     public boolean validateArgs(String[] args) {

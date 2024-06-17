@@ -5,6 +5,7 @@ import ru.itmo.common.utils.Commands;
 public class AddIfMinResponse extends Response {
     private final long nextId;
     private final boolean isAdded;
+
     public AddIfMinResponse(long nextId, boolean isAdded, String error) {
         super(Commands.ADD_IF_MIN.getName(), error);
         this.nextId = nextId;

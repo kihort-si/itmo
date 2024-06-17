@@ -14,6 +14,7 @@ import java.io.IOException;
 public class MaxByLocation extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public MaxByLocation(Console console, ClientManager clientManager) {
         super(Commands.MAX_BY_LOCATION.getName(), Commands.MAX_BY_LOCATION.getDescription());
         this.console = console;

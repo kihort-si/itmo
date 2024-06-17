@@ -4,7 +4,6 @@ import ru.itmo.common.collection.Person;
 import ru.itmo.common.utils.Commands;
 
 public class UpdateIdRequest extends Request {
-
     private final long id;
     private final Person updatedPerson;
 

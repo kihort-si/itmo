@@ -22,6 +22,7 @@ public class Server {
 
     /**
      * Starts a network channel for server operation.
+     *
      * @throws IOException If an error occurs when opening a channel.
      */
     public void run() throws IOException {
@@ -32,6 +33,7 @@ public class Server {
 
     /**
      * Retrieving the current socket.
+     *
      * @return The socket channel for the new connection, or null if this channel is in non-blocking mode and no connection is available to be accepted.
      * @throws IOException If an unexpected error occurred while receiving the current socket.
      */
@@ -41,9 +43,10 @@ public class Server {
 
     /**
      * Retrieving objects from the client using a network channel.
+     *
      * @param socketChannel The current channel on which objects are transmitted.
      * @return An object received from the client.
-     * @throws IOException If an error occurs during socket transfer.
+     * @throws IOException            If an error occurs during socket transfer.
      * @throws ClassNotFoundException If the socket transmission failed to find the class of the object being transmitted.
      */
     public Object getObject(SocketChannel socketChannel) throws IOException, ClassNotFoundException {
@@ -52,8 +55,8 @@ public class Server {
     }
 
     /**
-     * @param socketChannel
-     * @param obj The object to be returned to the client.
+     * @param socketChannel The current channel on which objects are written.
+     * @param obj           The object to be returned to the client.
      * @throws IOException If an error occurs during socket transfer.
      */
     public void writeObject(SocketChannel socketChannel, Object obj) throws IOException {
@@ -63,6 +66,7 @@ public class Server {
 
     /**
      * Closing the socket for server operation.
+     *
      * @throws IOException If an error occurred when closing the socket.
      */
     public void close() throws IOException {

@@ -8,6 +8,7 @@ import ru.itmo.common.utils.Console;
  */
 public class Exit extends Command {
     private final Console console;
+
     public Exit(Console console) {
         super(Commands.EXIT.getName(), Commands.EXIT.getDescription());
         this.console = console;

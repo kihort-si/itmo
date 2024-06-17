@@ -1,6 +1,7 @@
 package ru.itmo.server.vaults;
 
 import org.slf4j.Logger;
+import ru.itmo.common.collection.Location;
 import ru.itmo.common.collection.Person;
 import ru.itmo.common.utils.PersonComparator;
 import ru.itmo.server.App;
@@ -113,7 +114,7 @@ public class CollectionVault {
     }
 
     /**
-     * @param id A person's ID that needs to be set up for him or her.
+     * @param id     A person's ID that needs to be set up for him or her.
      * @param person A person to be added to the collection.
      */
     public void addToCollection(long id, Person person, int creator) {
@@ -130,10 +131,24 @@ public class CollectionVault {
     }
 
     /**
-     *Collection Cleanup.
+     * Collection Cleanup.
      */
     public void clearCollection(int creator) {
         collection.removeIf(person -> person.getCreator() == creator);
+    }
+
+
+    /**
+     * @return The person with the maximum location value.
+     */
+    public Person maxLocation() {
+        Comparator<Location> locationComparator = Comparator.comparing(Location::getX)
+                .thenComparing(Location::getY)
+                .thenComparing(Location::getZ);
+
+        return getCollection().stream()
+                .max(Comparator.comparing(Person::getLocation, locationComparator))
+                .orElseThrow(() -> new NoSuchElementException("No persons found in the collection"));
     }
 
     /**

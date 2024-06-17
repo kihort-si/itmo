@@ -1,6 +1,5 @@
 package ru.itmo.client.builders;
 
-
 import ru.itmo.client.utils.Input;
 import ru.itmo.common.collection.Coordinates;
 import ru.itmo.common.utils.Console;
@@ -18,7 +17,6 @@ public class CoordinatesBuilder extends Builder<Coordinates> {
     }
 
     /**
-     *
      * @return entered coordinates for the collection element
      */
     @Override
@@ -28,7 +26,6 @@ public class CoordinatesBuilder extends Builder<Coordinates> {
     }
 
     /**
-     *
      * @return entered X coordinate for the collection element
      */
     public Float X() {
@@ -54,7 +51,6 @@ public class CoordinatesBuilder extends Builder<Coordinates> {
     }
 
     /**
-     *
      * @return entered Y coordinate for the collection element
      */
     public Float Y() {

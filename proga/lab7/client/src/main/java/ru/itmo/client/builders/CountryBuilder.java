@@ -9,6 +9,7 @@ import ru.itmo.common.utils.Console;
  */
 public class CountryBuilder extends Builder<Country> {
     private final Console console;
+
     public CountryBuilder(Console console) {
         this.console = console;
     }

@@ -24,13 +24,4 @@ public class CommandManager {
     public Map<String, Command> getCommandMap() {
         return commandMap;
     }
-
-    /**
-     *
-     * @param name command name
-     * @return command name
-     */
-    public Command getCommand(String name) {
-        return commandMap.get(name);
-    }
 }

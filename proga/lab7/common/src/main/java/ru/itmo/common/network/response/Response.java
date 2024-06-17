@@ -5,12 +5,14 @@ import java.util.Objects;
 
 /**
  * The response that is sent to the client after the corresponding commands are executed.
+ *
  * @author Nikita Vasilev
  */
 public abstract class Response implements Serializable {
     public final String name;
     private final String error;
-    public Response (String name, String error) {
+
+    public Response(String name, String error) {
         this.name = name;
         this.error = error;
     }

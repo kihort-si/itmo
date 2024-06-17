@@ -5,6 +5,7 @@ import ru.itmo.common.utils.Commands;
 
 public class AddIfMaxRequest extends Request {
     private final Person person;
+
     public AddIfMaxRequest(Person person) {
         super(Commands.ADD_IF_MAX.getName());
         this.person = person;

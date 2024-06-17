@@ -1,6 +1,5 @@
 package ru.itmo.client.commands;
 
-
 import ru.itmo.client.builders.PersonBuilder;
 import ru.itmo.client.network.ClientManager;
 import ru.itmo.common.exceptions.APIException;
@@ -24,7 +23,6 @@ public class UpdateId extends Command {
         this.console = console;
         this.clientManager = clientManager;
     }
-
 
     @Override
     public boolean validateArgs(String[] args) {

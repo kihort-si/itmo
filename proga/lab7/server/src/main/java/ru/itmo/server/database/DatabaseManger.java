@@ -158,8 +158,8 @@ public class DatabaseManger {
 
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE coordinates SET x = ?, y = ? WHERE id = ?;" +
-                        "UPDATE location SET x = ?, y = ?, z = ? WHERE id = ?;" +
-                        "UPDATE person SET name = ?, height = ?, weight = ?, eyecolor = ?::eyecolor, nationality = ?::nationality WHERE id = ?;"
+                            "UPDATE location SET x = ?, y = ?, z = ? WHERE id = ?;" +
+                            "UPDATE person SET name = ?, height = ?, weight = ?, eyecolor = ?::eyecolor, nationality = ?::nationality WHERE id = ?;"
             );
 
             statement.setFloat(1, person.getCoordinates().getX());

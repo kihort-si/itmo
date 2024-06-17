@@ -20,6 +20,7 @@ public class Client {
 
     /**
      * Socket mating with the specified port and host.
+     *
      * @throws IOException If an error occurs when creating a socket.
      */
     public void start() throws IOException {
@@ -28,8 +29,9 @@ public class Client {
 
     /**
      * An input stream on the client that accepts objects from the server.
+     *
      * @return An object received from the server.
-     * @throws IOException If an error occurs during socket transfer.
+     * @throws IOException            If an error occurs during socket transfer.
      * @throws ClassNotFoundException If the socket transmission failed to find the class of the object being transmitted.
      */
     public Object getObject() throws IOException, ClassNotFoundException {
@@ -41,6 +43,7 @@ public class Client {
 
     /**
      * An output stream on the client that passes objects to the servers.
+     *
      * @param obj The object to be transferred to the server.
      * @throws IOException If an error occurs during socket transfer.
      */
@@ -51,6 +54,7 @@ public class Client {
 
     /**
      * Closing a thread to transmit sockets.
+     *
      * @throws IOException If an error occurs when closing a socket.
      */
     public void close() throws IOException {

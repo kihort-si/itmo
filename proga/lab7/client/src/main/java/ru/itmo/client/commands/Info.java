@@ -9,13 +9,13 @@ import ru.itmo.common.utils.Console;
 
 import java.io.IOException;
 
-
 /**
  * @author Nikita Vasilev
  */
 public class Info extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Info(Console console, ClientManager clientManager) {
         super(Commands.INFO.getName(), Commands.INFO.getDescription());
         this.console = console;

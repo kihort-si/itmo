@@ -9,6 +9,7 @@ import ru.itmo.common.utils.Console;
  */
 public class ExecuteScript extends Command {
     private final Console console;
+
     public ExecuteScript(Console console) {
         super(Commands.EXECUTE_SCRIPT.getName(), Commands.EXECUTE_SCRIPT.getDescription());
         this.console = console;

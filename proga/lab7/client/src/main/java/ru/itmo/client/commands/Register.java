@@ -13,6 +13,7 @@ import java.io.IOException;
 public class Register extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Register(Console console, ClientManager clientManager) {
         super(Commands.REGISTER.getName(), Commands.REGISTER.getDescription());
         this.console = console;

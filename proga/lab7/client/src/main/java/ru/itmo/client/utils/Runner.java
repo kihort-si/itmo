@@ -17,7 +17,6 @@ import java.util.Scanner;
  * @author Nikita Vasilev
  */
 public class Runner {
-
     private final Console console;
     private final Map<String, Command> commands;
     private final ScriptManager scriptManager;
@@ -88,6 +87,7 @@ public class Runner {
 
     /**
      * Works when executing commands from the script file.
+     *
      * @param fileName name of the script file from which you want to read data
      */
     public void fileMode(String fileName) {

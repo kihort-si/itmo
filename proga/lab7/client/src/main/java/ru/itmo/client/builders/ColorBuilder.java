@@ -1,12 +1,10 @@
 package ru.itmo.client.builders;
 
-
 import ru.itmo.client.utils.Input;
 import ru.itmo.common.collection.Color;
 import ru.itmo.common.utils.Console;
 
 import java.util.NoSuchElementException;
-
 
 /**
  * @author Nikita Vasilev

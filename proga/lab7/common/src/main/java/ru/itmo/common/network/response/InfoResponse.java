@@ -4,6 +4,7 @@ import ru.itmo.common.utils.Commands;
 
 public class InfoResponse extends Response {
     private final String infoMessage;
+
     public InfoResponse(String infoMessage, String error) {
         super(Commands.INFO.getName(), error);
         this.infoMessage = infoMessage;

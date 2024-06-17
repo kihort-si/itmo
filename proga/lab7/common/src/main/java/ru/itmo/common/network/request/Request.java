@@ -5,6 +5,7 @@ import java.util.Objects;
 
 /**
  * A request that is passed to the server to execute the appropriate commands.
+ *
  * @author Nikita Vasilev
  */
 public abstract class Request implements Serializable {

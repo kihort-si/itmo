@@ -37,9 +37,10 @@ public class UserManager {
 
     /**
      * The method that creates an application user and writes information about the user to the database.
+     *
      * @param user the user that was created inside the programme and that needs to be written to the database.
      * @return the id that has been assigned to the user.
-     * @throws SQLException if an unexpected error occurred while connecting to the database.
+     * @throws SQLException             if an unexpected error occurred while connecting to the database.
      * @throws NoSuchAlgorithmException if the SHA-384 hashing algorithm is not supported.
      */
     public int addUser(User user) throws SQLException, NoSuchAlgorithmException {
@@ -67,6 +68,7 @@ public class UserManager {
 
     /**
      * Allows to find out the id of a user by his login.
+     *
      * @param login string with the login of the user whose id is to be determined.
      * @return numeric representation of the user id with the given login.
      * @throws SQLException if an unexpected error occurred while connecting to the database.
@@ -89,6 +91,7 @@ public class UserManager {
 
     /**
      * Allows to find out the login of a user by his id.
+     *
      * @param id int equal to the id of the user whose login is to be determined.
      * @return string representation of the user login with the given id.
      * @throws SQLException if an unexpected error occurred while connecting to the database.
@@ -114,6 +117,7 @@ public class UserManager {
 
     /**
      * Creates and generates a 16-byte salt for a password.
+     *
      * @return the generated array of bytes representing the salt.
      */
     private static byte[] getSalt() {
@@ -124,8 +128,9 @@ public class UserManager {
 
     /**
      * Generates a hash with SHA-384 algorithm for the user password in the database and adds salt and pepper to it also in hashed format.
+     *
      * @param password the user-defined password to be hashed.
-     * @param salt the pre-generated salt in the form of a byte array to be added to the password.
+     * @param salt     the pre-generated salt in the form of a byte array to be added to the password.
      * @return the hashed password along with salt and pepper.
      * @throws NoSuchAlgorithmException if the SHA-384 hashing algorithm is not supported.
      */
@@ -139,6 +144,7 @@ public class UserManager {
 
     /**
      * Checks if a user with this login is registered.
+     *
      * @param login string value of the login to check for in the database.
      * @return boolean value whether a user with this login exists in the database.
      * @throws SQLException if an unexpected error occurred while connecting to the database.
@@ -161,7 +167,8 @@ public class UserManager {
 
     /**
      * Checks if the user with this login has entered the correct password.
-     * @param login string with the login of the user who is trying to authorize.
+     *
+     * @param login    string with the login of the user who is trying to authorize.
      * @param password the password entered by the user in the console, which must be checked to see if it matches the user's login.
      * @return boolean value whether the user has entered the correct password.
      * @throws SQLException if an unexpected error occurred while connecting to the database.

@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Authorization extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Authorization(Console console, ClientManager clientManager) {
         super(Commands.AUTHORIZATION.getName(), Commands.AUTHORIZATION.getDescription());
         this.console = console;

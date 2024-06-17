@@ -12,7 +12,6 @@ import java.nio.channels.SocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.Future;
 
 public class ServerManager {
     private final Server server;
@@ -29,6 +28,7 @@ public class ServerManager {
 
     /**
      * Server startup.
+     *
      * @throws IOException If an error occurred when starting the server.
      */
     public void start() throws IOException {
@@ -37,8 +37,9 @@ public class ServerManager {
 
     /**
      * Transferring data from the server to the client.
+     *
      * @param socketChannel The current network channel on which data is being transmitted.
-     * @param response A response sent from the server to the client.
+     * @param response      A response sent from the server to the client.
      */
     public void writeRes(SocketChannel socketChannel, Response response) {
         new Thread(() -> {
@@ -59,6 +60,7 @@ public class ServerManager {
 
     /**
      * Formation of an answer based on the request received from the client.
+     *
      * @param socketChannel The current network channel on which data is being transmitted.
      * @throws IOException If a data transmission error occurs.
      */

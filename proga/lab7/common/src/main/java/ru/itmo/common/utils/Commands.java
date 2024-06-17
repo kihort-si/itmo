@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 /**
  * A list of commands available for execution.
+ *
  * @author Nikita Vasilev
  */
 public enum Commands {
@@ -26,9 +27,7 @@ public enum Commands {
     REMOVE_LOWER("remove_lower", "удалить из коллекции все элементы, меньшие, чем заданный"),
     SHOW("show", "вывести в стандартный поток вывода все элементы коллекции в строковом представлении"),
     UPDATE_ID("update_id", "обновить значение элемента коллекции, id которого равен заданному");
-
     private final String name;
-
     private final String description;
 
     Commands(String name, String description) {

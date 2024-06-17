@@ -11,6 +11,7 @@ import ru.itmo.server.managers.CommandManager;
  */
 public class CommandHandler {
     private final CommandManager commandManager;
+
     public CommandHandler(CommandManager commandManager) {
         this.commandManager = commandManager;
     }

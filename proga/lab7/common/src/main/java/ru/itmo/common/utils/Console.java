@@ -19,6 +19,7 @@ public class Console implements ConsoleCommand {
     private Scanner fileScanner = null;
     private final InputStreamReader reader = new InputStreamReader(System.in);
     private final Scanner defScanner = new Scanner(reader);
+
     @Override
     public void println(Object object) {
         System.out.println(object);

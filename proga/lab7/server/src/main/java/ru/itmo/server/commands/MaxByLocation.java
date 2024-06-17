@@ -35,24 +35,10 @@ public class MaxByLocation extends Command {
             } else if (!userManager.checkUser(userManager.getUser(UserManager.getCurrentUser()))) {
                 return new MaxByLocationResponse(null, "Вы не вошли. Используйте команду Authorization");
             } else {
-                return new MaxByLocationResponse(maxLocation(), null);
+                return new MaxByLocationResponse(collectionVault.maxLocation(), null);
             }
         } catch (Exception e) {
             return new MaxByLocationResponse(null, e.toString());
         }
-    }
-
-    private Optional<Person> maxLocation() {
-        Comparator<Location> locationComparator = Comparator.comparing(Location::getX)
-                .thenComparing(Location::getY)
-                .thenComparing(Location::getZ);
-        Optional<Location> maxLocation = collectionVault.getCollection().stream()
-                .map(Person::getLocation)
-                .max(locationComparator);
-
-        Optional<Person> personWithMaxLocation = collectionVault.getCollection().stream()
-                .filter(person -> person.getLocation().equals(maxLocation.get()))
-                .findFirst();
-        return personWithMaxLocation;
     }
 }

@@ -1,6 +1,5 @@
 package ru.itmo.client.commands;
 
-
 import ru.itmo.client.network.ClientManager;
 import ru.itmo.common.exceptions.APIException;
 import ru.itmo.common.network.request.FilterLessThanHeightRequest;
@@ -16,6 +15,7 @@ import java.io.IOException;
 public class FilterLessThanHeight extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public FilterLessThanHeight(Console console, ClientManager clientManager) {
         super(Commands.FILTER_LESS_THAN_HEIGHT.getName(), Commands.FILTER_LESS_THAN_HEIGHT.getDescription());
         this.console = console;

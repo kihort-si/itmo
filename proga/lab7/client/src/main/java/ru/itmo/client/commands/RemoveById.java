@@ -15,6 +15,7 @@ import java.io.IOException;
 public class RemoveById extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public RemoveById(Console console, ClientManager clientManager) {
         super(Commands.REMOVE_BY_ID.getName(), Commands.REMOVE_BY_ID.getDescription());
         this.console = console;

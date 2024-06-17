@@ -1,6 +1,5 @@
 package ru.itmo.client.commands;
 
-
 import ru.itmo.client.network.ClientManager;
 import ru.itmo.common.exceptions.APIException;
 import ru.itmo.common.network.request.RemoveLowerRequest;
@@ -16,6 +15,7 @@ import java.io.IOException;
 public class RemoveLower extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public RemoveLower(Console console, ClientManager clientManager) {
         super(Commands.REMOVE_LOWER.getName(), Commands.REMOVE_LOWER.getDescription());
         this.console = console;

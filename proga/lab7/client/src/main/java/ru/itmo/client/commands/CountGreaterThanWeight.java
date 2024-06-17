@@ -15,6 +15,7 @@ import java.io.IOException;
 public class CountGreaterThanWeight extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public CountGreaterThanWeight(Console console, ClientManager clientManager) {
         super(Commands.COUNT_GREATER_THAN_WEIGHT.getName(), Commands.COUNT_GREATER_THAN_WEIGHT.getDescription());
         this.console = console;

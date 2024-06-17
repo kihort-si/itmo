@@ -10,13 +10,13 @@ import ru.itmo.common.utils.Console;
 
 import java.io.IOException;
 
-
 /**
  * @author Nikita Vasilev
  */
 public class AddIfMax extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public AddIfMax(Console console, ClientManager clientManager) {
         super(Commands.ADD_IF_MAX.getName(), Commands.ADD_IF_MAX.getDescription());
         this.console = console;
