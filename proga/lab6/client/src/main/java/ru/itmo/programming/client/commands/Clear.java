@@ -1,7 +1,7 @@
 package ru.itmo.programming.client.commands;
 
-
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.ClearRequest;
@@ -15,8 +15,9 @@ import java.io.IOException;
 public class Clear extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Clear(Console console, ClientManager clientManager) {
-        super("clear", "очистить коллекцию");
+        super(Commands.CLEAR.getName(), Commands.CLEAR.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

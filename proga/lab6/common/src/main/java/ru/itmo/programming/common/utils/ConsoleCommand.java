@@ -17,7 +17,16 @@ public interface ConsoleCommand {
      */
     void printError(Object object);
 
+    /**
+     * @return a boolean value whether something is entered on the next line
+     * @throws IOException if an error occurred while reading through InputStreamReader
+     */
     boolean hasNewln() throws IOException;
 
+    /**
+     * @return the read string that is entered into the console
+     * @throws NoSuchElementException if no scanner is defined that reads the next line
+     * @throws IllegalStateException if Java can't read the next line at the moment
+     */
     String readln() throws NoSuchElementException, IllegalStateException;
 }

@@ -19,24 +19,22 @@ import java.util.Scanner;
 public class Runner {
 
     private final Console console;
-    private final ClientManager clientManager;
     private final Map<String, Command> commands;
     private final ScriptManager scriptManager;
 
     public Runner(Console console, ClientManager clientManager, ScriptManager scriptManager) {
         this.console = console;
-        this.clientManager = clientManager;
         this.scriptManager = scriptManager;
         this.commands = new HashMap<>() {{
             put(Commands.ADD.getName(), new Add(console, clientManager));
             put(Commands.ADD_IF_MAX.getName(), new AddIfMax(console, clientManager));
             put(Commands.ADD_IF_MIN.getName(), new AddIfMin(console, clientManager));
             put(Commands.CLEAR.getName(), new Clear(console, clientManager));
-            put(Commands.COUNT_GREATER_THAN_GREAT.getName(), new CountGreaterThanWeight(console, clientManager));
+            put(Commands.COUNT_GREATER_THAN_WEIGHT.getName(), new CountGreaterThanWeight(console, clientManager));
             put(Commands.EXECUTE_SCRIPT.getName(), new ExecuteScript(console));
             put(Commands.EXIT.getName(), new Exit(console));
             put(Commands.FILTER_LESS_THAN_HEIGHT.getName(), new FilterLessThanHeight(console, clientManager));
-            put(Commands.HELP.getName(), new Help(console, clientManager));
+            put(Commands.HELP.getName(), new Help(console));
             put(Commands.INFO.getName(), new Info(console, clientManager));
             put(Commands.MAX_BY_LOCATION.getName(), new MaxByLocation(console, clientManager));
             put(Commands.REMOVE_BY_ID.getName(), new RemoveById(console, clientManager));

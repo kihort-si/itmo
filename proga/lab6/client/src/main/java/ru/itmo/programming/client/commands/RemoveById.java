@@ -1,6 +1,7 @@
 package ru.itmo.programming.client.commands;
 
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.RemoveByIdRequest;
@@ -14,8 +15,9 @@ import java.io.IOException;
 public class RemoveById extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public RemoveById(Console console, ClientManager clientManager) {
-        super("remove_by_id", "удалить элемент из коллекции по его id");
+        super(Commands.REMOVE_BY_ID.getName(), Commands.REMOVE_BY_ID.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

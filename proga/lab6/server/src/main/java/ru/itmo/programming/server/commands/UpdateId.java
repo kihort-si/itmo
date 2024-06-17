@@ -1,21 +1,20 @@
 package ru.itmo.programming.server.commands;
 
-
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.request.UpdateIdRequest;
 import ru.itmo.programming.common.network.response.Response;
 import ru.itmo.programming.common.network.response.UpdateIdResponse;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 /**
  * @author Nikita Vasilev
  */
 public class UpdateId extends Command {
-
     private final CollectionVault collectionVault;
 
     public UpdateId(CollectionVault collectionVault) {
-        super("update_id", "обновить значение элемента коллекции, id которого равен заданному");
+        super(Commands.UPDATE_ID.getName(), Commands.UPDATE_ID.getDescription());
         this.collectionVault = collectionVault;
     }
 

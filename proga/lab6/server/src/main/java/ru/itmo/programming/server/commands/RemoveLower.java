@@ -5,6 +5,7 @@ import ru.itmo.programming.common.network.request.RemoveLowerRequest;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.RemoveLowerResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 import java.util.HashSet;
@@ -15,8 +16,9 @@ import java.util.Set;
  */
 public class RemoveLower extends Command {
     private final CollectionVault collectionVault;
+
     public RemoveLower(CollectionVault collectionVault) {
-        super("remove_lower", "удалить из коллекции все элементы, меньшие, чем заданный");
+        super(Commands.REMOVE_LOWER.getName(), Commands.REMOVE_LOWER.getDescription());
         this.collectionVault = collectionVault;
     }
 

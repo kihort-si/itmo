@@ -5,7 +5,7 @@ import ru.itmo.programming.common.utils.Commands;
 public class CountGreaterThanWeightResponse extends Response {
     private final int count;
     public CountGreaterThanWeightResponse(Integer count, String error) {
-        super(Commands.COUNT_GREATER_THAN_GREAT.getName(), error);
+        super(Commands.COUNT_GREATER_THAN_WEIGHT.getName(), error);
         this.count = count;
     }
 

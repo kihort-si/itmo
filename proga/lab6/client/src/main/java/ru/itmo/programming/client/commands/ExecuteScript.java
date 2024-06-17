@@ -1,5 +1,6 @@
 package ru.itmo.programming.client.commands;
 
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.WrongArgumentException;
 
@@ -8,8 +9,9 @@ import ru.itmo.programming.common.exceptions.WrongArgumentException;
  */
 public class ExecuteScript extends Command {
     private final Console console;
+
     public ExecuteScript(Console console) {
-        super("execute_script", "считать и исполнить скрипт из указанного файла");
+        super(Commands.EXECUTE_SCRIPT.getName(), Commands.EXECUTE_SCRIPT.getDescription());
         this.console = console;
     }
 

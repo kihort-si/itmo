@@ -1,8 +1,8 @@
 package ru.itmo.programming.client.commands;
 
-
 import ru.itmo.programming.client.builders.PersonBuilder;
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.AddRequest;
@@ -16,8 +16,9 @@ import java.io.IOException;
 public class Add extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Add(Console console, ClientManager clientManager) {
-        super("add", "добавить новый элемент в коллекцию");
+        super(Commands.ADD.getName(), Commands.ADD.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

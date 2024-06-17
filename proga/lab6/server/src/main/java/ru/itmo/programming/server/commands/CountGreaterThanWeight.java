@@ -5,6 +5,7 @@ import ru.itmo.programming.common.network.request.CountGreaterThanWeightRequest;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.CountGreaterThanWeightResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 /**
@@ -12,8 +13,9 @@ import ru.itmo.programming.server.vaults.CollectionVault;
  */
 public class CountGreaterThanWeight extends Command {
     private final CollectionVault collectionVault;
+
     public CountGreaterThanWeight(CollectionVault collectionVault) {
-        super("count_greater_than_weight", "вывести количество элементов, значение поля weight которых больше заданного");
+        super(Commands.COUNT_GREATER_THAN_WEIGHT.getName(), Commands.COUNT_GREATER_THAN_WEIGHT.getDescription());
         this.collectionVault = collectionVault;
     }
 

@@ -1,5 +1,6 @@
 package ru.itmo.programming.client.commands;
 
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.client.network.ClientManager;
 import ru.itmo.programming.common.network.request.MaxByLocationRequest;
@@ -13,8 +14,9 @@ import java.io.IOException;
 public class MaxByLocation extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public MaxByLocation(Console console, ClientManager clientManager) {
-        super("max_by_location", "вывести любой объект из коллекции, значение поля location которого является максимальным");
+        super(Commands.MAX_BY_LOCATION.getName(), Commands.MAX_BY_LOCATION.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

@@ -5,6 +5,7 @@ import ru.itmo.programming.common.network.request.AddIfMinRequest;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.AddIfMinResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 /**
@@ -12,8 +13,9 @@ import ru.itmo.programming.server.vaults.CollectionVault;
  */
 public class AddIfMin extends Command {
     private final CollectionVault collectionVault;
+
     public AddIfMin(CollectionVault collectionVault) {
-        super("add_if_min", "добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции");
+        super(Commands.ADD_IF_MIN.getName(), Commands.ADD_IF_MIN.getDescription());
         this.collectionVault = collectionVault;
     }
 
@@ -24,7 +26,7 @@ public class AddIfMin extends Command {
             double minHeight = minHeight();
             if (req.getPerson().getHeight() > minHeight) {
                 if (!req.getPerson().verificate()) {
-                    return new AddIfMinResponse(-1, false,"Человек не добавлен, так как поля не валидны!");
+                    return new AddIfMinResponse(-1, false, "Человек не добавлен, так как поля не валидны!");
                 } else {
                     long nextId = collectionVault.freeIds();
                     collectionVault.addToCollection(nextId, req.getPerson());

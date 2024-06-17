@@ -1,6 +1,7 @@
 package ru.itmo.programming.client.commands;
 
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.ShowRequest;
@@ -14,8 +15,9 @@ import java.io.IOException;
 public class Show extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Show(Console console, ClientManager clientManager) {
-        super("show", "вывести в стандартный поток вывода все элементы коллекции в строковом представлении");
+        super(Commands.SHOW.getName(), Commands.SHOW.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

@@ -1,5 +1,6 @@
 package ru.itmo.programming.client.commands;
 
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 
 /**
@@ -7,8 +8,9 @@ import ru.itmo.programming.common.utils.Console;
  */
 public class Exit extends Command {
     private final Console console;
+
     public Exit(Console console) {
-        super("exit", "завершить программу (без сохранения в файл)");
+        super(Commands.EXIT.getName(), Commands.EXIT.getDescription());
         this.console = console;
     }
 

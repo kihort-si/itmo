@@ -5,6 +5,7 @@ import ru.itmo.programming.common.network.request.FilterLessThanHeightRequest;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.FilterLessThanHeightResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.PersonComparator;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class FilterLessThanHeight extends Command {
     private final CollectionVault collectionVault;
     public FilterLessThanHeight(CollectionVault collectionVault) {
-        super("filter_less_than_height", "вывести элементы, значение поля height которых меньше заданного");
+        super(Commands.FILTER_LESS_THAN_HEIGHT.getName(), Commands.FILTER_LESS_THAN_HEIGHT.getDescription());
         this.collectionVault = collectionVault;
     }
 

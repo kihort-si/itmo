@@ -1,6 +1,7 @@
 package ru.itmo.programming.client.commands;
 
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.CountGreaterThanWeightRequest;
@@ -14,8 +15,9 @@ import java.io.IOException;
 public class CountGreaterThanWeight extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public CountGreaterThanWeight(Console console, ClientManager clientManager) {
-        super("count_greater_than_weight", "вывести количество элементов, значение поля weight которых больше заданного");
+        super(Commands.COUNT_GREATER_THAN_WEIGHT.getName(), Commands.COUNT_GREATER_THAN_WEIGHT.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

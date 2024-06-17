@@ -4,6 +4,7 @@ import ru.itmo.programming.common.network.request.AddRequest;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.AddResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 /**
@@ -11,8 +12,9 @@ import ru.itmo.programming.server.vaults.CollectionVault;
  */
 public class Add extends Command {
     private final CollectionVault collectionVault;
+
     public Add(CollectionVault collectionVault) {
-        super("add", "добавить новый элемент в коллекцию");
+        super(Commands.ADD.getName(), Commands.ADD.getDescription());
         this.collectionVault = collectionVault;
     }
 

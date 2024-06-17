@@ -51,7 +51,6 @@ public class App {
         commandManager.createCommand(new Clear(collectionVault));
         commandManager.createCommand(new CountGreaterThanWeight(collectionVault));
         commandManager.createCommand(new FilterLessThanHeight(collectionVault));
-        commandManager.createCommand(new Help(commandManager));
         commandManager.createCommand(new Info(collectionVault));
         commandManager.createCommand(new MaxByLocation(collectionVault));
         commandManager.createCommand(new RemoveById(collectionVault));

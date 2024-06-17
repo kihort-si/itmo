@@ -2,6 +2,7 @@ package ru.itmo.programming.client.commands;
 
 import ru.itmo.programming.client.builders.PersonBuilder;
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.AddIfMinRequest;
@@ -18,11 +19,10 @@ public class AddIfMin extends Command {
     private final ClientManager clientManager;
 
     public AddIfMin(Console console, ClientManager clientManager) {
-        super("add_if_min", "добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции");
+        super(Commands.ADD_IF_MIN.getName(), Commands.ADD_IF_MIN.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }
-
 
     @Override
     public boolean validateArgs(String[] args) {

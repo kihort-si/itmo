@@ -4,6 +4,7 @@ import ru.itmo.programming.common.network.request.RemoveByIdRequest;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.RemoveByIdResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 /**
@@ -11,8 +12,9 @@ import ru.itmo.programming.server.vaults.CollectionVault;
  */
 public class RemoveById extends Command {
     private final CollectionVault collectionVault;
+
     public RemoveById(CollectionVault collectionVault) {
-        super("remove_by_id", "удалить элемент из коллекции по его id");
+        super(Commands.REMOVE_BY_ID.getName(), Commands.REMOVE_BY_ID.getDescription());
         this.collectionVault = collectionVault;
     }
 

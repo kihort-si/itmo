@@ -1,12 +1,12 @@
 package ru.itmo.programming.client.commands;
 
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.network.request.InfoRequest;
 import ru.itmo.programming.common.network.response.InfoResponse;
 
 import java.io.IOException;
-
 
 /**
  * @author Nikita Vasilev
@@ -14,8 +14,9 @@ import java.io.IOException;
 public class Info extends Command {
     private final Console console;
     private final ClientManager clientManager;
+
     public Info(Console console, ClientManager clientManager) {
-        super("info", "вывести в стандартный поток вывода информацию о коллекции");
+        super(Commands.INFO.getName(), Commands.INFO.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

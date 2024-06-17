@@ -5,6 +5,7 @@ import ru.itmo.programming.common.network.request.AddIfMaxRequest;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.AddIfMaxResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 /**
@@ -12,8 +13,9 @@ import ru.itmo.programming.server.vaults.CollectionVault;
  */
 public class AddIfMax extends Command {
     private final CollectionVault collectionVault;
+
     public AddIfMax(CollectionVault collectionVault) {
-        super("add_if_max", "добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции");
+        super(Commands.ADD_IF_MAX.getName(), Commands.ADD_IF_MAX.getDescription());
         this.collectionVault = collectionVault;
     }
 
@@ -24,7 +26,7 @@ public class AddIfMax extends Command {
             double maxHeight = maxHeight();
             if (req.getPerson().getHeight() > maxHeight) {
                 if (!req.getPerson().verificate()) {
-                    return new AddIfMaxResponse(-1, false,"Человек не добавлен, так как поля не валидны!");
+                    return new AddIfMaxResponse(-1, false, "Человек не добавлен, так как поля не валидны!");
                 } else {
                     long nextId = collectionVault.freeIds();
                     collectionVault.addToCollection(nextId, req.getPerson());

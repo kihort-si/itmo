@@ -1,7 +1,7 @@
 package ru.itmo.programming.client.commands;
 
-
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.RemoveLowerRequest;
@@ -16,7 +16,7 @@ public class RemoveLower extends Command {
     private final Console console;
     private final ClientManager clientManager;
     public RemoveLower(Console console, ClientManager clientManager) {
-        super("remove_lower", "удалить из коллекции все элементы, меньшие, чем заданный");
+        super(Commands.REMOVE_LOWER.getName(), Commands.REMOVE_LOWER.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }

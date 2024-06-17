@@ -79,12 +79,13 @@ public class CollectionVault {
      * @return The person with the specified ID from the collection.
      */
     public Person getById(long id) {
-        for (Person person : collection) {
+        return collection.stream().filter(person -> person.getId() == id).findFirst().orElse(null);
+        /*for (Person person : collection) {
             if (person.getId() == id) {
                 return person;
             }
         }
-        return null;
+        return null;*/
     }
 
     /**
@@ -122,21 +123,14 @@ public class CollectionVault {
     /**
      * @return The person with the maximum location value.
      */
-    public Optional<Person> maxLocation() {
+    public Person maxLocation() {
         Comparator<Location> locationComparator = Comparator.comparing(Location::getX)
                 .thenComparing(Location::getY)
                 .thenComparing(Location::getZ);
-        Optional<Location> maxLocation = getCollection().stream()
-                .map(Person::getLocation)
-                .max(locationComparator);
 
-        if (maxLocation.isPresent()) {
-            Optional<Person> personWithMaxLocation = getCollection().stream()
-                    .filter(person -> person.getLocation().equals(maxLocation.get()))
-                    .findFirst();
-            return personWithMaxLocation;
-        }
-        return Optional.empty();
+        return getCollection().stream()
+                .max(Comparator.comparing(Person::getLocation, locationComparator))
+                .orElseThrow(() -> new NoSuchElementException("No persons found in the collection"));
     }
 
     /**

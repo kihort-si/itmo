@@ -3,6 +3,7 @@ package ru.itmo.programming.server.commands;
 import ru.itmo.programming.common.network.request.Request;
 import ru.itmo.programming.common.network.response.InfoResponse;
 import ru.itmo.programming.common.network.response.Response;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.server.vaults.CollectionVault;
 
 /**
@@ -10,8 +11,9 @@ import ru.itmo.programming.server.vaults.CollectionVault;
  */
 public class Info extends Command {
     private final CollectionVault collectionVault;
+
     public Info(CollectionVault collectionVault) {
-        super("info", "вывести в стандартный поток вывода информацию о коллекции");
+        super(Commands.INFO.getName(), Commands.INFO.getDescription());
         this.collectionVault = collectionVault;
     }
 

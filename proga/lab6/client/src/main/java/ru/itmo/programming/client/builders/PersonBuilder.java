@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 /**
  * @author Nikita Vasilev
  */
-public class PersonBuilder extends CollectionBuilder<Person>{
+public class PersonBuilder extends CollectionBuilder<Person> {
     private final Console console;
 
     public PersonBuilder(Console console) {

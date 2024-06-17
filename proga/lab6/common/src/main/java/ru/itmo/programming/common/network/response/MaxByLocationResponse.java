@@ -6,13 +6,14 @@ import ru.itmo.programming.common.utils.Commands;
 import java.util.Optional;
 
 public class MaxByLocationResponse extends Response {
-    private final Optional<Person> maxByLocationPerson;
-    public MaxByLocationResponse(Optional<Person> maxByLocationPerson, String error) {
+    private final Person maxByLocationPerson;
+
+    public MaxByLocationResponse(Person maxByLocationPerson, String error) {
         super(Commands.MAX_BY_LOCATION.getName(), error);
         this.maxByLocationPerson = maxByLocationPerson;
     }
 
-    public Optional<Person> getMaxByLocationPerson() {
+    public Person getMaxByLocationPerson() {
         return maxByLocationPerson;
     }
 }

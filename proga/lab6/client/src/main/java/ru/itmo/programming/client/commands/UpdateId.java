@@ -1,8 +1,8 @@
 package ru.itmo.programming.client.commands;
 
-
 import ru.itmo.programming.client.builders.PersonBuilder;
 import ru.itmo.programming.client.network.ClientManager;
+import ru.itmo.programming.common.utils.Commands;
 import ru.itmo.programming.common.utils.Console;
 import ru.itmo.programming.common.exceptions.APIException;
 import ru.itmo.programming.common.network.request.UpdateIdRequest;
@@ -19,11 +19,10 @@ public class UpdateId extends Command {
     private final ClientManager clientManager;
 
     public UpdateId(Console console, ClientManager clientManager) {
-        super("update_id", "обновить значение элемента коллекции, id которого равен заданному");
+        super(Commands.UPDATE_ID.getName(), Commands.UPDATE_ID.getDescription());
         this.console = console;
         this.clientManager = clientManager;
     }
-
 
     @Override
     public boolean validateArgs(String[] args) {
