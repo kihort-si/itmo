@@ -1,0 +1,171 @@
+* {
+    font-family: serif;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background: #000035;
+    color: white;
+    text-align: center;
+    padding: 4vh 0;
+}
+
+header span {
+    font-size: 1.5rem;
+}
+
+header span:nth-child(1), header span:nth-child(2) {
+    margin-right: 1rem;
+}
+
+main {
+    margin: 3vh 10vw;
+    flex: 1;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table tr {
+    height: 5vh;
+}
+
+.inputTable td {
+    width: 50%;
+
+}
+
+input[type='text'] {
+    width: 100%;
+}
+
+.xButtons, .rButtons {
+    display: flex;
+}
+
+input[type="button"] {
+    border: 1px solid #000035;
+    outline: none;
+    margin-right: 2%;
+    background: white;
+    color: #000035;
+    cursor: pointer;
+    height: 4vh;
+    width: 3vw;
+    border-radius: 10px;
+    transition: box-shadow 0.4s ease, background 0.3s ease, color 0.3s ease;
+}
+
+input[type="button"]:hover, #submitButton:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 53, 0.3);
+}
+
+input[type="button"].active {
+    background: #000035;
+    color: white;
+    cursor: default;
+}
+
+input[type="button"].active:hover {
+    box-shadow: none;
+}
+
+input[type="text"] {
+    border: 1px solid #000035;
+    outline: none;
+    border-radius: 10px;
+    height: 4vh;
+    padding-left: 1%;
+}
+
+#submitButton {
+    border: none;
+    outline: none;
+    background: #000035;
+    color: white;
+    cursor: pointer;
+    height: 4vh;
+    width: 8vw;
+    border-radius: 10px;
+    transition: box-shadow 0.4s ease;
+}
+
+.errorMessage {
+    color: darkred;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.graphContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.graph {
+    max-height: 50vh;
+    width: 100%;
+}
+
+#result>tbody td {
+    border: 1px solid #000035;
+    font-weight: normal;
+    text-align: center;
+}
+
+#result thead tr th  {
+    border: 1px solid white;
+    background: #000035;
+    color: white;
+}
+
+#result>thead>tr>th:nth-child(1), #result>thead>tr>th:nth-child(2), #result>thead>tr>th:nth-child(3) {
+    width: 4rem;
+}
+
+#result {
+    border: 2px solid #000035;
+    opacity: 0;
+    margin: 2rem 0;
+    transition: opacity 0.4s ease;
+}
+
+#deleteButton {
+    border: none;
+    outline: none;
+    background: #000035;
+    color: white;
+    cursor: pointer;
+    height: 4vh;
+    width: 12vw;
+    border-radius: 10px;
+    transition: box-shadow 0.4s ease;
+    opacity: 0;
+}
+
+footer {
+    background: #000035;
+    color: white;
+    padding: 40px 6vw 40px;
+}
+
+footer div {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+footer hr {
+    height: 1px;
+    background: white;
+}

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang=ru>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="если честно, я сам не знаю, зачем этот сайт, мне такой вариант попался">
+    <link rel="stylesheet" href="style.css">
+    <title>Веб-прога - Лаба 1</title>
+</head>
+<body>
+<header>
+    <span>Васильев Никита Алексеевич</span>
+    <span>P3208</span>
+    <span>Вариант №49</span>
+</header>
+<main>
+    <form method="GET">
+        <table class="inputTable">
+            <thead>
+            <tr>
+                <th colspan="3">Введите данные для проверки</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span>Укажите X:</span>
+                    <div class="xButtons">
+                        <input value="-2" type="button">
+                        <input value="-1.5" type="button">
+                        <input value="-1" type="button">
+                        <input value="-0.5" type="button">
+                        <input value="0" type="button">
+                        <input value="0.5" type="button">
+                        <input value="1" type="button">
+                        <input value="1.5" type="button">
+                        <input value="2" type="button">
+                    </div>
+                    <span class="errorMessage" id="xError">a</span>
+                </td>
+                <td>
+                    <span>Укажите Y:</span>
+                    <div class="yText">
+                        <input id="yInput" type="text" placeholder="от -5 до 5">
+                    </div>
+                    <span class="errorMessage" id="yError">w</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Укажите R:</span>
+                    <div class="rButtons">
+                        <input value="1" type="button">
+                        <input value="1.5" type="button">
+                        <input value="2" type="button">
+                        <input value="2.5" type="button">
+                        <input value="3" type="button">
+                    </div>
+                    <span class="errorMessage" id="rError">f</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <button id="submitButton" type="submit" onclick="validate()">
+        Проверить
+    </button>
+    <div class="graphContainer">
+        <svg class="graph" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!--            <rect width="512" height="512" fill="white"/>-->
+            <rect x="255.5" y="101.5" width="155" height="155" fill="#000035" fill-opacity="0.5" stroke="#000035"/>
+            <mask id="path-2-outside-1_1_2" maskUnits="userSpaceOnUse" x="179.4" y="256" width="78" height="155" fill="black">
+                <rect fill="white" x="179.4" y="256" width="78" height="155"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M256 409.953V257H181.4L256 409.953Z"/>
+            </mask>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M256 409.953V257H181.4L256 409.953Z" fill="#000035" fill-opacity="0.5"/>
+            <path d="M256 257H257V256H256V257ZM256 409.953L255.101 410.391L257 409.953H256ZM181.4 257V256H179.8L180.501 257.438L181.4 257ZM255 257V409.953H257V257H255ZM181.4 258H256V256H181.4V258ZM180.501 257.438L255.101 410.391L256.899 409.515L182.299 256.562L180.501 257.438Z" fill="#000035" mask="url(#path-2-outside-1_1_2)"/>
+            <mask id="path-4-outside-2_1_2" maskUnits="userSpaceOnUse" x="101" y="101" width="156" height="156" fill="black">
+                <rect fill="white" x="101" y="101" width="156" height="156"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M256 102C170.948 102 102 170.948 102 256H256V102Z"/>
+            </mask>
+            <circle id="dot" r="2" cx="256" cy="256" fill="black"></circle>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M256 102C170.948 102 102 170.948 102 256H256V102Z" fill="#000035" fill-opacity="0.5"/>
+            <path d="M102 256H101V257H102V256ZM256 102H257V101H256V102ZM256 256V257H257V256H256ZM103 256C103 171.5 171.5 103 256 103V101C170.396 101 101 170.396 101 256H103ZM256 255H102V257H256V255ZM255 102V256H257V102H255Z" fill="#000035" mask="url(#path-4-outside-2_1_2)"/>
+            <path d="M256.707 22.2929C256.317 21.9024 255.683 21.9024 255.293 22.2929L248.929 28.6569C248.538 29.0474 248.538 29.6806 248.929 30.0711C249.319 30.4616 249.953 30.4616 250.343 30.0711L256 24.4142L261.657 30.0711C262.047 30.4616 262.681 30.4616 263.071 30.0711C263.462 29.6806 263.462 29.0474 263.071 28.6569L256.707 22.2929ZM257 495L257 23H255L255 495H257Z" fill="black"/>
+            <path d="M492.707 256.707C493.098 256.317 493.098 255.683 492.707 255.293L486.343 248.929C485.953 248.538 485.319 248.538 484.929 248.929C484.538 249.319 484.538 249.953 484.929 250.343L490.586 256L484.929 261.657C484.538 262.047 484.538 262.681 484.929 263.071C485.319 263.462 485.953 263.462 486.343 263.071L492.707 256.707ZM20 257L492 257V255L20 255V257Z" fill="black"/>
+            <path d="M475.586 232.703L477.074 231.543L480.918 236.43L484.199 231.812H486.52L482.102 237.941L486.191 243.121L484.715 244.281L480.988 239.547L477.812 243.988H475.48L479.793 238.047L475.586 232.703Z" fill="black"/>
+            <path d="M277.887 25.8125V38.2695C277.887 39.043 277.758 39.7109 277.5 40.2734C277.25 40.8359 276.898 41.3008 276.445 41.668C276 42.0352 275.469 42.3047 274.852 42.4766C274.234 42.6562 273.562 42.7461 272.836 42.7461C272.18 42.7461 271.52 42.6875 270.855 42.5703C270.191 42.4609 269.559 42.3047 268.957 42.1016C269.059 41.8281 269.164 41.5625 269.273 41.3047C269.383 41.0469 269.492 40.7891 269.602 40.5312C269.789 40.5938 270.012 40.6602 270.27 40.7305C270.535 40.8008 270.812 40.8633 271.102 40.918C271.398 40.9805 271.699 41.0273 272.004 41.0586C272.316 41.0977 272.617 41.1172 272.906 41.1172C273.359 41.1172 273.77 41.0547 274.137 40.9297C274.504 40.8125 274.816 40.6328 275.074 40.3906C275.332 40.1484 275.527 39.8477 275.66 39.4883C275.801 39.1367 275.871 38.7305 275.871 38.2695V35.6211H275.648C275.445 35.9883 275.211 36.3359 274.945 36.6641C274.68 36.9844 274.387 37.2656 274.066 37.5078C273.746 37.75 273.398 37.9375 273.023 38.0703C272.656 38.2109 272.266 38.2812 271.852 38.2812C271.281 38.2812 270.785 38.2148 270.363 38.082C269.941 37.957 269.578 37.7695 269.273 37.5195C268.977 37.2617 268.73 36.9453 268.535 36.5703C268.348 36.1875 268.203 35.7461 268.102 35.2461C268.016 34.8008 267.961 34.3242 267.938 33.8164C267.914 33.3086 267.902 32.7852 267.902 32.2461V25.8125H269.918V32.8086C269.918 33.3164 269.941 33.793 269.988 34.2383C270.035 34.6758 270.137 35.0586 270.293 35.3867C270.457 35.707 270.695 35.9609 271.008 36.1484C271.32 36.3281 271.746 36.418 272.285 36.418C272.684 36.418 273.059 36.3242 273.41 36.1367C273.762 35.9414 274.086 35.6953 274.383 35.3984C274.68 35.1016 274.949 34.7734 275.191 34.4141C275.441 34.0547 275.668 33.7031 275.871 33.3594V25.8125H277.887Z" fill="black"/>
+            <line x1="410.5" y1="251" x2="410.5" y2="261" stroke="black"/>
+            <line x1="251" y1="101.5" x2="261" y2="101.5" stroke="black"/>
+            <line x1="179.5" y1="251" x2="179.5" y2="261" stroke="black"/>
+            <line x1="251" y1="332.5" x2="261" y2="332.5" stroke="black"/>
+            <line x1="333.5" y1="251" x2="333.5" y2="261" stroke="black"/>
+            <line x1="251" y1="178.5" x2="261" y2="178.5" stroke="black"/>
+            <line x1="101.5" y1="251" x2="101.5" y2="261" stroke="black"/>
+            <line x1="251" y1="409.5" x2="261" y2="409.5" stroke="black"/>
+            <text id="radiusY" x="265" y="107" font-size="24" text-anchor="start" fill="black">R</text>
+            <text id="radius2Y" x="265" y="183" font-size="24" text-anchor="start" fill="black">R\2</text>
+            <text id="-radiusY" x="265" y="413" font-size="24" text-anchor="start" fill="black">-R</text>
+            <text id="-radius2Y" x="265" y="336" font-size="24" text-anchor="start" fill="black">-R\2</text>
+            <text id="radiusX" x="412" y="280" font-size="24" text-anchor="middle" fill="black">R</text>
+            <text id="radius2X" x="335" y="280" font-size="24" text-anchor="middle" fill="black">R\2</text>
+            <text id="-radiusX" x="102" y="280" font-size="24" text-anchor="middle" fill="black">-R</text>
+            <text id="-radius2X" x="180" y="280" font-size="24" text-anchor="middle" fill="black">-R\2</text>
+        </svg>
+    </div>
+    <table id="result">
+        <thead>
+        <tr>
+            <th>X</th>
+            <th>Y</th>
+            <th>R</th>
+            <th>Текущее время</th>
+            <th>Время выполнения</th>
+            <th>Результат</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <button id="deleteButton">
+        Очистить историю
+    </button>
+</main>
+<footer>
+    <div>
+        <span>Copyright. All rights reserved. 2024</span>
+        <a href="https://github.com/kihort-si/web-lab1"><img id="githubLogo" src="github.svg" alt="Исходный код на GitHub"></a>
+    </div>
+    <hr>
+</footer>
+<script src="index.js"></script>
+</body>
+</html>
