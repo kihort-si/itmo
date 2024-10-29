@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=PT+Sans&display=swap');
+
+* {
+    font-family: PT Sans, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background: #000035;
+    color: white;
+    text-align: center;
+    padding: 4vh 0;
+}
+
+header span {
+    font-family: "Jost SemiBold", sans-serif;
+    font-size: 1.5rem;
+}
+
+header span:nth-child(1), header span:nth-child(2) {
+    margin-right: 1rem;
+}
+
+main {
+    margin: 3vh 10vw;
+    flex: 1;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table tr {
+    height: 5vh;
+}
+
+.inputTable td {
+    width: 50%;
+}
+
+input[type='text'] {
+    width: 100%;
+}
+
+.xButtons, .rButtons {
+    display: flex;
+}
+
+input[type="button"] {
+    border: 1px solid #000035;
+    outline: none;
+    margin-right: 2%;
+    background: white;
+    color: #000035;
+    cursor: pointer;
+    height: 4vh;
+    width: 3vw;
+    border-radius: 10px;
+    transition: box-shadow 0.4s ease, background 0.3s ease, color 0.3s ease;
+}
+
+input[type="button"]:hover, #submitButton:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 53, 0.3);
+}
+
+input[type="button"].active {
+    background: #000035;
+    color: white;
+    cursor: default;
+}
+
+input[type="button"].active:hover {
+    box-shadow: none;
+}
+
+input[type="text"] {
+    border: 1px solid #000035;
+    outline: none;
+    border-radius: 10px;
+    height: 4vh;
+    padding-left: 1%;
+}
+
+.defaultButton {
+    border: none;
+    outline: none;
+    background: #000035;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: box-shadow 0.4s ease;
+}
+
+#submitButton {
+    height: 4vh;
+    width: 8vw;
+}
+
+.errorMessage {
+    color: darkred;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.graphArea {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#graphContainer {
+    width: 400px;
+    height: 400px;
+    border: black solid 1px;
+    border-radius: 20px;
+    position: relative;
+}
+
+.coordinateAxes {
+    pointer-events: none;
+    scale: 0.8;
+}
+
+#graph {
+    position: absolute;
+    top: 0;
+    left: 0;
+    scale: 0.8;
+    pointer-events: none;
+}
+
+#circles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.resultTable>tbody td {
+    border: 1px solid #000035;
+    font-weight: normal;
+    text-align: center;
+}
+
+.resultTable thead tr th  {
+    border: 1px solid white;
+    background: #000035;
+    color: white;
+}
+
+.resultTable>thead>tr>th:nth-child(1), .resultTable>thead>tr>th:nth-child(2), .resultTable>thead>tr>th:nth-child(3) {
+    width: 4rem;
+}
+
+.resultTable {
+    border: 2px solid #000035;
+    margin: 2rem 0;
+    transition: opacity 0.4s ease;
+}
+
+#deleteButton {
+    height: 4vh;
+    width: 12vw;
+}
+
+footer {
+    background: #000035;
+    color: white;
+    padding: 40px 6vw 40px;
+}
+
+footer div {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+footer hr {
+    height: 1px;
+    background: white;
+}
+
+#returnButton {
+    height: 4vh;
+    width: 12vw;
+}
