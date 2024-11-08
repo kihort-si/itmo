@@ -27,6 +27,6 @@
 - **Дополнительные главы математического анализа**
 - **Иностранный язык**
 - **Теория вероятностей**
-- **Теория функций комплексного переменного**(https://github.com/kihort-si/itmo/tree/main/tfkp)
+- [**Теория функций комплексного переменного**](https://github.com/kihort-si/itmo/tree/main/tfkp)
 - **Физика**
 - [**Языки программирования**](https://github.com/kihort-si/itmo/tree/main/programming%20languages)
