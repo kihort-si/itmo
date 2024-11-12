@@ -1,3 +1,5 @@
+BEGIN;
+
 CREATE TABLE web3.public.results (
     id SERIAL PRIMARY KEY,
     x FLOAT NOT NULL,
@@ -6,4 +8,6 @@ CREATE TABLE web3.public.results (
     result BOOLEAN NOT NULL,
     created_at TIME NOT NULL,
     execution_time BIGINT NOT NULL
-)
+);
+
+COMMIT

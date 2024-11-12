@@ -144,3 +144,20 @@ table {
     display: none;
     opacity: 0;
 }
+
+footer {
+    background: #000035;
+    color: white;
+    padding: 40px 6vw 40px;
+}
+
+footer div {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+footer hr {
+    height: 1px;
+    background: white;
+}
