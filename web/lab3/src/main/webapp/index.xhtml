@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <title>Веб-прога - Лаба 3</title>
+    <h:outputStylesheet name="css/clock.css"/>
+    <h:outputStylesheet name="css/header.css"/>
+    <h:outputStylesheet name="css/main.css"/>
+</h:head>
+
+<h:body>
+    <header>
+        <span>Васильев Никита Алексеевич</span>
+        <span>P3208</span>
+        <span>Вариант №39503</span>
+    </header>
+    <main>
+        <h:form id="form" styleClass="buttons-container">
+            <div id="clock" class="clock">
+                <div class="hand hour" id="hourHand"></div>
+                <div class="hand minute" id="minuteHand"></div>
+                <div class="hand second" id="secondHand"></div>
+                <img src="resources/images/clock.svg" alt="clock"/>
+            </div>
+            <span id="date"></span>
+            <h:commandButton value="Главная" styleClass="default-button" action="go-to-main" id="go-to-main-button"/>
+        </h:form>
+    </main>
+    <h:outputScript name="js/start.js"/>
+</h:body>
+</html>
