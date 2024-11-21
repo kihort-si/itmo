@@ -1,17 +1,8 @@
 section .text
 
-%define EXIT_CODE 60
-%define NEWLINE_CODE `\n`
-%define SPACE_CODE ' '
-%define TAB_CODE `\t`
-%define PRINT_SYS_CODE 1
-%define READ_SYS_CODE 0
-%define STDOUT 1
-%define STDIN 0
-
 ; Принимает код возврата и завершает текущий процесс
 exit:
-    mov rax, EXIT_CODE
+    mov rax, 60
     syscall
 
 ; Принимает указатель на нуль-терминированную строку, возвращает её длину
@@ -32,9 +23,9 @@ print_string:
     push rdi
     call string_length
     pop rsi
-    mov rdi, STDOUT
+    mov rdi, 1
     mov rdx, rax
-    mov rax, PRINT_SYS_CODE
+    mov rax, 1
     syscall
     ret
 
@@ -43,18 +34,18 @@ print_char:
     push rdi
     mov rsi, rsp
     mov rdx, 1
-    mov rdi, STDOUT
-    mov rax, PRINT_SYS_CODE
+    mov rdi, 1
+    mov rax, 1
     syscall
     pop rdi
     ret
 
 ; Переводит строку (выводит символ с кодом 0xA)
 print_newline:
-    mov rdi, STDOUT
-    mov rsi, NEWLINE_CODE
+    mov rdi, 1
+    mov rsi, 0xA
     mov rdx, 1
-    mov rax, PRINT_SYS_CODE
+    mov rax, 1
     syscall
     ret
 
@@ -93,32 +84,38 @@ print_int:
     neg rdi
 
     .positive:
-        jmp print_uint
-
+        sub rsp, 8
+        call print_uint
+        add rsp, 8
+        ret
 
 
 ; Принимает два указателя на нуль-терминированные строки, возвращает 1 если они равны, 0 иначе
 string_equals:
     xor rax, rax
 
-.loop:
-    mov r11b, byte [rdi]
-    cmp r11b, byte [rsi]
-    jne .return
+    push rdi
+    push rsi
 
-    test r11b, r11b
-    je .equal
+    .loop:
+        mov r11b, byte [rdi]
+        cmp r11b, byte [rsi]
+        jne .return
 
-    inc rdi
-    inc rsi
-    jmp .loop
+        test r11b, r11b
+        je .equal
 
-.equal:
-    mov rax, 1
+        inc rdi
+        inc rsi
+        jmp .loop
 
-.return:
-    ret
+    .equal:
+        mov rax, 1
 
+    .return:
+        pop rdi
+        pop rsi
+        ret
 
 ; Читает один символ из stdin и возвращает его. Возвращает 0 если достигнут конец потока
 read_char:
@@ -130,7 +127,6 @@ read_char:
     syscall
     pop rax
     ret
-
 
 ; Принимает: адрес начала буфера, размер буфера
 ; Читает в буфер слово из stdin, пропуская пробельные символы в начале, .
@@ -150,11 +146,11 @@ read_word:
 
     .skip_whitespace:
         call read_char
-        cmp al, SPACE_CODE
+        cmp al, 0x20
         je .skip_whitespace
-        cmp al, TAB_CODE
+        cmp al, 0x9
         je .skip_whitespace
-        cmp al, NEWLINE_CODE
+        cmp al, 0xA
         je .skip_whitespace
         test al, al
         jz .add_null_term_string
@@ -169,11 +165,11 @@ read_word:
         call read_char
         test al, al
         jz .add_null_term_string
-        cmp al, SPACE_CODE
+        cmp al, 0x20
         je .add_null_term_string
-        cmp al, TAB_CODE
+        cmp al, 0x9
         je .add_null_term_string
-        cmp al, NEWLINE_CODE
+        cmp al, 0xA
         je .add_null_term_string
         jmp .read_loop
 
@@ -205,7 +201,6 @@ parse_uint:
     .loop:
         movzx rcx, byte [rdi+rdx]
         sub rcx, '0'
-        jl .return
         cmp rcx, 9
         ja .return
         imul rax, r11
@@ -224,9 +219,9 @@ parse_uint:
 ; rdx = 0 если число прочитать не удалось
 parse_int:
     mov cl, byte [rdi]
-    cmp cl, '-'     ; первый символ "-"
+    cmp cl, '-'
     je .parse_number
-    cmp cl, '+'     ; первый символ "+"
+    cmp cl, '+'
     jne parse_uint
 
     .parse_number:
