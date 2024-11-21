@@ -1,12 +1,11 @@
 %define last_element 0
 
 %macro colon 2
-    %ifidn %2, %2
-        %2:
-            dq 0
-            db %1, 0
-        %define last_element %2
+    %if last_element != 0
+        dq last_element
     %else
-        %error "Invalid id"
+        dq 0
     %endif
+    db %1, 0
+    %define last_element %2
 %endmacro

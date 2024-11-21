@@ -3,14 +3,14 @@
 section .text
 
 global find_word
+global get_word_by_key
 
 find_word:
-    .loop:
+	.loop:
         test rsi, rsi
         jz .error
         push rdi
         push rsi
-        sub rsp, 8
         add rsi, 8
         call string_equals
         pop rsi
@@ -28,3 +28,11 @@ find_word:
         mov rax, rsi
         add rax, 8
         ret
+
+get_word_by_key:
+    push rdi
+    call string_length
+    pop rdi
+    add rdi, rax
+    inc rdi
+    ret
