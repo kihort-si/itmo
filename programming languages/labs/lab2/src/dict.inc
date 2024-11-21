@@ -1,2 +1,1 @@
 extern find_word
-extern get_word_by_key

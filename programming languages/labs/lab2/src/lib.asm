@@ -1,16 +1,5 @@
 section .text
 
-%define EXIT_CODE 60
-%define NEWLINE_CODE `\n`
-%define SPACE_CODE ' '
-%define TAB_CODE `\t`
-%define PRINT_SYS_CODE 1
-%define READ_SYS_CODE 0
-%define STDOUT 1
-%define STDIN 0
-%define STDERR 2
-%define ERR_EXIT_CODE 1
-
 global exit
 global string_length
 global print_string
@@ -25,11 +14,10 @@ global read_string
 global parse_uint
 global parse_int
 global string_copy
-global print_error
 
 ; Принимает код возврата и завершает текущий процесс
 exit:
-    mov rax, EXIT_CODE
+    mov rax, 60
     syscall
 
 ; Принимает указатель на нуль-терминированную строку, возвращает её длину
@@ -45,38 +33,34 @@ string_length:
     .return:
         ret
 
-
-
 ; Принимает указатель на нуль-терминированную строку, выводит её в stdout
 print_string:
     push rdi
     call string_length
     pop rsi
-    mov rdi, STDOUT
+    mov rdi, 1
     mov rdx, rax
-    mov rax, PRINT_SYS_CODE
+    mov rax, 1
     syscall
     ret
-
-
 
 ; Принимает код символа и выводит его в stdout
 print_char:
     push rdi
     mov rsi, rsp
     mov rdx, 1
-    mov rdi, STDOUT
-    mov rax, PRINT_SYS_CODE
+    mov rdi, 1
+    mov rax, 1
     syscall
     pop rdi
     ret
 
 ; Переводит строку (выводит символ с кодом 0xA)
 print_newline:
-    mov rdi, PRINT_SYS_CODE
-    mov rsi, NEWLINE_CODE
+    mov rdi, 1
+    mov rsi, 0xA
     mov rdx, 1
-    mov rax, PRINT_SYS_CODE
+    mov rax, 1
     syscall
     ret
 
@@ -108,19 +92,22 @@ print_uint:
 print_int:
     cmp rdi, 0
     jns .positive
-    mov rsi, rdi
+    push rdi
     mov rdi, '-'
     call print_char
-    mov rdi, rsi
+    pop rdi
     neg rdi
 
     .positive:
-        jmp print_uint
+        sub rsp, 8
+        call print_uint
+        add rsp, 8
+        ret
 
 
 ; Принимает два указателя на нуль-терминированные строки, возвращает 1 если они равны, 0 иначе
 string_equals:
-xor rax, rax
+    xor rax, rax
 
     push rdi
     push rsi
@@ -145,20 +132,16 @@ xor rax, rax
         pop rsi
         ret
 
-
-
 ; Читает один символ из stdin и возвращает его. Возвращает 0 если достигнут конец потока
 read_char:
     xor rax, rax
     push 0
     mov rsi, rsp
-    mov rdi, READ_SYS_CODE
+    mov rdi, 0
     mov rdx, 1
     syscall
     pop rax
     ret
-
-
 
 ; Принимает: адрес начала буфера, размер буфера
 ; Читает в буфер слово из stdin, пропуская пробельные символы в начале, .
@@ -178,11 +161,11 @@ read_word:
 
     .skip_whitespace:
         call read_char
-        cmp al, SPACE_CODE
+        cmp al, 0x20
         je .skip_whitespace
-        cmp al, TAB_CODE
+        cmp al, 0x9
         je .skip_whitespace
-        cmp al, NEWLINE_CODE
+        cmp al, 0xA
         je .skip_whitespace
         test al, al
         jz .add_null_term_string
@@ -197,11 +180,11 @@ read_word:
         call read_char
         test al, al
         jz .add_null_term_string
-        cmp al, SPACE_CODE
+        cmp al, 0x20
         je .add_null_term_string
-        cmp al, TAB_CODE
+        cmp al, 0x9
         je .add_null_term_string
-        cmp al, NEWLINE_CODE
+        cmp al, 0xA
         je .add_null_term_string
         jmp .read_loop
 
@@ -229,15 +212,6 @@ read_string:
     mov r13, rsi
     xor r15, r15
 
-    .skip_whitespace:
-        call read_char
-        cmp al, NEWLINE_CODE
-        je .skip_whitespace
-        test al, al
-        jz .add_null_term_string
-        test r13, r13
-        je .fail
-
     .read_loop:
         cmp r15, r13
         je .fail
@@ -246,7 +220,7 @@ read_string:
         call read_char
         test al, al
         jz .add_null_term_string
-        cmp al, NEWLINE_CODE
+        cmp al, 0xA
         je .add_null_term_string
         jmp .read_loop
 
@@ -278,7 +252,6 @@ parse_uint:
     .loop:
         movzx rcx, byte [rdi+rdx]
         sub rcx, '0'
-        jl .return
         cmp rcx, 9
         ja .return
         imul rax, r11
@@ -297,9 +270,9 @@ parse_uint:
 ; rdx = 0 если число прочитать не удалось
 parse_int:
     mov cl, byte [rdi]
-    cmp cl, '-'     ; первый символ "-"
+    cmp cl, '-'
     je .parse_number
-    cmp cl, '+'     ; первый символ "+"
+    cmp cl, '+'
     jne parse_uint
 
     .parse_number:
@@ -337,15 +310,3 @@ string_copy:
 
     .return:
         ret
-
-; Выводит ошибки в STDERR
-print_error:
-    push rdi
-    call string_length
-    pop rdi
-    mov rdx, rax
-    mov rax, PRINT_SYS_CODE
-    mov rsi, rdi
-    mov rdi, STDERR
-    syscall
-    ret
