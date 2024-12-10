@@ -23,7 +23,16 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d81280c4-97a9-4c37-8ee1-373e3095e55d" name="Changes" comment="done" />
+    <list default="true" id="d81280c4-97a9-4c37-8ee1-373e3095e55d" name="Changes" comment="done">
+      <change beforePath="$PROJECT_DIR$/solution/include/bmp.h" beforeDir="false" afterPath="$PROJECT_DIR$/solution/include/bmp.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution/include/io.h" beforeDir="false" afterPath="$PROJECT_DIR$/solution/include/io.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution/include/transform-map.h" beforeDir="false" afterPath="$PROJECT_DIR$/solution/include/transform-map.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution/include/transform.h" beforeDir="false" afterPath="$PROJECT_DIR$/solution/include/transform.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution/src/image.c" beforeDir="false" afterPath="$PROJECT_DIR$/solution/src/image.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution/src/io.c" beforeDir="false" afterPath="$PROJECT_DIR$/solution/src/io.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/solution/src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solution/src/transform.c" beforeDir="false" afterPath="$PROJECT_DIR$/solution/src/transform.c" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,9 +91,9 @@
     </key>
   </component>
   <component name="RunManager" selected="CTest Application.All CTest">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="check" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="image-transform" TARGET_NAME="check" CONFIG_NAME="Debug">
@@ -102,16 +111,16 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All CTest" type="CTestRunConfiguration" factoryName="CTestRun" PROGRAM_PARAMS="--extra-verbose" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$CMakeCurrentLocalGenerationDir$" PASS_PARENT_ENVS_2="true" RUN_PATH="$CTestCurrentExecutableName$" EXPLICIT_BUILD_TARGET_NAME="all" TEST_MODE="SUITE_TEST">
+    <configuration name="All CTest" type="CTestRunConfiguration" factoryName="CTestRun" PROGRAM_PARAMS="--extra-verbose" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$CMakeCurrentLocalGenerationDir$" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_PATH="$CTestCurrentExecutableName$" EXPLICIT_BUILD_TARGET_NAME="all" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.image-transform" />
       <item itemvalue="CMake Application.check" />
       <item itemvalue="CMake Application.image-matcher" />
+      <item itemvalue="CMake Application.image-transform" />
       <item itemvalue="CTest Application.All CTest" />
     </list>
   </component>
@@ -125,7 +134,9 @@
       <updated>1732109871941</updated>
       <workItem from="1732109872805" duration="2221000" />
       <workItem from="1732113542627" duration="18933000" />
-      <workItem from="1732284480719" duration="796000" />
+      <workItem from="1732284480719" duration="1914000" />
+      <workItem from="1732290430384" duration="148000" />
+      <workItem from="1733466221032" duration="2523000" />
     </task>
     <task id="LOCAL-00001" summary="done">
       <option name="closed" value="true" />

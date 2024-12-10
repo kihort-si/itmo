@@ -8,6 +8,17 @@
 
 #include <stdint.h>
 
+#define BMP_TYPE 0x4D42
+#define BMP_RESERVED 0
+#define DIB_HEADER_SIZE 40
+#define BMP_PLANES 1
+#define BMP_BIT_COUNT 24
+#define BMP_COMPRESSION 0
+#define BMP_X_PELS_PER_METER 2835
+#define BMP_Y_PELS_PER_METER 2835
+#define BMP_CLR_USED 0
+#define BMP_CLR_IMPORTANT 0
+
 // Setting the structure alignment by 1 byte
 #pragma pack(push, 1)
 

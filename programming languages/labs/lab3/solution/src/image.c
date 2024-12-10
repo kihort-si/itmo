@@ -1,4 +1,5 @@
 //
+// image.c
 // Created by Nikita on 17.11.2024.
 //
 

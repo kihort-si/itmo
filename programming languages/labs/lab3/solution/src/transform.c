@@ -5,7 +5,6 @@
 
 #include <inttypes.h>
 #include <stddef.h>
-#include <stdint.h>
 #include <stdio.h>
 
 #include "image.h"
@@ -15,8 +14,8 @@ struct image *rotate90_cw(const struct image *src) {
     struct image *rotated = create_image(src->height, src->width);
     if (!rotated) return NULL;
 
-    for (uint64_t y = 0; y < src->height; ++y) {
-        for (uint64_t x = 0; x < src->width; ++x) {
+    for (size_t y = 0; y < src->height; ++y) {
+        for (size_t x = 0; x < src->width; ++x) {
             rotated->data[x * rotated->width + y] = src->data[y * src->width + (src->width - x - 1)];
         }
     }
@@ -28,8 +27,8 @@ struct image *rotate90_ccw(const struct image *src) {
     struct image *rotated = create_image(src->height, src->width);
     if (!rotated) return NULL;
 
-    for (uint64_t y = 0; y < src->height; ++y) {
-        for (uint64_t x = 0; x < src->width; ++x) {
+    for (size_t y = 0; y < src->height; ++y) {
+        for (size_t x = 0; x < src->width; ++x) {
             rotated->data[x * rotated->width + rotated->width - y - 1] = src->data[y * src->width + x];
         }
     }
@@ -41,8 +40,8 @@ struct image *flip_horizontal(const struct image *src) {
     struct image *flipped = create_image(src->width, src->height);
     if (!flipped) return NULL;
 
-    for (uint64_t y = 0; y < src->height; ++y) {
-        for (uint64_t x = 0; x < src->width; ++x) {
+    for (size_t y = 0; y < src->height; ++y) {
+        for (size_t x = 0; x < src->width; ++x) {
             flipped->data[y * src->width + (src->width - x - 1)] =
                     src->data[y * src->width + x];
         }
@@ -55,8 +54,8 @@ struct image *flip_vertical(const struct image *src) {
     struct image *flipped = create_image(src->width, src->height);
     if (!flipped) return NULL;
 
-    for (uint64_t y = 0; y < src->height; ++y) {
-        for (uint64_t x = 0; x < src->width; ++x) {
+    for (size_t y = 0; y < src->height; ++y) {
+        for (size_t x = 0; x < src->width; ++x) {
             flipped->data[y * src->width + x] = src->data[(src->height - y - 1) * src->width + x];
         }
     }

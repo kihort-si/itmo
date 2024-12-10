@@ -7,8 +7,6 @@
 #define IO_H
 #include <stdio.h>
 
-#include "image.h"
-
 enum read_status {
     READ_OK = 0,
     READ_INVALID_SIGNATURE,
@@ -26,5 +24,9 @@ enum read_status from_bmp(FILE *in, struct image **img);
 
 /* Writing an image to BMP */
 enum write_status to_bmp(FILE *out, const struct image *img);
+
+FILE *open_file_read(const char *filename);
+
+FILE *open_file_write(const char *filename);
 
 #endif //IO_H

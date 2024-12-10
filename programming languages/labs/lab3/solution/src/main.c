@@ -19,9 +19,8 @@ int main(int argc, char *argv[]) {
     const char *transformation = argv[3];
 
     // Open the original BMP file
-    FILE *in = fopen(source, "rb");
+    FILE *in = open_file_read(source);
     if (!in) {
-        fprintf(stderr, "Failed to open input file");
         return 2;
     }
 
@@ -52,10 +51,9 @@ int main(int argc, char *argv[]) {
     }
 
     // Save the converted image to a file
-    FILE *out = fopen(destination, "wb");
+    FILE *out = open_file_write(destination);
     if (!out) {
-        perror("Failed to open output file");
-        free_image(transformed);
+        fclose(in);
         return 1;
     }
 
