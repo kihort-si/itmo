@@ -1,0 +1,16 @@
+<form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="flex flex-column align-items-center">
+    <div class="registerMain">
+        <label class="block text-900 font-medium mb-2" for="email">Введите почту</label>
+        <input id="email" name="email" ngModel pInputText placeholder="Адрес электронной почты"
+               type="text">
+        <label class="block text-900 font-medium mb-2" for="password">Введите пароль</label>
+        <input id="password" name="password" ngModel pInputText placeholder="Пароль"
+               type="password">
+        <label class="block text-900 font-medium mb-2" for="passwordConfirmation">Подтвердите пароль</label>
+        <input id="passwordConfirmation" name="passwordConfirmation" ngModel pInputText
+               placeholder="Пароль"
+               type="password">
+        <button [disabled]="registerForm.value.password != registerForm.value.passwordConfirmation || registerForm.value.password == '' || registerForm.value.passwordConfirmation == ''" class="defaultButton" label="Зарегистрироваться" pButton pRipple></button>
+        <a routerLink="login">Уже есть аккаунт? Войти!</a>
+    </div>
+</form>

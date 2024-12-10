@@ -1,0 +1,21 @@
+<table [id]="varId">
+  <thead>
+  <tr>
+    <th *ngFor="let column of columns" (click)="sortData(column)" style="cursor: pointer">
+      {{ column }}
+      <span *ngIf="sortColumn === column">
+        {{ sortDirection === 'asc' ? '▲' : '▼' }}
+      </span>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of data">
+    <td *ngFor="let column of columns">{{ row[column] }}</td>
+  </tr>
+  <tr *ngIf="data.length === 0">
+    <td [attr.colspan]="columns.length" class="text-center">Нет данных</td>
+  </tr>
+
+  </tbody>
+</table>

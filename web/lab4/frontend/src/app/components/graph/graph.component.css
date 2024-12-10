@@ -1,0 +1,36 @@
+.graphArea {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+#graphContainer {
+  width: 400px;
+  height: 400px;
+  border: black solid 1px;
+  border-radius: 20px;
+  position: relative;
+}
+
+.coordinateAxes {
+  pointer-events: none;
+  scale: 1;
+}
+
+#graph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  scale: 1;
+  pointer-events: none;
+}
+
+#circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 400px;
+  pointer-events: none;
+  z-index: 100;
+}

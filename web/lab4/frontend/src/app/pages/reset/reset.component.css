@@ -1,0 +1,24 @@
+.resetMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20vw;
+}
+
+input {
+    border: darkgrey solid 1px;
+    outline: none;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    width: 100% ;
+    margin-bottom: 1rem;
+}
+
+.resetMain button {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.resetMain a {
+    text-align: center;
+}

@@ -1,0 +1,30 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table tr {
+  height: 5vh;
+}
+
+table>tbody td {
+  border: 1px solid #000035;
+  font-weight: normal;
+  text-align: center;
+}
+
+table thead tr th  {
+  border: 1px solid white;
+  background: #000035;
+  color: white;
+}
+
+table>thead>tr>th:nth-child(1), table>thead>tr>th:nth-child(2), table>thead>tr>th:nth-child(3) {
+  width: 4rem;
+}
+
+table {
+  border: 2px solid #000035;
+  margin: 2rem 0;
+  transition: opacity 0.4s ease;
+}

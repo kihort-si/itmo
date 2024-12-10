@@ -1,0 +1,26 @@
+header {
+  background: #000035;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 4vh 0;
+  position: relative;
+}
+
+.headerText {
+  text-align: center;
+}
+
+header span {
+  font-family: "Jost SemiBold", sans-serif;
+  font-size: 1.5rem;
+}
+
+header span:nth-child(1), header span:nth-child(2) {
+  margin-right: 1rem;
+}
+
+header p-button {
+  position: absolute;
+  right: 5vw;
+}

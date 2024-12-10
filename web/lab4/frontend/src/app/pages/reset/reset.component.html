@@ -1,0 +1,16 @@
+<form #resetForm="ngForm" (ngSubmit)="onSubmit(resetForm)" *ngIf="!isSubmitted" class="flex flex-column align-items-center">
+    <div class="resetMain">
+        <label class="block text-900 font-medium mb-2" for="email">Введите почту</label>
+        <input id="email" name="email" ngModel pInputText placeholder="Адрес электронной почты"
+               type="text">
+        <button [disabled]="resetForm.value.email == ''" class="defaultButton" label="Сбросить пароль" pButton pRipple></button>
+        <a routerLink="/">На главную</a>
+    </div>
+</form>
+
+<div class="success-message" *ngIf="isSubmitted">
+    <p>Письмо для сброса пароля отправлено на {{ submittedEmail }}</p>
+    <a routerLink="/">
+        <button class="defaultButton">На главную</button>
+    </a>
+</div>

@@ -1,0 +1,37 @@
+<main>
+    <form id="pointForm" #pointForm="ngForm" (ngSubmit)="onSubmit(pointForm)">
+        <div class="inputDataContainer">
+            <div class="formElement">
+                <div class="formComponent">
+                    <span class="formCoordinateLabel">Введите X:</span>
+                    <p-slider [(ngModel)]="xValue" name="x" [min]="-3" [max]="5" [step]="0.01"></p-slider>
+                    <span>Текущее значение: </span>
+                    <span id="xValue">{{ xValue.toFixed(2) }}</span>
+                </div>
+                <span id="xError" class="errorLabel">&#8203;</span>
+            </div>
+            <div class="formElement">
+                <div class="formComponent">
+                    <span class="formCoordinateLabel">Введите Y:</span>
+                    <input pInputText type="text" name="y" placeholder="Введите Y" [(ngModel)]="yValue" (input)="onTextChange({event : $event})"
+                    />
+                    <span id="yValue">Текущее значение: {{ yValue }}</span>
+                </div>
+                <span id="yError" class="errorLabel">&#8203;</span>
+            </div>
+            <div class="formElement">
+                <div class="formComponent">
+                    <span class="formCoordinateLabel">Введите R:</span>
+                    <p-slider [(ngModel)]="rValue" name="r" [min]="-3" [max]="5" [step]="0.01" (onChange)="onSliderChange(event)"></p-slider>
+                    <span>Текущее значение: </span>
+                    <span id="rValue">{{ rValue.toFixed(2) }}</span>
+                </div>
+                <span id="rError" class="errorLabel">&#8203;</span>
+            </div>
+        </div>
+        <button class="defaultButton" id="submitButton" pButton [disabled]="!isFormValid(pointForm)">Отправить</button>
+    </form>
+    <app-graph (click)="onGraphClick($event)"></app-graph>
+    <app-table [varId]="'resultTable'" [columns]="tableColumns" [data]="tableData"></app-table>
+    <button class="defaultButton" id="deleteButton" pButton (click)="deleteData()">Очистить историю</button>
+</main>

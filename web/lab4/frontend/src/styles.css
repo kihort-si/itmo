@@ -1,0 +1,104 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.min.css";
+@import "primeflex/primeflex.scss";
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=PT+Sans&display=swap');
+
+* {
+  font-family: PT Sans, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  margin: 3vh 10vw;
+  flex: 1;
+}
+
+.defaultButton, .defaultButtonWhite {
+  border: none;
+  outline: none;
+  background: #000035;
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: box-shadow 0.4s ease;
+  padding: 0.5rem 1rem;
+}
+
+.defaultButton:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 53, 0.3);
+}
+
+p-button, p-button button {
+  background: white;
+  color: #000035;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  transition: box-shadow 0.4s ease;
+  padding: 0.5rem 1rem;
+}
+
+.defaultButton:hover {
+  box-shadow: 0 0 20px rgba(223, 223, 223, 0.3);
+}
+
+.errorLabel {
+  color: darkred;
+  font-size: 0.8rem;
+  height: 1rem;
+}
+
+.formCoordinateLabel {
+  font-weight: bold;
+}
+
+.p-slider-range {
+  background: #000035;
+}
+
+p-slider span:nth-child(2) {
+  border: #000035 solid 2px;
+  top: -6px;
+  right: -2px;
+}
+
+p-slider span:nth-child(2):hover {
+  background: #000035;
+}
+
+app-slider, app-text-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (max-width: 740px)  {
+  * {
+    font-size: 0.8rem;
+  }
+
+  main {
+    margin: 3vh 6vw;
+  }
+
+  .graphArea {
+    scale: 0.7;
+  }
+}
+
+@media (min-width: 740px) and  (max-width: 1127px) {
+  * {
+    font-size: 0.9rem;
+  }
+
+  main {
+    margin: 3vh 8vw;
+  }
+}

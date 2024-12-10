@@ -1,0 +1,13 @@
+<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <div class="loginMain">
+        <label class="block text-900 font-medium mb-2" for="email">Введите почту</label>
+        <input id="email" name="email" ngModel pInputText placeholder="Адрес электронной почты"
+               type="text">
+        <label class="block text-900 font-medium mb-2" for="password">Введите пароль</label>
+        <input id="password" name="password" ngModel pInputText placeholder="Пароль"
+               type="password">
+        <a routerLink="reset">Забыли пароль?</a>
+        <button [disabled]="loginForm.value.username == '' || loginForm.value.password == ''" class="defaultButton" label="Войти" pButton pRipple></button>
+        <a routerLink="register">Еще нет аккаунта? Зарегистрироваться!</a>
+    </div>
+</form>

@@ -1,0 +1,21 @@
+main {
+  margin: 3vh 10vw;
+}
+
+.formCoordinateLabel {
+  font-weight: bold;
+}
+
+.inputDataContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem 3rem;
+  margin-bottom: 1rem;
+}
+
+.formComponent input{
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+}

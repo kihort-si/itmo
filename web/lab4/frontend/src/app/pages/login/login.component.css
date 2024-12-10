@@ -1,0 +1,40 @@
+main {
+    display: flex;
+    justify-content: center;
+}
+
+.loginMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20vw;
+}
+
+input {
+    border: darkgrey solid 1px;
+    outline: none;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    width: 100% ;
+    margin-bottom: 1rem;
+}
+
+.loginMain button {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.loginMain a {
+    color: #000035;
+    text-align: center
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+.loginMain button {
+    width: 100%;
+    margin-bottom: 1rem;
+}
