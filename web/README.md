@@ -2,7 +2,7 @@
 
 ## **О предмете**
 
-Курс включает в себя информацию об основных концепциях объектно-ориентированного программирования, синтаксисе языка Java, основных классов и интерфейсов языка.
+Курс включает в себя информацию об основах проектирования веб-приложений, HTTP-запросах, HTML, CSS, JavaScript, использовании Java EE для создания серверной части.
 
 Продолжительность: 1 семестр.
 
@@ -126,7 +126,7 @@
 
 Изменение R: selectBooleanCheckBox {'1', '2', '3', '4', '5'}
 
-### [**Лабораторная работа №3**](https://github.com/kihort-si/itmo/tree/main/web/lab3)
+### [**Лабораторная работа №4**](https://github.com/kihort-si/itmo/tree/main/web/lab4)
 ![HTML](https://github.com/kihort-si/itmo/blob/main/common/html.svg) 
 ![CSS](https://github.com/kihort-si/itmo/blob/main/common/css.svg) 
 ![TypeScript](https://github.com/kihort-si/itmo/blob/main/common/ts.svg)
