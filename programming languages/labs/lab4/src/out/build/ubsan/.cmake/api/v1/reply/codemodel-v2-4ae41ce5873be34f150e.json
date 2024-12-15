@@ -1,0 +1,65 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-UBSan-f5ebdc15457944623624.json",
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "UBSan",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "memalloc::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-memalloc-UBSan-04005189c4b68eda59af.json",
+					"name" : "memalloc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "memalloc_exe::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-memalloc_exe-UBSan-9bae74076ff3de962c8b.json",
+					"name" : "memalloc_exe",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/tmp/tmp.Vfc1T0SlAO/out/build/ubsan",
+		"source" : "/tmp/tmp.Vfc1T0SlAO"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

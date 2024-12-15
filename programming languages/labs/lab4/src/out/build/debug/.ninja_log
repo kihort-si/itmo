@@ -1,0 +1,11 @@
+# ninja log v6
+5	122	7559120116019762	C:/Users/Nikita/CLionProjects/assignment-4-memory-allocator/src/out/build/debug/CMakeFiles/cmake.verify_globs	90dc5453e1844186
+158	6577	7559120117559810	CMakeFiles/memalloc.dir/out/build/lsan/CMakeFiles/3.29.6/CompilerIdC/CMakeCCompilerId.obj	565c3530b623bc81
+149	6589	7559120117469758	CMakeFiles/memalloc.dir/CMakeFiles/3.29.6/CompilerIdC/CMakeCCompilerId.obj	6cf5ef4ebd74e74
+140	6598	7559120117379887	CMakeFiles/memalloc.dir/out/build/asan/CMakeFiles/3.29.6/CompilerIdC/CMakeCCompilerId.obj	328d86dc2640f2fb
+168	6608	7559120117649998	CMakeFiles/memalloc.dir/out/build/msan/CMakeFiles/3.29.6/CompilerIdC/CMakeCCompilerId.obj	232d0ea9d2b63151
+6609	7097	7559120182060722	CMakeFiles/memalloc_exe.dir/main.obj	eebfcb1f0a331141
+6589	7144	7559120181870756	CMakeFiles/memalloc.dir/out/build/ubsan/CMakeFiles/3.29.6/CompilerIdC/CMakeCCompilerId.obj	f52a8098a3fec7fc
+6579	7164	7559120181770759	CMakeFiles/memalloc.dir/out/build/release/CMakeFiles/3.29.6/CompilerIdC/CMakeCCompilerId.obj	5c75ddd5f7cc70cb
+6599	7490	7559120181960733	CMakeFiles/memalloc.dir/util.obj	eea593d722124031
+10	357	7559129677354025	C:/Users/Nikita/CLionProjects/assignment-4-memory-allocator/src/out/build/debug/CMakeFiles/cmake.verify_globs	90dc5453e1844186

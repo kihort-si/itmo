@@ -1,0 +1,65 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-MSan-d0094a50bb2071803777.json",
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "MSan",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "memalloc::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-memalloc-MSan-0783eb901bf29e6d8a06.json",
+					"name" : "memalloc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "memalloc_exe::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-memalloc_exe-MSan-7596482dfa158870b038.json",
+					"name" : "memalloc_exe",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Nikita/CLionProjects/assignment-4-memory-allocator/src/out/build/msan",
+		"source" : "C:/Users/Nikita/CLionProjects/assignment-4-memory-allocator/src"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

@@ -1,0 +1,65 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "memalloc::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-memalloc-Debug-c3764492c1c7b1ba5e49.json",
+					"name" : "memalloc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "memalloc_exe::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-memalloc_exe-Debug-2b9e733ed87889b39d40.json",
+					"name" : "memalloc_exe",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Nikita/CLionProjects/assignment-4-memory-allocator/src/out/build/debug",
+		"source" : "C:/Users/Nikita/CLionProjects/assignment-4-memory-allocator/src"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
