@@ -1,8 +1,10 @@
 #define _DEFAULT_SOURCE
 
 #include <assert.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "mem_internals.h"
@@ -139,7 +141,11 @@ void heap_term() {
         current_size += size_from_capacity(region_start->capacity).bytes;
 
         if (next_block != block_after(region_start)) {
-            munmap(current_block, current_size);
+            if (munmap(current_block, current_size) == -1) {
+                fprintf(stderr, "Error: munmap failed for region at %p (size: %zu). Error: %s\n",
+                        current_block, current_size, strerror(errno));
+                return;
+            }
             current_block = next_block;
             current_size = 0;
         }
@@ -163,9 +169,7 @@ static struct block_search_result find_good_or_last(struct block_header* restric
         if (block->is_free) {
             while (try_merge_with_next(block));
 
-            if (block_is_big_enough(sz, block)) {
-                return (struct block_search_result){BSR_FOUND_GOOD_BLOCK, block};
-            }
+            if (block_is_big_enough(sz, block)) return (struct block_search_result){BSR_FOUND_GOOD_BLOCK, block};
         }
 
         last_valid = block;
@@ -198,15 +202,14 @@ static struct block_header *grow_heap(struct block_header *restrict last, size_t
     void *expected_addr = block_after(last);
     struct region new_region = alloc_region(expected_addr, query);
 
-    if (region_is_invalid(&new_region)) {
-        return NULL;
-    }
+    if (region_is_invalid(&new_region)) return NULL;
 
     struct block_header *new_block = (struct block_header *)new_region.addr;
 
     last->next = new_block;
 
-    if (try_merge_with_next(last)) return last;
+    if (new_region.extends && try_merge_with_next(last)) return last;
+
     return new_block;
 }
 
@@ -218,17 +221,14 @@ static struct block_header *memalloc(size_t query, struct block_header *heap_sta
     query = size_max(query, BLOCK_MIN_CAPACITY);
 
     struct block_search_result result = try_memalloc_existing(query, heap_start);
-    if (result.type == BSR_FOUND_GOOD_BLOCK) {
-        return result.block;
-    }
+    if (result.type == BSR_FOUND_GOOD_BLOCK) return result.block;
 
     if (result.type == BSR_REACHED_END_NOT_FOUND) {
         struct block_header *last_block = result.block;
 
         struct block_header *new_block = grow_heap(last_block, query);
-        if (!new_block) {
-            return NULL;
-        }
+        if (!new_block) return NULL;
+
 
         return try_memalloc_existing(query, new_block).block;
     }
@@ -253,8 +253,4 @@ void _free(void *mem) {
     header->is_free = true;
 
     while (header->next && try_merge_with_next(header)) {}
-
-    if (header->next == NULL && header->is_free) {
-        header->next = NULL;
-    }
 }
