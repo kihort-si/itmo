@@ -1,0 +1,567 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[russian]{babel}
+\usepackage{geometry} 
+\usepackage{amsmath}
+\usepackage{tikz}
+\geometry{verbose,a4paper,tmargin=2cm,bmargin=2cm,lmargin=1.5cm,rmargin=1.5cm}
+\pagestyle{empty}
+
+\begin{document}
+
+\section*{ТФКП. Типовой расчет. Васильев Никита Алексеевич. 21.1}
+\begin{center}
+\subsection*{Вариант 7}
+\end{center}
+
+\subsection*{Задание 1}
+
+\begin{tikzpicture}[scale=1.5]
+    \draw[->] (-5,0) -- (5,0) node[right] {$\operatorname{Re} z$};
+    \draw[->] (0,-5) -- (0,5) node[above] {$\operatorname{Im} z$};
+    
+    \draw[domain=-1.5:2,smooth,variable=\x,thick] plot ({\x},{sqrt((3+\x)^2-\x^2)}) node[right] {};
+    \draw[domain=-1.5:2,smooth,variable=\x,thick] plot ({\x},{-sqrt((3+\x)^2-\x^2)}) node[right] {};
+
+    \draw[thick,->] (0,0) -- (0,4) node[above left] {$\arg z = \frac{\pi}{2}$};
+
+    \draw[thick,->,domain=0:4] plot ({\x*cos(120)},{\x*sin(120)}) node[above] {$\arg z = \frac{2\pi}{3}$};
+
+    \begin{scope}
+        \clip (-5,-5) rectangle (5,5);
+        \fill[blue,opacity=0.2] plot[domain=-1.5:2,smooth,variable=\x] ({\x},{sqrt((3+\x)^2-\x^2)}) --
+        plot[domain=2:-1.5,smooth,variable=\x] ({\x},{-sqrt((3+\x)^2-\x^2)}) --
+        (0,0) -- (60:4) -- cycle;
+    \end{scope}
+\end{tikzpicture}
+
+\subsection*{Задание 2}
+
+Рассмотрим выражение:
+\[
+\left( \frac{1 - i}{\sqrt{2}} \right)^{1+i}.
+\]
+
+\subsubsection*{1. Показательная форма}
+Представим число \(\frac{1 - i}{\sqrt{2}}\) в показательной форме. Сначала заметим, что:
+\[
+1 - i = \sqrt{2} e^{-i\pi/4}.
+\]
+Тогда:
+\[
+\frac{1 - i}{\sqrt{2}} = e^{-i\pi/4}.
+\]
+
+\subsubsection*{2. Подставим в исходное выражение}
+\[
+\left( \frac{1 - i}{\sqrt{2}} \right)^{1+i} = \left( e^{-i\pi/4} \right)^{1+i}.
+\]
+
+\subsubsection*{3. По свойству степеней комплексных чисел}
+\[
+\left( e^{-i\pi/4} \right)^{1+i} = e^{(1+i)(-i\pi/4)}.
+\]
+
+\[
+(1+i)(-i\pi/4) = -i\pi/4 - \pi/4 = -\pi/4 (1 + i).
+\]
+
+\subsubsection*{4. Подставим обратно}
+\[
+e^{(1+i)(-i\pi/4)} = e^{-\pi/4} \cdot e^{-i\pi/4}.
+\]
+
+\subsubsection*{Ответ:}
+\[
+\left( \frac{1 - i}{\sqrt{2}} \right)^{1+i} = e^{-\pi/4} \cdot e^{-i\pi/4}.
+\]
+
+\subsection*{Задание 3}
+
+Дана мнимая часть аналитической функции:
+\[
+v(x, y) = -\frac{y}{x^2 + y^2}.
+\]
+Необходимо найти аналитическую функцию \(f(z)\), где \(z = x + iy\).
+
+Пусть \(f(z) = u(x, y) + iv(x, y)\), где \(u(x, y)\) — действительная часть, а \(v(x, y)\) — мнимая часть. Аналитическая функция удовлетворяет условиям Коши-Римана:
+\[
+\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}, \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}.
+\]
+
+\subsubsection*{1. Вычисление производных мнимой части}
+\[
+v(x, y) = -\frac{y}{x^2 + y^2}.
+\]
+Вычислим частные производные:
+\[
+\frac{\partial v}{\partial x} = -\frac{\partial}{\partial x} \left( \frac{y}{x^2 + y^2} \right) = \frac{2xy}{(x^2 + y^2)^2},
+\]
+\[
+\frac{\partial v}{\partial y} = -\frac{\partial}{\partial y} \left( \frac{y}{x^2 + y^2} \right) = -\frac{x^2 - y^2}{(x^2 + y^2)^2}.
+\]
+
+\subsubsection*{2. Использование условий Коши-Римана}
+Согласно уравнениям Коши-Римана:
+\[
+\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} = -\frac{x^2 - y^2}{(x^2 + y^2)^2},
+\]
+\[
+\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x} = -\frac{2xy}{(x^2 + y^2)^2}.
+\]
+
+\subsubsection*{3. Интегрирование для нахождения \(u(x, y)\)}
+Интегрируем \(\frac{\partial u}{\partial x}\) по \(x\):
+\[
+u(x, y) = \int -\frac{x^2 - y^2}{(x^2 + y^2)^2} \, dx = \frac{x}{x^2 + y^2} + C_1(y),
+\]
+где \(C_1(y)\) — произвольная функция от \(y\).
+
+Интегрируем \(\frac{\partial u}{\partial y}\) по \(y\):
+\[
+u(x, y) = \int -\frac{2xy}{(x^2 + y^2)^2} \, dy = \frac{x}{x^2 + y^2} + C_2(x),
+\]
+где \(C_2(x)\) — произвольная функция от \(x\).
+
+Обе интеграции согласуются, следовательно:
+\[
+u(x, y) = \frac{x}{x^2 + y^2}.
+\]
+
+\subsubsection*{4. Аналитическая функция \(f(z)\)}
+Теперь аналитическая функция:
+\[
+f(z) = u(x, y) + iv(x, y) = \frac{x}{x^2 + y^2} - i\frac{y}{x^2 + y^2}.
+\]
+
+Представим её через комплексные переменные \(z = x + iy\) и \(\overline{z} = x - iy\) (комплексно сопряжённое):
+\[
+f(z) = \frac{\overline{z}}{|z|^2}, \quad \text{где } |z|^2 = x^2 + y^2.
+\]
+
+\subsubsection*{Ответ}
+Аналитическая функция:
+\[
+f(z) = \frac{\overline{z}}{|z|^2}.
+\]
+
+\subsection*{Задание 4}
+
+\section*{Решение}
+Дан интеграл:
+\[
+\int_C (z - 1) \, dz,
+\]
+где \( C \) — ломаная \( ABCD \) с вершинами:
+\[
+A(-2; 0), \, B(-1; 1), \, C(1; 1), \, D(2; 0).
+\]
+
+\subsubsection*{1. Разбиение на участки}
+Ломаная \( C \) состоит из четырёх участков: \( AB, BC, CD \).
+
+\subsubsection*{2. Разбиение на участки}
+
+Параметризация отрезка \( AB \):
+\[
+z(t) = -2 + t(-1 - (-2) + i(1 - 0)) = -2 + t(1 + i), \quad t \in [0, 1].
+\]
+Тогда:
+\[
+z(t) = -2 + t(1 + i), \quad dz = (1 + i) \, dt.
+\]
+Подставляем в интеграл:
+\[
+\int_{AB} (z - 1) \, dz = \int_0^1 \left((-2 + t(1 + i)) - 1\right)(1 + i) \, dt.
+\]
+Упростим:
+\[
+z - 1 = -3 + t(1 + i),
+\]
+поэтому:
+\[
+\int_{AB} (z - 1) \, dz = \int_0^1 (-3 + t(1 + i))(1 + i) \, dt.
+\]
+Раскрываем скобки:
+\[
+(-3 + t(1 + i))(1 + i) = -3(1 + i) + t(1 + i)^2.
+\]
+Заметим, что \((1 + i)^2 = 1 + 2i - 1 = 2i\), поэтому:
+\[
+= -3(1 + i) + t(2i) = -3 - 3i + 2ti.
+\]
+Интеграл:
+\[
+\int_{AB} (z - 1) \, dz = \int_0^1 (-3 - 3i + 2ti) \, dt = \int_0^1 -3 \, dt + \int_0^1 -3i \, dt + \int_0^1 2ti \, dt.
+\]
+Вычислим по частям:
+\[
+\int_0^1 -3 \, dt = -3t \Big|_0^1 = -3,
+\]
+\[
+\int_0^1 -3i \, dt = -3it \Big|_0^1 = -3i,
+\]
+\[
+\int_0^1 2ti \, dt = 2i \int_0^1 t \, dt = 2i \cdot \frac{t^2}{2} \Big|_0^1 = i.
+\]
+Итак:
+\[
+\int_{AB} (z - 1) \, dz = -3 - 3i + i = -3 - 2i.
+\]
+Параметризация отрезка \( BC \):
+\[
+z(t) = -1 + t(1 - (-1) + i(1 - 1)) = -1 + t(2), \quad t \in [0, 1].
+\]
+Тогда:
+\[
+z(t) = -1 + 2t, \quad dz = 2 \, dt.
+\]
+Интеграл:
+\[
+\int_{BC} (z - 1) \, dz = \int_0^1 \left((-1 + 2t) - 1\right) \cdot 2 \, dt = \int_0^1 (-2 + 2t) \cdot 2 \, dt.
+\]
+Упростим:
+\[
+\int_{BC} (z - 1) \, dz = \int_0^1 (-4 + 4t) \, dt = \int_0^1 -4 \, dt + \int_0^1 4t \, dt.
+\]
+Вычисляем:
+\[
+\int_0^1 -4 \, dt = -4t \Big|_0^1 = -4,
+\]
+\[
+\int_0^1 4t \, dt = 4 \cdot \frac{t^2}{2} \Big|_0^1 = 2.
+\]
+Итак:
+\[
+\int_{BC} (z - 1) \, dz = -4 + 2 = -2.
+\]
+
+Параметризация отрезка \( CD \):
+\[
+z(t) = 1 + t(2 - 1 + i(0 - 1)) = 1 + t(1 - i), \quad t \in [0, 1].
+\]
+Тогда:
+\[
+z(t) = 1 + t(1 - i), \quad dz = (1 - i) \, dt.
+\]
+Интеграл:
+\[
+\int_{CD} (z - 1) \, dz = \int_0^1 \left((1 + t(1 - i)) - 1\right)(1 - i) \, dt.
+\]
+Упростим:
+\[
+z - 1 = t(1 - i),
+\]
+поэтому:
+\[
+\int_{CD} (z - 1) \, dz = \int_0^1 t(1 - i)^2 \, dt.
+\]
+Так как \((1 - i)^2 = 1 - 2i - 1 = -2i\), то:
+\[
+\int_{CD} (z - 1) \, dz = \int_0^1 t(-2i) \, dt = -2i \int_0^1 t \, dt.
+\]
+Вычисляем:
+\[
+\int_0^1 t \, dt = \frac{t^2}{2} \Big|_0^1 = \frac{1}{2}.
+\]
+Итак:
+\[
+\int_{CD} (z - 1) \, dz = -2i \cdot \frac{1}{2} = -i.
+\]
+
+\subsubsection*{3. Суммируем результаты}
+Суммарный интеграл:
+\[
+\int_C (z - 1) \, dz = \int_{AB} (z - 1) \, dz + \int_{BC} (z - 1) \, dz + \int_{CD} (z - 1) \, dz.
+\]
+Подставляем:
+\[
+\int_C (z - 1) \, dz = (-3 - 2i) + (-2) + (-i) = -5 - 3i.
+\]
+
+\subsubsection*{Ответ:}
+\[
+\int_C (z - 1) \, dz = -5 - 3i.
+\]
+
+\subsection*{Задание 5}
+
+Дана функция:
+\[
+f(z) = \sinh z = \frac{1}{2} \left( e^z - e^{-z} \right),
+\]
+и точка \( z_0 = 1 \). Необходимо разложить функцию \( f(z) \) в ряд Тейлора в окрестности \( z_0 \) и указать область сходимости ряда.
+
+\subsubsection*{1. Формула ряда Тейлора}
+Ряд Тейлора для аналитической функции \( f(z) \) имеет вид:
+\[
+f(z) = \sum_{n=0}^\infty \frac{f^{(n)}(z_0)}{n!} (z - z_0)^n,
+\]
+где \( f^{(n)}(z_0) \) — \(n\)-я производная функции, вычисленная в точке \( z_0 \).
+
+\subsubsection*{2. Производные функции}
+Функция \( f(z) = \sinh z \) имеет следующие производные:
+\[
+f'(z) = \cosh z, \quad f''(z) = \sinh z, \quad f^{(3)}(z) = \cosh z, \quad f^{(4)}(z) = \sinh z, \ldots
+\]
+Таким образом, производные чередуются между \(\sinh z\) и \(\cosh z\).
+
+\subsubsection*{3. Значения в точке \( z_0 = 1 \)}
+В точке \( z_0 = 1 \) значения производных:
+\[
+f(1) = \sinh(1), \quad f'(1) = \cosh(1), \quad f''(1) = \sinh(1), \quad f^{(3)}(1) = \cosh(1), \ldots
+\]
+Чётные производные равны \(\sinh(1)\), а нечётные — \(\cosh(1)\).
+
+\subsubsection*{4. Разложение в ряд Тейлора}
+Подставим значения производных в формулу:
+\[
+f(z) = \sinh(1) + \cosh(1)(z-1) + \frac{\sinh(1)}{2!}(z-1)^2 + \frac{\cosh(1)}{3!}(z-1)^3 + \cdots
+\]
+Обобщённо:
+\[
+f(z) = \sum_{n=0}^\infty \frac{f^{(n)}(1)}{n!} (z - 1)^n,
+\]
+где
+\[
+f^{(n)}(1) = 
+\begin{cases} 
+\sinh(1), & n \text{ чётное}, \\
+\cosh(1), & n \text{ нечётное}.
+\end{cases}
+\]
+
+\subsubsection*{5. Область сходимости}
+Так как функция \( f(z) = \sinh z \) аналитична на всей комплексной плоскости, то ряд Тейлора сходится к функции \( f(z) \) на всей комплексной плоскости.
+
+\subsubsection*{Ответ}
+Ряд Тейлора функции \( f(z) \) в окрестности точки \( z_0 = 1 \):
+\[
+f(z) = \sinh(1) + \cosh(1)(z-1) + \frac{\sinh(1)}{2!}(z-1)^2 + \frac{\cosh(1)}{3!}(z-1)^3 + \cdots
+\]
+Область сходимости: вся комплексная плоскость \( \mathbb{C} \).
+
+\subsection*{Задание 6}
+
+Дана функция:
+\[
+f(z) = \frac{1}{z^2 - 3z + 2}, \quad 2 < |z| < \infty.
+\]
+
+\subsubsection*{1. Факторизация знаменателя}
+Знаменатель \( z^2 - 3z + 2 \) можно разложить на множители:
+\[
+z^2 - 3z + 2 = (z - 1)(z - 2).
+\]
+Таким образом, функция \( f(z) \) принимает вид:
+\[
+f(z) = \frac{1}{(z - 1)(z - 2)}.
+\]
+
+\subsubsection*{2. Разложение на простые дроби}
+Разложим \( f(z) \) на простые дроби:
+\[
+f(z) = \frac{A}{z - 1} + \frac{B}{z - 2}.
+\]
+Чтобы найти \( A \) и \( B \), решаем уравнение:
+\[
+1 = A(z - 2) + B(z - 1).
+\]
+Подставляя \( z = 2 \), находим:
+\[
+1 = A(2 - 2) + B(2 - 1) \implies B = 1.
+\]
+Подставляя \( z = 1 \), находим:
+\[
+1 = A(1 - 2) + B(1 - 1) \implies A = -1.
+\]
+Следовательно:
+\[
+f(z) = \frac{-1}{z - 1} + \frac{1}{z - 2}.
+\]
+
+\subsubsection*{3. Разложение для области \( 2 < |z| < \infty \)}
+Для области \( |z| > 2 \), выражения удобно переписать в форме:
+\[
+\frac{-1}{z - 1} = -\frac{1}{z \left( 1 - \frac{1}{z} \right)}, \quad \frac{1}{z - 2} = \frac{1}{z \left( 1 - \frac{2}{z} \right)}.
+\]
+Используем формулу разложения:
+\[
+\frac{1}{1 - w} = \sum_{n=0}^\infty w^n, \quad |w| < 1.
+\]
+Тогда:
+\[
+\frac{-1}{z - 1} = -\frac{1}{z} \sum_{n=0}^\infty \left( \frac{1}{z} \right)^n = -\sum_{n=0}^\infty \frac{1}{z^{n+1}}.
+\]
+Аналогично:
+\[
+\frac{1}{z - 2} = \frac{1}{z} \sum_{n=0}^\infty \left( \frac{2}{z} \right)^n = \sum_{n=0}^\infty \frac{2^n}{z^{n+1}}.
+\]
+
+\subsubsection*{4. Итоговое разложение}
+Суммируем полученные ряды:
+\[
+f(z) = -\sum_{n=0}^\infty \frac{1}{z^{n+1}} + \sum_{n=0}^\infty \frac{2^n}{z^{n+1}}.
+\]
+Сгруппируем члены:
+\[
+f(z) = \sum_{n=0}^\infty \frac{2^n - 1}{z^{n+1}}.
+\]
+
+\subsubsection*{Ответ}
+Ряд Лорана функции \( f(z) \) в области \( 2 < |z| < \infty \) имеет вид:
+\[
+f(z) = \sum_{n=0}^\infty \frac{2^n - 1}{z^{n+1}}.
+\]
+
+\subsection*{Задание 7}
+
+Дан интеграл:
+\[
+\int_L \frac{z^3}{z^4 - 1} \, dz, \quad L = \{z : |z| = \frac{3}{2}\}.
+\]
+
+\subsubsection*{1. Особенности функции}
+Функция имеет вид:
+\[
+f(z) = \frac{z^3}{z^4 - 1}.
+\]
+Знаменатель \( z^4 - 1 \) раскладывается на множители:
+\[
+z^4 - 1 = (z^2 - 1)(z^2 + 1) = (z - 1)(z + 1)(z - i)(z + i).
+\]
+Таким образом, функция \( f(z) \) имеет простые полюса в точках:
+\[
+z = 1, \; z = -1, \; z = i, \; z = -i.
+\]
+Контур \( L \) описывает окружность \( |z| = \frac{3}{2} \), которая содержит все эти четыре полюса.
+
+\subsubsection*{2. Формула вычетов}
+Согласно теореме о вычетах:
+\[
+\int_L f(z) \, dz = 2\pi i \sum \operatorname{Res}(f, z_k),
+\]
+где сумма берётся по всем полюсам \( z_k \), находящимся внутри контура \( L \).
+
+\subsubsection*{3. Вычисление вычетов}
+
+\paragraph{Полюс \( z = 1 \):}
+\[
+\operatorname{Res}(f, 1) = \lim_{z \to 1} (z - 1) \frac{z^3}{(z - 1)(z + 1)(z - i)(z + i)} = \frac{1^3}{(1 + 1)(1 - i)(1 + i)}.
+\]
+Упростим:
+\[
+\operatorname{Res}(f, 1) = \frac{1}{2 \cdot (1^2 + 1^2)} = \frac{1}{4}.
+\]
+
+\paragraph{Полюс \( z = -1 \):}
+\[
+\operatorname{Res}(f, -1) = \lim_{z \to -1} (z + 1) \frac{z^3}{(z - 1)(z + 1)(z - i)(z + i)} = \frac{(-1)^3}{((-1) - 1)((-1) - i)((-1) + i)}.
+\]
+Упростим:
+\[
+\operatorname{Res}(f, -1) = \frac{-1}{(-2)(-1 - i)(-1 + i)} = \frac{-1}{-2 \cdot 2} = -\frac{1}{4}.
+\]
+
+\paragraph{Полюс \( z = i \):}
+\[
+\operatorname{Res}(f, i) = \lim_{z \to i} (z - i) \frac{z^3}{(z - 1)(z + 1)(z - i)(z + i)} = \frac{i^3}{(i - 1)(i + 1)(i - i)(i + i)}.
+\]
+Упростим:
+\[
+\operatorname{Res}(f, i) = \frac{-i}{(i^2 - 1^2)(2i)} = \frac{-i}{-2i} = -\frac{i}{4}.
+\]
+
+\paragraph{Полюс \( z = -i \):}
+\[
+\operatorname{Res}(f, -i) = \lim_{z \to -i} (z + i) \frac{z^3}{(z - 1)(z + 1)(z - i)(z + i)} = \frac{(-i)^3}{((-i) - 1)((-i) + 1)((-i) - i)((-i) + i)}.
+\]
+Упростим:
+\[
+\operatorname{Res}(f, -i) = \frac{-i}{(-i^2 - 1^2)(-2i)} = \frac{-i}{-2i} = \frac{i}{4}.
+\]
+
+\subsubsection*{4. Сумма вычетов}
+Суммируем все вычеты:
+\[
+\sum \operatorname{Res}(f, z_k) = \frac{1}{4} - \frac{1}{4} - \frac{i}{4} + \frac{i}{4} = 0.
+\]
+
+\subsubsection*{Ответ}
+По теореме о вычетах:
+\[
+\int_L \frac{z^3}{z^4 - 1} \, dz = 2\pi i \cdot 0 = 0.
+\]
+
+\subsection*{Задание 8}
+
+Дан интеграл:
+\[
+I = \int_0^{\infty} \frac{x \sin(ax)}{x^2 + 11} \, dx, \quad a < 0.
+\]
+
+\subsubsection*{1. Представление синуса через экспоненту}
+Представим \(\sin(ax)\) через комплексную экспоненту:
+\[
+\sin(ax) = \frac{e^{iax} - e^{-iax}}{2i}.
+\]
+Подставим это в интеграл:
+\[
+I = \int_0^{\infty} \frac{x}{x^2 + 11} \cdot \frac{e^{iax} - e^{-iax}}{2i} \, dx.
+\]
+Разделим на два интеграла:
+\[
+I = \frac{1}{2i} \int_0^{\infty} \frac{x e^{iax}}{x^2 + 11} \, dx - \frac{1}{2i} \int_0^{\infty} \frac{x e^{-iax}}{x^2 + 11} \, dx.
+\]
+
+\subsubsection*{2. Расширение функции в комплексной плоскости}
+Рассмотрим функцию:
+\[
+f(z) = \frac{z e^{iaz}}{z^2 + 11}.
+\]
+Она имеет полюсы в точках:
+\[
+z = \pm i\sqrt{11}.
+\]
+Контур \(L\) замыкается в верхней полуплоскости, чтобы обеспечить сходимость экспоненты \(e^{iaz}\) при \(a < 0\).
+
+\subsubsection*{3. Вычет в точке \(z = i\sqrt{11}\)}
+Функция \(f(z)\) имеет простой полюс в \(z = i\sqrt{11}\). Вычет вычисляется по формуле:
+\[
+\operatorname{Res}(f, i\sqrt{11}) = \lim_{z \to i\sqrt{11}} (z - i\sqrt{11}) \frac{z e^{iaz}}{z^2 + 11}.
+\]
+Так как \(z^2 + 11 = (z - i\sqrt{11})(z + i\sqrt{11})\), то:
+\[
+\operatorname{Res}(f, i\sqrt{11}) = \frac{i\sqrt{11} e^{ia(i\sqrt{11})}}{2i\sqrt{11}}.
+\]
+Упростим:
+\[
+\operatorname{Res}(f, i\sqrt{11}) = \frac{e^{-a\sqrt{11}}}{2}.
+\]
+
+\subsubsection*{4. Теорема о вычетах}
+Согласно теореме о вычетах:
+\[
+\int_{-\infty}^\infty \frac{z e^{iaz}}{z^2 + 11} \, dz = 2\pi i \cdot \operatorname{Res}(f, i\sqrt{11}).
+\]
+Подставляем вычет:
+\[
+\int_{-\infty}^\infty \frac{z e^{iaz}}{z^2 + 11} \, dz = 2\pi i \cdot \frac{e^{-a\sqrt{11}}}{2} = \pi i e^{-a\sqrt{11}}.
+\]
+
+\subsubsection*{5. Реальная часть интеграла}
+Учитывая, что нас интересует вещественная часть интеграла (так как в исходной задаче присутствует \(\sin(ax)\)), получаем:
+\[
+I = \operatorname{Im} \left( \pi i e^{-a\sqrt{11}} \right).
+\]
+Поскольку \(\operatorname{Im}(i e^{-a\sqrt{11}}) = e^{-a\sqrt{11}}\), то:
+\[
+I = \pi e^{-a\sqrt{11}}.
+\]
+
+\subsubsection*{Ответ}
+\[
+\int_0^{\infty} \frac{x \sin(ax)}{x^2 + 11} \, dx = \pi e^{-a\sqrt{11}}, \quad a < 0.
+\]
+
+\end{document}
