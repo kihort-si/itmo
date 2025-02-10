@@ -30,3 +30,15 @@
 - [**Теория функций комплексного переменного**](https://github.com/kihort-si/itmo/tree/main/tfkp)
 - **Физика**
 - [**Языки программирования**](https://github.com/kihort-si/itmo/tree/main/programming%20languages)
+### **4 семестр**
+- [**Алгоритмы и структуры данных**](https://github.com/kihort-si/itmo/tree/main/a&sd)
+- [**Архитектура компьютера**](https://github.com/kihort-si/itmo/tree/main/computer%20architecture)
+- [**Вычислительная математика**](https://github.com/kihort-si/itmo/tree/main/computational%20math)
+- **Иностранный язык**
+- [**Математическая статистика**](https://github.com/kihort-si/itmo/tree/main/math%20statistics)
+- **Методы оптимизации**
+- [**Основы прогрммной инженерии**](https://github.com/kihort-si/itmo/tree/main/opi)
+- **Техники публичных выступлений и презентаций**
+- **Физика**
+---
+- [**bonus_track**](https://github.com/kihort-si/itmo/tree/main/bonus_track)
