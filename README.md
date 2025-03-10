@@ -37,7 +37,7 @@
 - **Иностранный язык**
 - [**Математическая статистика**](https://github.com/kihort-si/itmo/tree/main/math%20statistics)
 - **Методы оптимизации**
-- [**Основы прогрммной инженерии**](https://github.com/kihort-si/itmo/tree/main/opi)
+- [**Основы программной инженерии**](https://github.com/kihort-si/itmo/tree/main/opi)
 - **Техники публичных выступлений и презентаций**
 - **Физика**
 ---
