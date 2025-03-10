@@ -1,0 +1,113 @@
+@startuml
+left to right direction
+actor "Неавторизованный пользователь" as UnauthUser
+actor "Авторизованный пользователь" as AuthUser
+actor "Продавцы" as Seller
+actor "Администраторы платформы" as Admin
+actor "Модераторы платформы" as Moderator
+actor "Техническая поддержка" as Support
+
+rectangle "Aliexpress Russia" {
+    
+    (Поиск товаров) as UC1
+    (Исправление опечаток) as UC2
+    (Автодополнение) as UC3
+    (Сортировка) as UC4
+    (Сохранение истории поиска) as UC5
+    (Нечувствительность к регистру) as UC26
+    (Учет синонимов) as UC27
+    (Мультиязычность) as UC28
+
+    (Регистрация) as UC6
+    (Авторизация) as UC7
+    (Авторизация через сторонние сервисы) as UC30
+    (Восстановление пароля) as UC8
+    (Ограничение попыток входа) as UC9
+    (Смена email) as UC10
+
+    (Добавление товаров в корзину) as UC11
+    (Изменение количества товаров) as UC12
+    (Удаление товаров) as UC13
+    (Сохранение корзины) as UC31
+    (Ввод промокода) as UC32
+    (Выбор оплаты и доставки) as UC14
+    (Оформление заказа) as UC15
+    (Отслеживание заказа) as UC16
+
+    (Просмотр отзывов) as UC17
+    (Применение фильтров) as UC18
+    (Сброс фильтров) as UC29
+    (Проверка отзывов на спам) as UC19
+    (Оставление отзыва) as UC34
+
+    (Вход в личный кабинет) as UC33
+    (Управление профилем) as UC21
+    (Просмотр истории заказов) as UC22
+    (Сохранение избранных товаров) as UC23
+    (Связь с продавцом) as UC24
+    (Обращение в поддержку) as UC25
+}
+
+
+UC3 -[#green]-> UC1 : "<<include>>"
+UC5 -[#green]-> UC1 : "<<include>>"
+UC8 -[#green]-> UC7 : "<<include>>"
+UC10 -[#green]-> UC7 : "<<include>>"
+UC14 -[#green]-> UC11 : "<<include>>"
+UC15 -[#green]-> UC14 : "<<include>>"
+UC16 -[#green]-> UC15 : "<<include>>"
+UC18 -[#green]-> UC1 : "<<include>>"
+UC29 -[#green]-> UC1 : "<<include>>"
+UC26 -[#green]-> UC1 : "<<include>>"
+UC27 -[#green]-> UC1 : "<<include>>"
+UC28 -[#green]-> UC1 : "<<include>>"
+UC13-[#green]-> UC11 : "<<include>>"
+UC12-[#green]-> UC11 : "<<include>>"
+UC33-[#green]-> UC21 : "<<include>>"
+
+UC2 -[#blue]-> UC1 : "<<extends>>"
+UC4 -[#blue]-> UC1 : "<<extends>>"
+UC5 -[#blue]-> UC1 : "<<extends>>"
+UC9 -[#blue]-> UC7 : "<<extends>>"
+UC30 -[#blue]-> UC7 : "<<extends>>"
+UC32 -[#blue]-> UC14 : "<<extends>>"
+
+UnauthUser --> UC2
+UnauthUser --> UC3
+UnauthUser --> UC4
+UnauthUser --> UC26
+UnauthUser --> UC27
+UnauthUser --> UC28
+UnauthUser --> UC29
+UnauthUser --> UC30
+UnauthUser --> UC12
+UnauthUser --> UC31
+
+
+AuthUser --> UC5
+AuthUser --> UC34
+UnauthUser --> UC6
+UnauthUser --> UC8
+UnauthUser --> UC9
+AuthUser --> UC10
+UnauthUser --> UC13
+AuthUser --> UC16
+UnauthUser --> UC18
+AuthUser --> UC33
+AuthUser --> UC22
+AuthUser --> UC23
+AuthUser --> UC24
+AuthUser --> UC25
+UnauthUser --> UC17
+UnauthUser --> UC11
+
+Seller --> UC24
+Seller --> UC17
+
+Admin --> UC19
+
+Moderator --> UC19
+Moderator --> UC17
+
+Support --> UC25
+@enduml
