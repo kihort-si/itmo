@@ -1,0 +1,12 @@
+diff --git a/src/main/java/web3/Result.java b/src/main/java/web3/Result.java
+index 0c8e8a7..c7ac3c1 100644
+--- a/src/main/java/web3/Result.java
++++ b/src/main/java/web3/Result.java
+@@ -44,5 +44,5 @@ public class Result implements Serializable {
+ 
+     @NotNull
+     @Column(name="execution_time", nullable=false)
+-    private Long executionTime;
++    private Long executionTime;мвироыв
+ }
+\ No newline at end of file

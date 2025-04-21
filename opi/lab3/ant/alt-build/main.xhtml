@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>#{tx.title}</title>
+    <h:outputStylesheet name="css/clock.css"/>
+    <h:outputStylesheet name="css/header.css"/>
+    <h:outputStylesheet name="css/main.css"/>
+    <h:outputScript name="js/index.js"/>
+</h:head>
+
+<h:body>
+    <header>
+        <span>#{tx.my_name}</span>
+        <span>#{tx.my_group}</span>
+        <span>#{tx.my_variant}</span>
+    </header>
+    <main>
+        <h:form id="form-to-index" styleClass="buttons-container">
+            <h:commandButton value="Стартовая страница" styleClass="default-button" action="go-index" id="go-index-button"/>
+        </h:form>
+
+        <h:form id="form">
+            <table class="inputTable">
+                <thead>
+                <tr>
+                    <th colspan="3">#{tx.enter_data}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>#{tx.x_enter}</span>
+                        <div class="xButtons">
+                            <h:commandButton value="-5.0" type="button">
+                                <f:ajax render="x" listener="#{inputBean.setX(-5)}" />
+                            </h:commandButton>
+                            <h:commandButton value="-4.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(-4)}" />
+                            </h:commandButton>
+                            <h:commandButton value="-3.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(-3)}" />
+                            </h:commandButton>
+                            <h:commandButton value="-2.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(-2)}" />
+                            </h:commandButton>
+                            <h:commandButton value="-1.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(-1)}" />
+                            </h:commandButton>
+                            <h:commandButton value="0.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(0)}" />
+                            </h:commandButton>
+                            <h:commandButton value="1.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(1)}" />
+                            </h:commandButton>
+                            <h:commandButton value="2.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(2)}" />
+                            </h:commandButton>
+                            <h:commandButton value="3.0" type="button">
+                                <f:ajax render="form:x" listener="#{inputBean.setX(3)}" />
+                            </h:commandButton>
+                        </div>
+
+                        <h:inputHidden id="x" value="#{inputBean.x}" required="true" requiredMessage="Выберите значение X" />
+                        <h:message for="x" id="xMessage" style="color:red" />
+                    </td>
+                    <td>
+                        <span>#{tx.y_enter}</span>
+                        <div class="yText">
+                            <h:inputText
+                                    id="y"
+                                    value="#{inputBean.y}"
+                                    decimalSeparator="."
+                                    required="true"
+                                    requiredMessage="Введите Y"
+                                    validatorMessage="Значение Y должно быть в пределах от -3 до 3"
+                                    converterMessage="Значение Y должно быть целым или дробным числом">
+                                <f:validateDoubleRange minimum="-3.0" maximum="3.0"/>
+                            </h:inputText>
+                            <h:message for="y" style="color:red"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>#{tx.r_enter}</span>
+                        <h:panelGrid columns="1">
+                            <p:selectOneRadio id="r" value="#{inputBean.r}" required="true" requiredMessage="Выберите значение R" onclick="updateSVG()">
+                                <f:selectItem itemValue="1.0" itemLabel="1.0"/>
+                                <f:selectItem itemValue="2.0" itemLabel="2.0"/>
+                                <f:selectItem itemValue="3.0" itemLabel="3.0"/>
+                                <f:selectItem itemValue="4.0" itemLabel="4.0"/>
+                                <f:selectItem itemValue="5.0" itemLabel="5.0"/>
+                            </p:selectOneRadio>
+                            <h:message for="r" style="color:red"/>
+                        </h:panelGrid>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h:commandButton id="submitButton" actionListener="#{requestBean.process(false)}" value="Отправить" styleClass="default-button">
+                <f:ajax execute="@form" />
+            </h:commandButton>
+            <h:form id="graphForm">
+                <h:inputHidden id="xGraph" value="#{inputBean.XGraph}" />
+                <h:inputHidden id="yGraph" value="#{inputBean.YGraph}" />
+                <div class="graphArea">
+                    <div id="graphContainer" onclick="sendCoordinates(event)">
+                        <svg id="circles" fill="none" xmlns="http://www.w3.org/2000/svg"/>
+                        <object type="image/svg+xml" data="resources/images/coordinates.svg" class="coordinateAxes"/>
+                        <svg id="graph" width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <mask id="path-1-inside-1_1_2" fill="white">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M120 200C120 244.183 155.817 280 200 280L200 200L120 200Z"/>
+                            </mask>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M120 200C120 244.183 155.817 280 200 280L200 200L120 200Z" fill="#000035" fill-opacity="0.5"/>
+                            <path d="M200 280L200 281L201 281L201 280L200 280ZM120 200L120 199L119 199L119 200L120 200ZM200 200L201 200L201 199L200 199L200 200ZM200 279C156.369 279 121 243.63 121 200L119 200C119 244.735 155.265 281 200 281L200 279ZM199 200L199 280L201 280L201 200L199 200ZM120 201L200 201L200 199L120 199L120 201Z" fill="black" mask="url(#path-1-inside-1_1_2)"/>
+                            <rect x="200.5" y="120.5" width="159" height="79" fill="#000035" fill-opacity="0.5" stroke="black"/>
+                            <path d="M200.5 200.5L357.882 200.5L200.5 279.191L200.5 200.5Z" fill="#000035" fill-opacity="0.5" stroke="black"/>
+                        </svg>
+                    </div>
+                </div>
+                <h:commandButton id="submit" actionListener="#{requestBean.process(true)}" onclick="updateSVG()">
+                    <f:ajax execute="@form" />
+                </h:commandButton>
+            </h:form>
+        </h:form>
+        <div class="formArea">
+            <h:dataTable id="resultTable" value="#{resultRepository.resultsList}" var="r" styleClass="resultTable">
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    <h:outputText value="#{r.x}">
+                        <f:convertNumber maxFractionDigits="4"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    <h:outputText value="#{r.y}">
+                        <f:convertNumber maxFractionDigits="4"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    <h:outputText value="#{r.r}">
+                        <f:convertNumber maxFractionDigits="4"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{tx.check}</f:facet>
+                    <h:outputText value="#{r.result ? 'Попал' : 'Промазал'}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{tx.time}</f:facet>
+                    <h:outputText value="#{r.createdAt}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{tx.duration}</f:facet>
+                    <h:outputText value="#{r.executionTime}"/>
+                </h:column>
+            </h:dataTable>
+
+            <p:poll interval="1" listener="#{resultRepository.refreshResults}" update="resultTable" keepAlive="true" oncomplete="updateSVGWithPoints()"/>
+            <h:form>
+                <h:commandButton actionListener="#{resultRepository.removeResults()}" value="Очистить таблицу" styleClass="default-button">
+                    <f:ajax execute="@form" render="resultTable"/>
+                </h:commandButton>
+            </h:form>
+        </div>
+    </main>
+    <footer>
+        <div>
+            <span>Copyright. All rights reserved. 2024</span>
+            <a href="https://github.com/kihort-si/web-lab3"><img id="githubLogo" src="resources/images/github.svg" alt="Исходный код на GitHub"/></a>
+        </div>
+        <hr/>
+    </footer>
+</h:body>
+</html>

@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="web-lab3" default="build" basedir=".">
+
+    <taskdef name="scp" classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
+        <classpath>
+            <pathelement location="lib/jsch-0.1.55.jar"/>
+        </classpath>
+    </taskdef>
+
+    <property file="build.properties"/>
+
+    <target name="compile">
+        <echo message="Compiling Java sources..."/>
+
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+
+        <echo message="Java sources compiled successfully."/>
+    </target>
+
+    <target name="build" depends="compile">
+        <echo message="Building WAR file..."/>
+
+        <mkdir dir="${build.dir}/WEB-INF/lib"/>
+        <mkdir dir="${build.dir}/WEB-INF/classes"/>
+        <mkdir dir="${dist.dir}"/>
+
+        <copy todir="${build.dir}/WEB-INF/classes">
+            <fileset dir="${classes.dir}"/>
+        </copy>
+        <copy todir="${build.dir}/WEB-INF/lib">
+            <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        </copy>
+        <copy file="${web.xml.file}" tofile="${build.dir}/WEB-INF/web.xml"/>
+        <copy todir="${build.dir}">
+            <fileset dir="${web.dir}" includes="**/*"/>
+        </copy>
+        <war destfile="${war.file}" webxml="${build.web.xml}" basedir="${build.dir}"/>
+
+        <echo message="WAR file created at: ${war.file}"/>
+    </target>
+
+    <target name="clean">
+        <echo message="Cleaning up..."/>
+        <delete dir="${build.dir}"/>
+        <echo message="Clean up completed."/>
+    </target>
+
+    <target name="test" depends="build">
+        <echo message="Compiling test sources..."/>
+        <mkdir dir="${test.classes.dir}"/>
+
+        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" includeantruntime="false">
+            <classpath>
+                <pathelement path="${classes.dir}"/>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+            <compilerarg value="-processorpath"/>
+            <compilerarg value="${lib.dir}/lombok-1.18.26.jar"/>
+        </javac>
+
+        <echo message="Running JUnit tests..."/>
+        <mkdir dir="${junit.report.dir}"/>
+
+        <junit printsummary="yes" haltonfailure="yes" fork="true">
+            <classpath>
+                <pathelement path="${test.classes.dir}"/>
+                <pathelement path="${classes.dir}"/>
+                <pathelement path="${junit}"/>
+                <pathelement path="${hamcrest}"/>
+            </classpath>
+            <formatter type="plain"/>
+            <batchtest todir="${junit.report.dir}">
+                <fileset dir="${test.dir}">
+                    <include name="**/TestResult.java"/>
+                </fileset>
+                <formatter type="xml"/>
+            </batchtest>
+        </junit>
+
+        <echo message="JUnit tests completed."/>
+    </target>
+
+    <target name="xml">
+        <echo message="Validating XML files..."/>
+        <xmlvalidate failonerror="true" lenient="false">
+            <fileset dir="${src.dir}">
+                <include name="**/*.xml"/>
+                <exclude name="**/resources/**"/>
+                <exclude name="**/webapp/**"/>
+            </fileset>
+        </xmlvalidate>
+        <echo message="XML validation completed successfully."/>
+    </target>
+
+    <target name="doc" depends="build">
+        <echo message="Generating Javadoc..."/>
+        <mkdir dir="${ant.dir}/docs/javadoc"/>
+
+        <javadoc destdir="${ant.dir}/docs/javadoc" sourcepath="${main.dir}" classpath="${lib.dir}" use="true" windowtitle="Project Javadoc">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+        </javadoc>
+
+        <echo message="Generating MD5 and SHA-1 digests..."/>
+        <checksum file="${dist.dir}/lab3.war" algorithm="MD5" property="md5sum"/>
+        <checksum file="${dist.dir}/lab3.war" algorithm="SHA-1" property="sha1sum"/>
+
+        <echo message="Creating custom MANIFEST.MF..."/>
+        <mkdir dir="${ant.dir}/meta-inf"/>
+        <echo file="${ant.dir}/meta-inf/MANIFEST.MF">
+            Manifest-Version: 1.0
+            Created-By: Ant Task
+            MD5-Digest: ${md5sum}
+            SHA1-Digest: ${sha1sum}
+        </echo>
+
+        <echo message="Updating WAR with javadoc and manifest..."/>
+        <zip destfile="${build.dir}/../dist/lab3-doc.war" update="true">
+            <zipfileset dir="${ant.dir}/docs/javadoc" prefix="javadoc"/>
+            <zipfileset dir="${ant.dir}/meta-inf" includes="MANIFEST.MF" fullpath="META-INF/MANIFEST.MF"/>
+        </zip>
+
+        <echo message="doc task completed. Output: ant/dist/lab3-doc.war"/>
+    </target>
+
+    <target name="music" depends="build">
+        <echo message="Playing music after build..." />
+
+        <exec executable="cmd.exe" osfamily="windows">
+            <arg value="/c"/>
+            <arg value="start wmplayer &quot;${basedir}/music/success.mp3&quot;"/>
+        </exec>
+
+        <echo message="Music played successfully." />
+    </target>
+
+    <target name="native2ascii">
+        <echo message="Converting localization files to ASCII format..."/>
+
+        <mkdir dir="${build.dir}/locales-ascii"/>
+
+        <native2ascii encoding="UTF-8" src="${native2ascii.resources}"
+                      dest="${build.dir}/locales-ascii">
+            <include name="**/*.properties"/>
+        </native2ascii>
+
+        <echo message="Localization files converted to ASCII and saved in build/locales-ascii."/>
+    </target>
+
+    <target name="scp" depends="build">
+        <echo message="Deploying project via SCP..."/>
+
+        <scp file="${dist.dir}/lab3.war"
+             todir="s366389@helios.cs.ifmo.ru:/home/studs/s366389/opi/lab3"
+             port="2222"
+             trust="true"
+             password="Your Password"
+             verbose="true"/>
+
+        <echo message="Deployment done! File uploaded to server."/>
+    </target>
+
+    <target name="team">
+        <echo message="Starting team build process..."/>
+        <mkdir dir="${ant.dir}/team-builds"/>
+        <mkdir dir="${ant.dir}/team-output"/>
+
+        <antcall target="checkout-and-build">
+            <param name="rev" value="HEAD~1"/>
+            <param name="suffix" value="rev1"/>
+        </antcall>
+
+        <antcall target="checkout-and-build">
+            <param name="rev" value="HEAD~2"/>
+            <param name="suffix" value="rev2"/>
+        </antcall>
+
+        <antcall target="checkout-and-build">
+            <param name="rev" value="HEAD~3"/>
+            <param name="suffix" value="rev3"/>
+        </antcall>
+
+        <antcall target="checkout-and-build">
+            <param name="rev" value="HEAD~4"/>
+            <param name="suffix" value="rev4"/>
+        </antcall>
+
+        <zip destfile="${ant.dir}/team-builds/team-archives.zip">
+            <fileset dir="${ant.dir}/team-output" includes="*.war"/>
+        </zip>
+
+        <echo message="Team build complete: ant/team-builds/team-archives.zip"/>
+    </target>
+
+    <target name="checkout-and-build">
+        <echo message="Checking out ${rev}..."/>
+        <exec executable="git">
+            <arg line="checkout ${rev}"/>
+        </exec>
+
+        <antcall target="build"/>
+
+        <copy file="${dist.dir}/lab3.war"
+              tofile="${ant.dir}/team-output/lab3_${suffix}.war"/>
+
+        <echo message="Returning to latest revision..."/>
+        <exec executable="git">
+            <arg line="checkout master"/>
+        </exec>
+    </target>
+
+    <target name="env">
+        <echo message="Building under Java 17..."/>
+        <antcall target="env-run">
+            <param name="java.home" value="${java.home.17}"/>
+            <param name="jvm.args" value="${jvm.args.17}"/>
+            <param name="env.name" value="java17"/>
+        </antcall>
+
+        <echo message="Building under Java 21..."/>
+        <antcall target="env-run">
+            <param name="java.home" value="${java.home.21}"/>
+            <param name="jvm.args" value="${jvm.args.21}"/>
+            <param name="env.name" value="java21"/>
+        </antcall>
+    </target>
+
+    <target name="env-run">
+        <property name="java.executable" value="${java.home}/bin/java"/>
+        <property name="javac.executable" value="${java.home}/bin/javac"/>
+
+        <echo message="Using Java from: ${java.home}"/>
+        <echo message="JVM Args: ${jvm.args}"/>
+
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" fork="true"
+               executable="${javac.executable}" includeantruntime="false" encoding="UTF-8">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="alt">
+        <echo message="Alternative version of the project creating..."/>
+
+        <delete dir="${alt.src.dir}"/>
+        <mkdir dir="${alt.src.dir}"/>
+        <copy todir="${alt.src.dir}">
+            <fileset dir="${src.dir}"/>
+        </copy>
+
+        <replaceregexp match="\bResult\b" replace="AltResult" byline="true">
+            <fileset dir="${alt.src.dir}" includes="**/*.java"/>
+        </replaceregexp>
+
+        <move file="${alt.src.dir}/java/web3/Result.java" tofile="${alt.src.dir}/java/web3/AltResult.java"/>
+
+        <replaceregexp match="\bResultsRepository\b" replace="AltResultsRepository" byline="true">
+            <fileset dir="${alt.src.dir}" includes="**/*.java"/>
+        </replaceregexp>
+
+        <move file="${alt.src.dir}/java/web3/database/ResultsRepository.java" tofile="${alt.src.dir}/java/web3/database/AltResultsRepository.java"/>
+
+        <replaceregexp match="new Result\(" replace="new AltResult(" byline="true">
+            <fileset dir="${alt.src.dir}" includes="**/*.java"/>
+        </replaceregexp>
+
+        <replaceregexp match="Result\.class" replace="AltResult.class" byline="true">
+            <fileset dir="${alt.src.dir}" includes="**/*.java"/>
+        </replaceregexp>
+
+        <mkdir dir="${alt.classes.dir}"/>
+        <javac srcdir="${alt.src.dir}" destdir="${alt.classes.dir}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+
+        <mkdir dir="${alt.build.dir}/WEB-INF/classes"/>
+        <copy todir="${alt.build.dir}/WEB-INF/classes">
+            <fileset dir="${alt.classes.dir}"/>
+        </copy>
+        <copy todir="${alt.build.dir}/WEB-INF/lib">
+            <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        </copy>
+        <copy file="${web.xml.file}" tofile="${alt.build.dir}/WEB-INF/web.xml"/>
+        <copy todir="${alt.build.dir}">
+            <fileset dir="${web.dir}" includes="**/*"/>
+        </copy>
+
+        <war destfile="${alt.war.file}" webxml="${alt.build.dir}/WEB-INF/web.xml" basedir="${alt.build.dir}"/>
+
+        <echo message="Alternative build done: ${alt.war.file}"/>
+    </target>
+
+    <target name="history-router">
+        <echo message="Attempting compile..."/>
+
+        <scriptdef name="try-initial-compile" language="javascript">
+            <![CDATA[
+            try {
+                var antcall = project.createTask("antcall");
+                antcall.setTarget("compile");
+                antcall.perform();
+                project.setProperty("compile.success", "true");
+                project.log("Initial compile succeeded.");
+            } catch (e) {
+                project.log("Initial compile failed.");
+            }
+        ]]>
+        </scriptdef>
+
+        <try-initial-compile/>
+
+        <condition property="compile.failed">
+            <not>
+                <isset property="compile.success"/>
+            </not>
+        </condition>
+    </target>
+
+    <target name="history" depends="history-router">
+        <fail message="Project successfully compiled." unless="compile.failed"/>
+        <ant target="history-fallback"/>
+    </target>
+
+    <target name="history-fallback">
+        <echo message="Initial compile failed. Trying older revisions..."/>
+
+        <exec executable="git" outputproperty="diff.out">
+            <arg value="diff"/>
+        </exec>
+
+        <mkdir dir="ant"/>
+        <echo file="ant/diff_report.txt">${diff.out}</echo>
+        <echo message="Saved current working directory diff to ant/diff_report.txt"/>
+
+        <exec executable="git" outputproperty="revs.raw" failonerror="true">
+            <arg value="log"/>
+            <arg value="--pretty=format:%H"/>
+        </exec>
+
+        <scriptdef name="try-revisions" language="javascript">
+            <attribute name="revs"/>
+            <attribute name="projectdir"/>
+            <![CDATA[
+            var lines = attributes.get("revs").split("\n");
+            var buildSuccess = false;
+            var workingRev = null;
+
+            for (var i = 0; i < lines.length; i++) {
+                var rev = lines[i].trim();
+                if (rev === "") continue;
+
+                project.log("Trying revision: " + rev);
+
+                var reset = project.createTask("exec");
+                reset.setExecutable("git");
+                reset.setFailonerror(false);
+                reset.setDir(new java.io.File(attributes.get("projectdir")));
+                reset.createArg().setValue("reset");
+                reset.createArg().setValue("--hard");
+                reset.execute();
+
+                var checkout = project.createTask("exec");
+                checkout.setExecutable("git");
+                checkout.setFailonerror(false);
+                checkout.setDir(new java.io.File(attributes.get("projectdir")));
+                checkout.createArg().setValue("checkout");
+                checkout.createArg().setValue(rev);
+                checkout.execute();
+
+                var antcall = project.createTask("antcall");
+                antcall.setTarget("compile");
+
+                try {
+                    antcall.perform();
+                    workingRev = rev;
+                    buildSuccess = true;
+                    break;
+                } catch (e) {
+                    project.log("Compile failed on revision: " + rev);
+                }
+            }
+
+            if (buildSuccess) {
+                project.setProperty("working.revision", workingRev);
+                project.log("Working revision found: " + workingRev);
+            } else {
+                project.log("No working revision found.");
+                project.setProperty("no.working.revision", "true");
+            }
+        ]]>
+        </scriptdef>
+
+        <try-revisions revs="${revs.raw}" projectdir="${basedir}"/>
+
+        <exec executable="git" failonerror="false">
+            <arg value="switch"/>
+            <arg value="master"/>
+        </exec>
+
+        <echo message="History fallback complete."/>
+    </target>
+
+
+    <target name="diff">
+        <echo message="=== Checking working copy for tracked class changes..."/>
+
+        <script language="javascript">
+            <![CDATA[
+            var fileUtils = project.createDataType("filelist");
+            var baseDir = project.getProperty("basedir");
+            var classes = [];
+
+            var file = new java.io.File(baseDir + "/diff-classes.txt");
+            var reader = new java.io.BufferedReader(new java.io.FileReader(file));
+            var line;
+
+            while ((line = reader.readLine()) != null) {
+                classes.push(line.trim());
+            }
+            reader.close();
+
+            var proc = java.lang.Runtime.getRuntime().exec("svn status");
+            var input = new java.io.BufferedReader(new java.io.InputStreamReader(proc.getInputStream()));
+            var statusLine;
+            var changed = false;
+
+            while ((statusLine = input.readLine()) != null) {
+                for (var i = 0; i < classes.length; i++) {
+                    if (statusLine.matches("^[AM!?~] .*" + classes[i] + "\\.java$")) {
+                        project.log("Changed class detected: " + classes[i] + ".java", 2);
+                        changed = true;
+                        break;
+                    }
+                }
+            }
+
+            input.close();
+
+            if (changed) {
+                project.log("Changes detected. Committing to SVN...", 2);
+                var commit = project.createTask("exec");
+                commit.setExecutable("svn");
+                commit.createArg().setValue("commit");
+                commit.createArg().setValue("-m");
+                commit.createArg().setValue("Auto-commit: important class changed");
+                commit.execute();
+            } else {
+                project.log("No tracked class changes. Nothing to commit.", 2);
+            }
+        ]]>
+        </script>
+    </target>
+
+    <target name="report" depends="test">
+        <echo message="Checking for JUnit XML reports..."/>
+
+        <fileset id="junit.report.files" dir="${junit.report.dir}">
+            <include name="*.xml"/>
+        </fileset>
+        <echo message="Adding reports to git..."/>
+        <exec executable="git">
+            <arg value="add"/>
+            <arg value="${junit.report.dir}/*.xml"/>
+        </exec>
+        <exec executable="git">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="Add JUnit test report"/>
+        </exec>
+        <echo message="JUnit report committed to git."/>
+    </target>
+
+</project>

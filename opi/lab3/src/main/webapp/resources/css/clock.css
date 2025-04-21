@@ -1,0 +1,41 @@
+.clock {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+}
+
+.hand {
+    position: absolute;
+    background: black;
+    transform-origin: bottom;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hour {
+    width: 4px;
+    height: 50px;
+    border-radius: 3px;
+}
+
+.minute {
+    width: 4px;
+    height: 70px;
+    border-radius: 2px;
+}
+
+.second {
+    width: 2px;
+    height: 90px;
+    background: red;
+    border-radius: 1px;
+}
+
+#date {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 2rem;
+}

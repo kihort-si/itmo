@@ -1,0 +1,6 @@
+
+            Manifest-Version: 1.0
+            Created-By: Ant Task
+            MD5-Digest: ac634a0462cfdb541659d042f05207b6
+            SHA1-Digest: 1686224c8a407b49c492f506cf3fc4e928a72795
+        

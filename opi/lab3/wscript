@@ -1,0 +1,350 @@
+from waflib import Context, Logs, Utils
+import os
+import shutil
+import subprocess
+import sys
+
+
+OUT_DIR = 'C:/Users/Nikita/IdeaProjects/web-lab3/waf_build/build/WEB-INF/classes'
+SRC_DIR = 'C:/Users/Nikita/IdeaProjects/web-lab3/src/main/java'
+JAVA = 'C:/Program Files/Java/jdk-21/bin/java.exe'
+JAVAC = 'C:/Program Files/Common Files/Oracle/Java/javapath/javac.exe'
+LIB = 'C:/Users/Nikita/IdeaProjects/web-lab3/lib'
+BUILD_DIR = 'C:/Users/Nikita/IdeaProjects/web-lab3/waf_build'
+
+
+def configure(ctx):
+    ctx.find_program('javac', var='JAVAC')
+
+
+def comp(ctx):
+    Logs.info('Compiling Java sources...')
+    os.makedirs(OUT_DIR, exist_ok=True)
+    java_files = []
+    for root, _, files in os.walk(SRC_DIR):
+        for f in files:
+            if f.endswith('.java'):
+                java_files.append(os.path.join(root, f))
+    jars = [os.path.join(LIB, jar) for jar in os.listdir(LIB) if jar.endswith('.jar')]
+    classpath = os.pathsep.join(jars)
+    ret = ctx.exec_command([JAVAC, '-cp', classpath, '-d', OUT_DIR] + java_files)
+    if ret != 0:
+        ctx.fatal('Compilation failed.')
+
+    Logs.info('Compilation completed.')
+
+
+def build(ctx):
+    comp(ctx)
+    ctx.msg('Building WAR file...', '')
+    dist_dir = BUILD_DIR + '/dist'
+    os.makedirs(dist_dir, exist_ok=True)
+    war_file = os.path.join(dist_dir, 'lab3.war')
+    meta_inf_dir = os.path.join(BUILD_DIR, 'build', 'META-INF')
+    os.makedirs(meta_inf_dir, exist_ok=True)
+    manifest_file = os.path.join(meta_inf_dir, 'MANIFEST.MF')
+    with open(manifest_file, 'w') as f:
+        f.truncate(0)
+        f.write('Manifest-Version: 1.0\n')
+        f.write('Created-By: Waf Task\n')
+    ctx.exec_command(f'jar cmf {manifest_file} {war_file} -C {BUILD_DIR}/build .')
+    Logs.pprint('GREEN', f'WAR created at {war_file}')
+
+
+def clean(ctx):
+    ctx.clean()
+
+
+def test(ctx):
+    import glob
+    src_files = ctx.path.ant_glob('src/test/java/**/*.java')
+    out_dir = 'build/test-classes'
+    classes_dir = 'waf_build/build/WEB-INF/classes'
+    os.makedirs(out_dir, exist_ok=True)
+
+    libs = glob.glob('lib/*.jar')
+    classpath = ';'.join([classes_dir, out_dir] + libs)
+
+    Logs.pprint('GREEN', 'Compiling test sources...')
+
+    ctx.exec_command([JAVAC, '-cp', classpath, '-d', out_dir, '-target', '17', '-source', '17'] + [x.abspath() for x in src_files])
+
+    Logs.pprint('GREEN', 'Running tests...')
+
+    test_class = 'TestResult'
+
+    ctx.exec_command([
+        JAVA,
+        '-cp',
+        classpath,
+        'org.junit.runner.JUnitCore',
+        test_class
+    ])
+
+    report_dir = 'waf_build/reports'
+    os.makedirs(report_dir, exist_ok=True)
+    report_file = os.path.join(report_dir, 'test_report.xml')
+    if not os.path.exists(report_file):
+        with open(report_file, 'w') as f:
+            f.write('')
+    shutil.copy('ant/reports/TEST-TestResult.xml', report_file)
+
+
+def xml(ctx):
+    import xml.etree.ElementTree as ET
+    for file in ctx.path.ant_glob('**/*.xml'):
+        try:
+            ET.parse(file.abspath())
+            ctx.msg('Valid XML', file.path_from(ctx.path))
+        except ET.ParseError as e:
+            ctx.fatal(f'Invalid XML: {file} — {e}')
+
+
+def doc(ctx):
+    ctx.exec_command('javadoc -d waf_build/docs/javadoc -cp lib/* -sourcepath src/main/java web3 web3.services web3.database')
+    war = ctx.path.find_node('waf_build/dist/lab3.war')
+    if not war:
+        ctx.msg('WAR file not found. Please build the WAR first.', 'red')
+        return
+    for algo in ['md5', 'sha1']:
+        out = ctx.path.make_node(f'{war.name}.{algo}')
+        ctx.exec_command(f'certutil -hashfile {war.abspath()} {algo} > {out.abspath()}')
+
+    md5_file = f'{war.name}.md5'
+    sha1_file = f'{war.name}.sha1'
+
+    with open(md5_file, 'r') as f:
+        md5_hash = f.read().strip()
+
+    with open(sha1_file, 'r') as f:
+        sha1_hash = f.read().strip()
+
+    manifest_file = 'C:/Users/Nikita/IdeaProjects/web-lab3/waf_build/build/META-INF/MANIFEST.MF'
+    if manifest_file:
+        with open(manifest_file, 'a') as mf:
+            mf.write(f'\n\n# MD5 and SHA-1 hashes\n')
+            mf.write(f'MD5-Hash: {md5_hash}\n')
+            mf.write(f'SHA-1-Hash: {sha1_hash}\n')
+
+        ctx.msg('MANIFEST.MF updated with MD5 and SHA-1 hashes', 'green')
+    else:
+        ctx.msg('MANIFEST.MF not found in WAR file', 'red')
+
+
+def music(ctx):
+    if sys.platform.startswith('win'):
+        ctx.exec_command('start wmplayer "C:/Users/Nikita/IdeaProjects/web-lab3/music/success.mp3"', shell=True)
+    else:
+        ctx.exec_command('xdg-open "C:/Users/Nikita/IdeaProjects/web-lab3/music/success.mp3"')
+
+
+def native2ascii(ctx):
+    src_dir = 'src/main/resources/native2ascii'
+    out_dir = 'waf_build/build/native2ascii'
+    os.makedirs(out_dir, exist_ok=True)
+
+    for filename in os.listdir(src_dir):
+        if filename.endswith('.properties'):
+            with open(os.path.join(src_dir, filename), 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            ascii_content = content.encode('unicode_escape').decode('ascii')
+
+            output_file = os.path.join(out_dir, filename)
+            with open(output_file, 'w', encoding='ascii') as f:
+                f.write(ascii_content)
+
+            Logs.pprint('GREEN', f'Converted {filename} -> {output_file}')
+
+
+def scp(ctx):
+    ctx.exec_command('scp -P 2222 waf_build/dist/lab3.war s366389@helios.cs.ifmo.ru:/home/studs/s366389/opi/lab3')
+
+
+def team(ctx):
+    import zipfile
+
+    ctx.load('java')
+    ctx.start_msg('Starting team build')
+
+    team_dir = os.path.join('waf_build', 'team-builds')
+    output_dir = os.path.join('waf_build', 'team-output')
+    dist_dir = os.path.join('waf_build', 'dist')
+    os.makedirs(team_dir, exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
+
+    revs = subprocess.check_output(['git', 'rev-list', '--max-count=5', 'HEAD']).decode().split()
+    revs = revs[1:]
+
+    for i, rev in enumerate(revs):
+        Logs.info(f'Checking out revision {rev}')
+        subprocess.run(['git', 'checkout', rev], check=True)
+
+        if os.path.exists(dist_dir):
+            shutil.rmtree(dist_dir)
+        os.makedirs(dist_dir)
+
+        try:
+            subprocess.run(['python', 'waf', 'build'], check=True)
+            war = os.path.join(dist_dir, 'lab3.war')
+            if os.path.exists(war):
+                target = os.path.join(output_dir, f'lab3_rev{i+1}.war')
+                shutil.copy(war, target)
+            else:
+                Logs.warn(f'WAR not found for revision {rev}')
+        except subprocess.CalledProcessError as e:
+            Logs.warn(f'Build failed for revision {rev}: {e}')
+
+    subprocess.run(['git', 'checkout', 'master'])
+
+    zip_path = os.path.join(team_dir, 'team-archives.zip')
+    with zipfile.ZipFile(zip_path, 'w') as zipf:
+        for f in os.listdir(output_dir):
+            if f.endswith('.war'):
+                zipf.write(os.path.join(output_dir, f), arcname=f)
+
+    ctx.end_msg(f'Created {zip_path}')
+
+
+def env(ctx):
+    java_versions = [
+        ('C:/Program Files/Java/jdk-17', '-Xmx512m -Denv=java17'),
+        ('C:/Program Files/Java/jdk-21', '-Xmx1g -Denv=java21'),
+    ]
+    libs = ';'.join(str(j.abspath()) for j in ctx.path.ant_glob('lib/**/*.jar'))
+    sources = ' '.join(str(f.abspath()) for f in ctx.path.ant_glob('src/main/java/**/*.java'))
+    out_dir = 'waf_build/build/WEB-INF/classes'
+    for path, args in java_versions:
+        ctx.start_msg(f'Building under Java at {path}')
+        ctx.exec_command(f'"{path}/bin/javac" -cp "{libs}" -d "{out_dir}" {sources}')
+        ctx.end_msg('compiled')
+
+
+def alt(ctx):
+    import re
+
+    src = ctx.path.find_node('src/main/java')
+    dst = ctx.path.make_node('waf_build/alt-src')
+    shutil.rmtree(dst.abspath(), ignore_errors=True)
+    shutil.copytree(src.abspath(), dst.abspath())
+    cp = os.pathsep.join(['lib/*',])
+
+    for f in dst.ant_glob('**/*.java'):
+        path = f.abspath()
+        text = f.read()
+        text = re.sub(r'\bResultsRepository\b', 'AltResultsRepository', text)
+        text = re.sub(r'\bResult\b', 'AltResult', text)
+        f.write(text)
+
+        new_filename = f.name.replace('ResultsRepository.java', 'AltResultsRepository.java').replace('Result.java', 'AltResult.java')
+        if new_filename != f.name:
+            new_path = os.path.join(f.parent.abspath(), new_filename)
+            os.rename(path, new_path)
+
+    ctx.start_msg('Compiling altered Java sources...')
+    java_files = []
+    for root, _, files in os.walk(dst.abspath()):
+        for name in files:
+            if name.endswith('.java'):
+                java_files.append(os.path.join(root, name))
+
+    out_dir = ctx.path.make_node('waf_build/alt-build')
+    os.makedirs(out_dir.abspath(), exist_ok=True)
+
+    javac = shutil.which('javac')
+    if not javac:
+        ctx.fatal('javac not found in PATH')
+
+    ctx.exec_command([javac, '-cp', cp, '-d', out_dir.abspath()] + java_files)
+
+    war_file = ctx.path.make_node('waf_build/dist/alt.war')
+    ctx.start_msg('Packaging WAR file...')
+    war_structure = out_dir.make_node('WEB-INF/classes')
+    shutil.copytree(out_dir.abspath(), war_structure.abspath())
+    jar = shutil.which('jar')
+    if not jar:
+        ctx.fatal('jar not found in PATH')
+
+    ctx.exec_command([jar, 'cf', war_file.abspath()] + ['-C', out_dir.abspath(), '.'])
+    ctx.end_msg('WAR file created: %s' % war_file.abspath())
+
+
+def history(ctx):
+    def try_build():
+        try:
+            subprocess.check_call(['python', 'waf', 'build'])
+            return True
+        except subprocess.CalledProcessError:
+            return False
+
+    diffs = []
+    diff = subprocess.check_output(['git', 'diff', '--', '.']).decode()
+    diffs.append(('current', diff))
+
+    revs = subprocess.check_output(['git', 'rev-list', 'HEAD']).decode().split()
+    working_rev = None
+
+    for rev in revs[1:]:
+        diff = subprocess.check_output(['git', 'diff', rev, '--', '.']).decode()
+        diffs.append((rev, diff))
+
+    ctx.start_msg('Attempting initial compile...')
+    for i, rev in enumerate(revs[1:], start=0):
+        Logs.info(f'Trying revision: {rev}')
+        subprocess.run(['git', 'checkout', '--force', rev], check=True)
+
+        if try_build():
+            working_rev = rev
+            Logs.info(f'Build succeeded on revision {rev}')
+            break
+        else:
+            Logs.warn(f'Revision {rev} failed')
+
+    if working_rev:
+        Logs.info(f'Saving diff for working revision {working_rev}...')
+        diff = next(d[1] for d in diffs if d[0] == working_rev)
+        with open('waf_build/recovered_diff.txt', 'w', encoding='utf-8') as f:
+            f.write(diff)
+        Logs.info(f'Diff saved to waf_build/recovered_diff.txt')
+
+    else:
+        ctx.fatal('No working revision found.')
+
+    subprocess.run(['git', 'checkout', '--force', 'master'])
+    Logs.info('History fallback complete.')
+
+
+def diff(ctx):
+    target_directory = 'C:/Users/Nikita/IdeaProjects/web-lab3-svn'
+    try:
+        with open('diff-classes.txt', 'r') as f:
+            changed_classes = [line.strip() for line in f.readlines()]
+    except FileNotFoundError:
+        ctx.fatal('diff-classes.txt file not found.')
+    Logs.info('Checking svn status...')
+    try:
+        status = subprocess.check_output(['svn', 'status'], cwd=target_directory).decode()
+    except subprocess.CalledProcessError:
+        ctx.fatal('Error while executing SVN status command.')
+    commit = False
+    for line in status.splitlines():
+        for clazz in changed_classes:
+            if clazz.strip() and clazz.strip() in line:
+                commit = True
+                break
+    if commit:
+        Logs.info('Changes detected in tracked classes. Committing to SVN...')
+        subprocess.run(['svn', 'commit', '-m', 'Committing changes to important classes'], cwd=target_directory)
+    else:
+        Logs.info('No tracked class changes found.')
+
+
+def report(ctx):
+    test(ctx)
+    reports = ctx.path.ant_glob('waf_build/reports/*.xml')
+    if not reports:
+        ctx.fatal('No JUnit XML reports found.')
+    for f in reports:
+        subprocess.run(['git', 'add', f.abspath()])
+    subprocess.run(['git', 'commit', '-m', 'Add test reports'])
+    Logs.info('Reports committed.')
