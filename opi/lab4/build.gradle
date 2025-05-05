@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'org.viacheslav'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    // Jakarta EE API (предоставляется сервером приложений, scope provided)
+    compileOnly 'jakarta.platform:jakarta.jakartaee-web-api:9.0.0'
+
+    // PrimeFaces
+    implementation 'org.primefaces:primefaces:14.0.6:jakarta'
+
+    // PrimeFlex
+    implementation 'org.webjars.npm:primeflex:3.3.1'
+    // PrimeIcons
+    implementation 'org.webjars.npm:primeicons:7.0.0'
+//        // PrimeFaces Extensions
+
+
+    // Hibernate ORM
+    implementation 'org.hibernate:hibernate-core:6.6.1.Final'
+
+    // PostgreSQL JDBC Driver
+    runtimeOnly 'org.postgresql:postgresql:42.7.4'
+
+
+    // Lombok для генерации кода
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    // Тестовые зависимости с использованием JUnit 5
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+war {
+    archiveFileName = 'opi-4.war'
+    webAppDirectory = file('src/main/webapp')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}

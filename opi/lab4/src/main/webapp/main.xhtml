@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Main | Opi #4</title>
+    <link rel="icon" type="img/jpg" href="img/baby.jpg"/>
+
+    <h:outputStylesheet name="src/main.css"/>
+</h:head>
+
+<h:body>
+
+    <header>
+        <h2><a href="https://github.com/kihort-si/opi-lab4">Petrov and Vasiliev <br/> P3208 lab4 var.1583</a>
+        </h2>
+    </header>
+
+    <div class="main">
+        <h:panelGroup id="nearSVG">
+            <svg height="300" width="300" xmlns="http://www.w3.org/2000/svg" id="paint">
+
+                <line stroke="black" x1="0" x2="300" y1="150" y2="150"/>
+                <line stroke="black" x1="150" x2="150" y1="0" y2="300"/>
+                <polygon fill="black" points="150,0 144,15 156,15" stroke="black"/>
+                <polygon fill="black" points="300,150 285,156 285,144" stroke="black"/>
+
+                <text fill="black" x="285" y="140">X</text>
+                <text fill="black" x="160" y="10">Y</text>
+
+                <text fill="black" x="172" y="140">1</text>
+                <text fill="black" x="197" y="140">2</text>
+                <text fill="black" x="222" y="140">3</text>
+                <text fill="black" x="247" y="140">4</text>
+                <text fill="black" x="272" y="140">5</text>
+
+
+                <text fill="black" x="127" y="140">-1</text>
+                <text fill="black" x="102" y="140">-2</text>
+                <text fill="black" x="67" y="140">-3</text>
+                <text fill="black" x="42" y="140">-4</text>
+                <text fill="black" x="17" y="140">-5</text>
+
+
+                <text fill="black" x="160" y="130">1</text>
+                <text fill="black" x="160" y="105">2</text>
+                <text fill="black" x="160" y="80">3</text>
+                <text fill="black" x="160" y="55">4</text>
+                <text fill="black" x="160" y="30">5</text>
+
+                <text fill="black" x="160" y="178">-1</text>
+                <text fill="black" x="160" y="203">-2</text>
+                <text fill="black" x="160" y="228">-3</text>
+                <text fill="black" x="160" y="253">-4</text>
+                <text fill="black" x="160" y="278">-5</text>
+
+                <polygon id="triangle" points="150,150 180,150 150,135" fill-opacity="0.4" stroke="navy"
+                         fill="blue"/>
+
+                <rect id="square" x="120" y="120" width="30" height="30" fill-opacity="0.4" stroke="navy"
+                      fill="blue"/>
+
+                <path id="arc" d="M 150 150 L 150 180 A30,30 0 0,1 120,150 Z" fill-opacity="0.4" stroke="navy"
+                      fill="blue"/>
+
+                <line stroke="black" x1="25" x2="25" y1="155" y2="145"/>
+                <line stroke="black" x1="50" x2="50" y1="155" y2="145"/>
+                <line stroke="black" x1="75" x2="75" y1="155" y2="145"/>
+                <line stroke="black" x1="100" x2="100" y1="155" y2="145"/>
+                <line stroke="black" x1="125" x2="125" y1="155" y2="145"/>
+
+                <line stroke="black" x1="175" x2="175" y1="155" y2="145"/>
+                <line stroke="black" x1="200" x2="200" y1="155" y2="145"/>
+                <line stroke="black" x1="225" x2="225" y1="155" y2="145"/>
+                <line stroke="black" x1="250" x2="250" y1="155" y2="145"/>
+                <line stroke="black" x1="275" x2="275" y1="155" y2="145"/>
+
+                <line stroke="black" x1="145" x2="155" y1="25" y2="25"/>
+                <line stroke="black" x1="145" x2="155" y1="50" y2="50"/>
+                <line stroke="black" x1="145" x2="155" y1="75" y2="75"/>
+                <line stroke="black" x1="145" x2="155" y1="100" y2="100"/>
+                <line stroke="black" x1="145" x2="155" y1="125" y2="125"/>
+
+                <line stroke="black" x1="145" x2="155" y1="175" y2="175"/>
+                <line stroke="black" x1="145" x2="155" y1="200" y2="200"/>
+                <line stroke="black" x1="145" x2="155" y1="225" y2="225"/>
+                <line stroke="black" x1="145" x2="155" y1="250" y2="250"/>
+                <line stroke="black" x1="145" x2="155" y1="275" y2="275"/>
+            </svg>
+
+        </h:panelGroup>
+
+        <script type="text/javascript" src="resources/src/draw.js"></script>
+
+
+
+        <!--        <div id="error-message" class="error">R не установлено</div>-->
+
+        <div class="graph-data">
+            <h:form id="coordinates">
+
+                <div class="X-parameter" id="click_catcherX">
+                    <p class="prompt">Введите X:</p>
+                    <h:selectOneMenu id="x-options" value="#{utilBean.x}" class="text-input">
+                        <f:selectItem itemValue="-2.0" itemLabel="-2"/>
+                        <f:selectItem itemValue="-1.5" itemLabel="-1.5"/>
+                        <f:selectItem itemValue="-1.0" itemLabel="-1"/>
+                        <f:selectItem itemValue="-0.5" itemLabel="-0.5"/>
+                        <f:selectItem itemValue="0.0" itemLabel="0"/>
+                        <f:selectItem itemValue="0.5" itemLabel="0.5"/>
+                        <f:selectItem itemValue="1.0" itemLabel="1"/>
+                        <f:selectItem itemValue="1.5" itemLabel="1.5"/>
+                        <f:selectItem itemValue="2.0" itemLabel="2"/>
+                        <f:validateRequired/>
+                        <f:validateDoubleRange minimum="-2" maximum="2"/>
+                    </h:selectOneMenu>
+                </div>
+
+
+                <div class="Y-parameter">
+                    <p class="prompt">Введите Y (-3 ... 5):</p>
+                    <div>
+                        <h:inputText id="tbx_y" class="text-input" value="#{utilBean.y}"
+                                     validatorMessage="Y должно быть в промежутке [-3; 5]">
+                            <f:validateRequired/>
+                            <f:validateDoubleRange minimum="-3" maximum="5"/>
+                        </h:inputText>
+                    </div>
+                </div>
+
+
+                <div class="R-parameter" id="click_catcherR">
+                    <p class="prompt">Введите R:</p>
+                    <h:selectOneMenu id="r-options" value="#{utilBean.r}" class="text-input">
+                        <f:selectItem itemValue="1.0" itemLabel="1"/>
+                        <f:selectItem itemValue="2.0" itemLabel="2"/>
+                        <f:selectItem itemValue="3.0" itemLabel="3"/>
+                        <f:selectItem itemValue="4.0" itemLabel="4"/>
+                        <f:selectItem itemValue="5.0" itemLabel="5"/>
+                        <f:validateRequired/>
+                        <f:validateDoubleRange minimum="1" maximum="5"/>
+                        <f:ajax render="shape_area"/>
+                    </h:selectOneMenu>
+                </div>
+
+                <h:outputText id="shape_area" value="Площадь фигуры для последней точки: #{utilBean.area}"/>
+
+                <h:messages id="messages" showDetail="false" autoUpdate="true"/>
+
+
+                <h:commandButton id="submit" value="Отправить" action="#{utilBean.checkAndAdd()}">
+                    <f:ajax execute="@form" render="table-check messages nearSVG newListen" oncomplete="console.log('AJAX завершен');"/>
+                </h:commandButton>
+
+                <h:commandButton id="clear" value="Очистить" action="#{utilBean.clear()}"><f:ajax execute="@form" render="table-check nearSVG newListen" oncomplete="console.log('AJAX завершен');"/></h:commandButton>
+            </h:form>
+
+            <h:form id="second-form" style="display: none">
+                <h:inputHidden value="#{utilBean.x}" id="second-form-x"/>
+                <h:inputHidden value="#{utilBean.y}" id="second-form-y"/>
+                <h:inputHidden value="#{utilBean.r}" id="second-form-r"/>
+                <h:commandButton id="second-form-submit" action="#{utilBean.checkAndAdd()}"
+                                 style="opacity: 0"><f:ajax execute="@form" render="table-check nearSVG newListen" oncomplete="console.log('AJAX завершен');"/></h:commandButton>
+            </h:form>
+
+        </div>
+
+        <h:link id="movingElement" value="На главную страничку" outcome="goToIndex" styleClass="main_link"/>
+
+
+
+        <p:dataTable id="table-check" value="#{utilBean.pointsList}" var="point">
+            <p:column headerText="ID">
+                <h:outputText value="#{point.id}"/>
+
+            </p:column>
+            <p:column headerText="X">
+                <h:outputText value="#{point.x}"/>
+            </p:column>
+            <p:column headerText="Y">
+                <h:outputText value="#{point.y}"/>
+            </p:column>
+            <p:column headerText="R">
+                <h:outputText value="#{point.r}"/>
+            </p:column>
+            <p:column headerText="Попал?" styleClass="#{point.result ? 'hit' : 'miss'}">
+                <h:outputText value="#{point.result ? 'Да' : 'Нет' }"/>
+            </p:column>
+            <p:column headerText="Дата">
+                <h:outputText value="#{point.date}">
+                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Точку поставил я?"
+                      styleClass="#{utilBean.checkSession(point.session) ? 'hit' : 'miss'}">
+                <h:outputText value="#{utilBean.checkSession(point.session) ? 'Да' : 'Нет' }"/>
+            </p:column>
+        </p:dataTable>
+    </div>
+
+
+    <footer class="footer">
+        <div>
+            <a href="https://se.ifmo.ru">
+                <img class="vt" src="img/favicon.jpg" alt=""/>
+            </a>
+        </div>
+        <small>
+            Проект доступен с открытым исходным кодом на условиях Лицензии CC BY-NC-SA 4.0. Авторские права 2024 Петров
+            Вячеслав
+        </small>
+    </footer>
+
+    <script type="text/javascript" src="resources/src/script.js"></script>
+
+    <script type="text/javascript" src="resources/src/movingManager.js"></script>
+    <script type="text/javascript">redraw("#{utilBean.r}", "#{utilBean.pointsToString()}");</script>
+
+<!--    <ui:repeat id="rep" value="#{utilBean.pointsList}" var="point">-->
+<!--        <script type="text/javascript"> drawPoint("#{point.x}", "#{point.y}", "#{point.r}",#{point.result}); </script>-->
+<!--    </ui:repeat>-->
+
+    <h:panelGroup id="newListen">
+    <script type="text/javascript">
+    document.getElementById('paint').addEventListener('click', function (e) {
+    svg = document.getElementById('paint');
+    let pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+
+    // The cursor point, translated into SVG coordinates
+    let cursorpt = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+    let reallyX = cursorpt.x - center;
+    let reallyY = center - cursorpt.y;
+
+    let r = getR()
+
+
+    document.getElementById("second-form:second-form-x").value = (reallyX * r / baseR).toFixed(2);
+    document.getElementById("second-form:second-form-y").value = (reallyY * r / baseR).toFixed(2);
+    document.getElementById("second-form:second-form-r").value = r;
+    document.getElementById("second-form:second-form-submit").click();
+
+    })
+    </script>
+        <ui:repeat value="#{utilBean.pointsList}" var="point" id="rep">
+            <script type="text/javascript"> drawPoint("#{point.x}", "#{point.y}", "#{point.r}",#{point.result}); </script>
+        </ui:repeat>
+        <script type="text/javascript">redraw("#{utilBean.r}", "#{utilBean.pointsToString()}");</script>
+
+    </h:panelGroup>
+
+
+
+</h:body>
+
+</html>

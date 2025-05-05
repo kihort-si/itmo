@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+    <persistence-unit name="default">
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+        <class>org.viacheslav.Point</class>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="hibernate.show_sql" value="true"/> <!-- Show SQL in console -->
+            <property name="hibernate.format_sql" value="true"/> <!-- Show SQL formatted -->
+
+            <!--            local-->
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+            <property name="hibernate.connection.password" value="postgres"/>
+            <property name="hibernate.connection.username" value="postgres"/>
+
+            <!-- helios -->
+<!--            <property name="javax.persistence.jdbc.user" value="s409331"/>-->
+<!--            <property name="javax.persistence.jdbc.password" value=""/>-->
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://pg:5432/studs"/>-->
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgresPlusDialect"/>
+            <property name="show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="connection.pool_size" value="100"/>
+        </properties>
+    </persistence-unit>
+</persistence>
