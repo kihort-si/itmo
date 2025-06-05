@@ -1,0 +1,24 @@
+name: "count_divisors"
+limit: 1000
+memory_size: 0x1000
+input_streams:
+  0x80: [2]
+  0x84: []
+reports:
+  # - name: Step-by-step log
+  #   slice: all
+  #   view: |
+  #     {T0} {T1} {T2}
+  #     {pc}:	{instruction}	{pc:label}
+  #     numio[0x80]: {io:0x80:dec}
+  #     numio[0x84]: {io:0x84:dec}
+  - name: Result
+    slice: last
+    filter:
+      - state
+    view: |
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [2]
