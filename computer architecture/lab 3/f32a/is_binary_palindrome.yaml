@@ -1,0 +1,17 @@
+name: is_binary_palindrome
+limit: 1000
+memory_size: 0x1000
+input_streams:
+  0x80: [4026531855]
+  0x84: []
+reports:
+  - name: Step-by-step
+    slice: all
+    view: |
+      {T:hex} {S:hex} {A:hex} {B:hex} {R:hex}
+      {pc}:	{instruction}	{pc:label}
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [1]
