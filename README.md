@@ -27,7 +27,6 @@
 - **Линейная алгебра**
 - **Математический анализ**
 - [**Основы профессиональной деятельности**](https://github.com/kihort-si/itmo/tree/main/opd)
-
 - [**Программирование**](https://github.com/kihort-si/itmo/tree/main/proga)
 
 ### **3 семестр**
