@@ -1,0 +1,43 @@
+header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid #e94560;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .page-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0 auto;
+
+    button {
+      background: linear-gradient(135deg, #e94560 0%, #c72c41 100%);
+      border: none;
+      border-radius: 8px;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+      overflow: hidden;
+
+      &:hover {
+        box-shadow: 0 6px 25px rgba(233, 69, 96, 0.5);
+      }
+
+      a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    }
+  }
+}
