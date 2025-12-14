@@ -1,0 +1,53 @@
+; --- ОПРЕДЕЛЕНИЕ ПАРАМЕТРОВ ---
+A_MEAN1 EQU 1.0 ; Среднее обслуживание для узла 1
+A_MEAN2 EQU 10.0 ; Среднее обслуживание для узла 2
+A_MEAN3 EQU 4.5 ; Среднее обслуживание для узла 3
+; --- ВЕРОЯТНОСТИ ПЕРЕХОДОВ —
+P_11 EQU 0.4  
+P_12 EQU 0.7 
+P_13 EQU 0.3
+M_COUNT EQU 10
+SIM_TIME EQU 100000
+qq EQU 0.7 ; Вероятность выбора первого потока 
+tt_1 EQU 15 ; Матожидание первого распределения
+tt_2 EQU 15 ; Параметр второго распределения
+N_1 STORAGE 1 ; В узле 1 — 1 прибор
+N_2 STORAGE 2 ; В узле 2 — 2 прибора
+N_3 STORAGE 1 ; В узле 3 — 1 прибор
+
+Erl_2 VARIABLE (Exponential(7,0,A_MEAN2/2))+(Exponential(8,0,A_MEAN2/2)); сл.величина по закону Эрланга 2-го порядка
+productivity EQU 1/0.111 ; Устанавливаем интервал равный производительности
+GENERATE (Exponential(1,0, productivity)) ; Используем RNG 1, генерируем заявки на основе значения интервала производительности.
+SERV1 QUEUE queue_1 ; Вход в очередь
+  ENTER N_1
+  DEPART queue_1
+  ADVANCE (Exponential(3,0,A_MEAN1)) ; Используем RNG 3
+  LEAVE N_1
+  ASSIGN 1,(Uniform(1,0,1))
+  TEST G P1,P_11,LOSS
+  TEST G P1,P_12,SERV2
+  TRANSFER ,SERV3
+SERV2 QUEUE queue_2 ; Вход в очередь
+  ENTER N_2
+  DEPART queue_2
+  ADVANCE (Exponential(4,0,A_MEAN2)) ; Используем RNG 4
+  LEAVE N_2
+  TRANSFER ,SERV1
+SERV3 QUEUE queue_3
+  ENTER N_3
+  DEPART queue_3
+  ADVANCE (Exponential(5,0,A_MEAN3))
+  LEAVE N_3
+  TRANSFER ,SERV1
+GENERATE SIM_TIME
+TERMINATE 1
+
+LOSS TERMINATE 0 ; Определение "потери" — если заявка не проходит через систему, она завершает выполнение с кодом 0
+
+; --- Управление ---
+
+START 1
+PROCEDURE hyper1(RN_H, qq, tt_1, tt_2) BEGIN
+  if (uniform(1,0,1) < qq) then return exponential(RN_H,0,tt_1);
+  else return exponential(RN_H,0,tt_2);
+END;
