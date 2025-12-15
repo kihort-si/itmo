@@ -1,0 +1,16 @@
+Iteration 1/5...
+[33mIteration 1 completed in 1.250 seconds[0m
+Iteration 2/5...
+[33mIteration 2 completed in 1.014 seconds[0m
+Iteration 3/5...
+[33mIteration 3 completed in 1.055 seconds[0m
+Iteration 4/5...
+[33mIteration 4 completed in 1.014 seconds[0m
+Iteration 5/5...
+[33mIteration 5 completed in 1.013 seconds[0m
+[32mAll 5 iterations completed in 5.346 seconds (avg: 1.069 sec)[0m
+[36mCache Statistics:[0m
+  Hits: 139925940
+  Misses: 185640
+  Evictions: 182760
+  Hit Rate: 99.87%
