@@ -1,0 +1,36 @@
+@use '../../../_index.scss' as *;
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  border: $pink 1px solid;
+  border-radius: 4px;
+  padding: 0 1.5rem;
+  align-items: center;
+
+  &:focus-within {
+    .input-icon {
+      filter: drop-shadow(0 0 4px $pink);
+    }
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    color: white;
+    min-height: 2.5rem;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .input-icon {
+    height: 24px;
+    width: 24px;
+    margin: 0 0.5rem 0 0;
+    overflow: visible;
+    transition: filter 500ms ease;
+  }
+}

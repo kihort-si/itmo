@@ -1,0 +1,35 @@
+.my-books-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6vw;
+  width: 100%;
+}
+
+.highlighted-book {
+  .card-element{
+    animation: glow 3s ease-in-out;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.8), 0 0 40px rgba(255, 105, 180, 0.6);
+  }
+}
+
+.no-books-message {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+
+.no-results-message {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 0;
+}

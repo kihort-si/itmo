@@ -1,0 +1,49 @@
+@use '../../../_index.scss' as *;
+
+.collection-list-modal-container {
+  display: flex;
+  flex-direction: column;
+  border: $pink 1px solid;
+  border-radius: 4px;
+  padding: 2rem 4rem;
+  background: $blues-gradient;
+  color: white;
+  max-width: 80vw;
+
+  .collection-list-modal-title {
+    font-size: 2rem;
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .collection-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 60vh;
+    overflow-y: auto;
+
+    > div {
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      .card-element {
+        max-width: 15vw;
+      }
+    }
+  }
+
+  .selected-collection {
+    opacity: 0.6;
+    border: 2px solid $pink;
+    border-radius: 4px;
+  }
+
+  .modal-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+}

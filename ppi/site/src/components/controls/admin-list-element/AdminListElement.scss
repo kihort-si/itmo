@@ -1,0 +1,138 @@
+@use '../../../_index.scss' as *;
+
+.admin-list-element {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #E94560;
+  border-radius: 4px;
+  padding: 1rem;
+
+  .list-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+
+    .list-reason {
+      width: 30%;
+      color: #FFFFFF;
+      font-weight: 500;
+    }
+
+    .list-date {
+      width: 15%;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .list-user {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 20%;
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+
+        .user-avatar {
+          box-shadow: 0 0 8px rgba(233, 69, 96, 0.6);
+        }
+
+        span {
+          color: $pink;
+        }
+      }
+
+      .user-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin: 0.5rem;
+        transition: all 0.2s;
+        border: 2px solid transparent;
+      }
+
+      span {
+        color: #FFFFFF;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+      }
+    }
+
+    .list-status-checkbox {
+      display: flex;
+      align-items: center;
+
+      input[type="checkbox"] {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #d6336c;
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        background: #1e1e30;
+        transition: all 0.2s;
+
+        &:hover {
+          border-color: $pink;
+          box-shadow: 0 0 6px rgba(233, 69, 96, 0.5);
+        }
+
+        &:checked {
+          background: #d6336c;
+          border-color: #d6336c;
+
+          &::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .status-text {
+        margin: 0;
+        margin-left: 0.5rem;
+      }
+    }
+
+    .list-content {
+      width: 30%;
+      color: #FFFFFF;
+    }
+
+  }
+
+  button {
+    transition: all 0.2s;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+.action-button {
+  width: 15rem;
+  height: 3rem;
+  border: 1px solid #E94560;
+  border-radius: 4px;
+  background: $reds-gradient;
+
+  &:hover {
+    box-shadow: 0 0 10px 1px $pink;
+  }
+}

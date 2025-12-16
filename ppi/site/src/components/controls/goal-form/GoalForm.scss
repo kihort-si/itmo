@@ -1,0 +1,42 @@
+@use '../../../_index.scss' as *;
+
+.goal-form-container {
+  display: flex;
+  flex-direction: column;
+  border: $pink 1px solid;
+  border-radius: 4px;
+  padding: 2rem 4rem;
+  width: 30vw;
+  background: $blues-gradient;
+  color: white;
+
+  .goal-form-title {
+    font-size: 2rem;
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .goal-form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      color: $pink;
+      font-size: 0.75rem;
+    }
+
+    .input-container {
+      padding: 0 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    button {
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,224 @@
+@use '../../../_index.scss' as *;
+
+.datetime-picker {
+  position: relative;
+  width: 100%;
+}
+
+.datetime-picker-label {
+  display: block;
+  color: $pink;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.datetime-picker-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid $pink;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: lighten($pink, 10%);
+  }
+
+  &.error {
+    border-color: #ff4444;
+  }
+
+  .calendar-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+    opacity: 0.7;
+  }
+
+  input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+.datetime-picker-error {
+  color: #ff4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.datetime-picker-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  background: $dark-blue;
+  border: 1px solid $pink;
+  border-radius: 4px;
+  padding: 1rem;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  min-width: 300px;
+}
+
+.datetime-picker-calendar {
+  margin-bottom: 1rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .calendar-nav-button {
+    background: transparent;
+    border: 1px solid $pink;
+    border-radius: 4px;
+    color: white;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: rgba(233, 69, 96, 0.2);
+    }
+
+    &:active {
+      background: rgba(233, 69, 96, 0.3);
+    }
+  }
+
+  .calendar-month-year {
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+
+  .calendar-weekday {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 0.5rem;
+  }
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+
+  .calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+
+    &:hover:not(.disabled):not(.empty) {
+      background: rgba(233, 69, 96, 0.2);
+      border-color: $pink;
+    }
+
+    &.selected {
+      background: $pink;
+      color: white;
+      font-weight: bold;
+    }
+
+    &.today {
+      border-color: $pink;
+      font-weight: bold;
+    }
+
+    &.disabled {
+      color: rgba(255, 255, 255, 0.3);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    &.empty {
+      cursor: default;
+    }
+  }
+}
+
+.datetime-picker-time {
+  border-top: 1px solid rgba(233, 69, 96, 0.3);
+  padding-top: 1rem;
+
+  label {
+    display: block;
+    color: $pink;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    input {
+      width: 60px;
+      padding: 0.5rem;
+      border: 1px solid $pink;
+      border-radius: 4px;
+      background: transparent;
+      color: white;
+      text-align: center;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: lighten($pink, 10%);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &[type="number"] {
+        -moz-appearance: textfield;
+      }
+    }
+
+    span {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+}
+

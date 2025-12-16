@@ -1,0 +1,32 @@
+@use '../../../_index.scss' as *;
+
+.secondary-button-container {
+  background: $reds-gradient;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 1px;
+
+  .secondary-button {
+    background: $blues-gradient;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: calc(0.75rem - 1px) calc(1.5rem - 1px);
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 0 10px 1px $pink;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}

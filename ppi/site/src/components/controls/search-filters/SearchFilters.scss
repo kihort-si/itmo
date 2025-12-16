@@ -1,0 +1,67 @@
+@use '../../../_index.scss' as *;
+
+.search-filters {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+  justify-content: space-between;
+  background: transparent;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+
+  .filters-group{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .filter-types {
+    display: flex;
+    gap: 1.5rem;
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: white;
+      font-size: 0.9rem;
+
+      input[type="checkbox"] {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #d6336c;
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        background: #1e1e30;
+
+        &:checked {
+          background: #d6336c;
+          border-color: #d6336c;
+
+          &::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+          }
+        }
+      }
+
+      span {
+        user-select: none;
+      }
+    }
+  }
+
+  .filter-genre {
+    min-width: 200px;
+  }
+}

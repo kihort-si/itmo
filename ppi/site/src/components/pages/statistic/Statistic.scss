@@ -1,0 +1,92 @@
+@use '../../../_index.scss' as *;
+
+.container-title-with-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    height: fit-content;
+  }
+}
+
+.top-container:first-child {
+  margin-top: 6rem;
+}
+
+.container {
+  background: $blues-gradient;
+  border: 1px solid $pink;
+  padding: 2rem 4rem;
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  flex-direction: row;
+}
+
+.statistics-container {
+  display: flex;
+  flex-direction: column;
+
+  .statistics-summary {
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .reading-books-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    .card-element {
+      max-width: 15vw;
+    }
+  }
+  
+  .no-books-message {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 2rem;
+  }
+
+  .statistics-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .statistics-graphs-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 2rem;
+
+      button {
+        padding: calc(1.25rem - 1px) calc(1.5rem - 1px);
+      }
+
+      .calendar {
+        max-height: 370px;
+      }
+    }
+  }
+}
+.yearly-reading-books {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .reading-books-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+}
+
+.no-month {
+  margin-bottom: 6rem;
+}

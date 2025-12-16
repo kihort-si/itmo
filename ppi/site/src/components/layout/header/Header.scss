@@ -1,0 +1,79 @@
+@use '../../../_index.scss' as *;
+
+header {
+  position: sticky;
+  background: $reds-gradient;
+  margin: 3rem 3rem;
+  border-radius: 4px;
+  padding: 1px;
+
+  .header-container {
+    background: $blues-gradient;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .main-logo {
+      margin: 1rem 6rem 0.5rem 6rem;
+    }
+
+    .login-signup-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      margin: 1rem 6rem;
+    }
+
+    .header-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      margin: 1rem 6rem 1rem;
+      align-items: center;
+
+      .header-button {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-decoration: none;
+        color: $pink;
+        padding-top: 2px;
+
+        img {
+          height: 24px;
+          width: 24px;
+          align-self: center;
+        }
+
+        span {
+          font-size: 0.75rem;
+          text-align: center;
+          padding-bottom: 2px;
+        }
+
+        &:hover {
+          span {
+            padding-bottom: 0;
+          }
+          span::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: $reds-gradient;
+            animation: underline-appear 0.3s forwards;
+          }
+        }
+
+        @keyframes underline-appear {
+          0% {
+            width: 0;
+          }
+          100% {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

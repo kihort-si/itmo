@@ -1,0 +1,49 @@
+@use '../../../_index.scss' as *;
+
+.sidebar {
+  width: 30%;
+  border-right: #E94560 1px solid;
+  background: $blues-gradient;
+  border-radius: 4px;
+
+  li {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #FFFFFF;
+    outline: 1px solid #E94560;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+      background: rgba(233, 69, 96, 0.2);
+      box-shadow: -3px 0 8px rgba(233, 69, 96, 0.3);
+    }
+  }
+
+  li:last-child {
+    border-bottom: 1px solid #E94560;
+  }
+
+  li:first-child {
+    border-top: 1px solid #E94560;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+  }
+
+  h2 {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 2rem 1rem 2rem;
+  }
+
+  .active {
+    background: $reds-gradient;
+    color: #FFFFFF;
+    font-weight: bold;
+  }
+}

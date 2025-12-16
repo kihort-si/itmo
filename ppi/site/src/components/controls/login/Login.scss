@@ -1,0 +1,65 @@
+@use '../../../_index.scss' as *;
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  border: $pink 1px solid;
+  border-radius: 4px;
+  padding: 2rem 4rem;
+  width: 30vw;
+  background: $blues-gradient;
+  color: white;
+
+  .login-title {
+    font-size: 2rem;
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      color: $pink;
+      font-size: 0.75rem;
+    }
+
+    .input-container {
+      padding: 0 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    .login-error {
+      color: #ff4444;
+      font-size: 0.75rem;
+      margin: 0.25rem 0;
+    }
+
+    button {
+      margin: 0 0 0.5rem 0;
+    }
+  }
+
+  .login-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: normal;
+
+    button {
+      background: transparent;
+      border: none;
+      color: $pink;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

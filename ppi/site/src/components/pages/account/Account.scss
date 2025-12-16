@@ -1,0 +1,140 @@
+@use '../../../_index.scss' as *;
+
+.profile-collections-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.no-books-message,
+.no-items-message {
+  font-size: 1.5rem;
+  text-align: center;
+  color: #FFFFFF;
+  padding: 2rem;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+
+  .profile-info-main {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .profile-info-panel {
+    display: flex;
+    flex-direction: column;
+
+    .profile-info-name {
+      font-weight: bolder;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .profile-avatar-container {
+      width: 150px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+
+      .profile-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+
+    .profile-info-additional-container {
+      margin: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0rem;
+
+      .profile-info-additional {
+        display: flex;
+        flex-direction: column;
+
+        .profile-info-label {
+          font-weight: bolder;
+          font-size: 1.5rem;
+        }
+
+        .profile-info-sublabel {
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        &.clickable {
+          cursor: pointer;
+          transition: opacity 0.2s;
+
+          &:hover {
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+}
+
+.profile-info-collections {
+  margin-left: 4rem;
+  width: 100%;
+  .profile-collections-title {
+    font-weight: bolder;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-collections-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .card-element {
+      min-width: 15vw;
+      max-width: 15vw;
+    }
+  }
+}
+
+.profile-info-followers,
+.profile-info-subscriptions {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+.profile-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profile-section-title {
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.profile-followers-list,
+.profile-subscriptions-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+
+  .card-element {
+    min-width: 15vw;
+    max-width: 15vw;
+  }
+}
+

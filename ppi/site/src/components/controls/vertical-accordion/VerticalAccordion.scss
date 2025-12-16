@@ -1,0 +1,95 @@
+@use '../../../_index.scss' as *;
+
+$ctrl-w: 64px;
+$ctrl-h: 160px;
+$icon: 20px;
+$side-offset: -($ctrl-w / 2);
+
+.va-container {
+  background: $blues-gradient;
+  border: 1px solid $pink;
+  border-radius: 4px;
+  overflow: visible;
+  position: relative;
+  padding: 2rem 4rem;
+  margin-bottom: 6rem;
+
+  .va-header {
+    width: 100%;
+    background: none;
+    border: none;
+    .card-element {
+      width: 15vw;
+    }
+  }
+
+  .va-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+
+    .card-element {
+      width: 15vw;
+    }
+
+    &.is-open {
+      max-height: 2000px;
+      margin: 2rem 0;
+
+      .va-inner {
+        padding: 0;
+      }
+    }
+
+    .va-inner {
+      padding: 2rem 0;
+    }
+  }
+
+  .va-control {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 50%;
+    transform: translateY(-50%);
+    width: $ctrl-w;
+    height: $ctrl-h;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    z-index: 5;
+
+    display: grid;
+    place-items: center;
+
+    > img:first-child {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 50;
+      transform: rotateZ(90deg);
+    }
+
+    > img:last-child {
+      width: $icon;
+      height: $icon;
+      display: grid;
+      place-items: center;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 100;
+      margin-top: 2px;
+      transform: rotateZ(90deg);
+      transition: transform 0.3s ease;
+    }
+
+    .is-open-control {
+      margin-top: 0 !important;
+      margin-bottom: 2px !important;
+      transform: rotateZ(-90deg) !important;
+    }
+  }
+}

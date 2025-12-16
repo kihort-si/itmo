@@ -1,0 +1,108 @@
+@use '../../../_index.scss' as *;
+
+$ctrl-w: 64px;
+$ctrl-h: 160px;
+$icon: 20px;
+$side-offset: -($ctrl-w / 2);
+
+.hs-container {
+  background: $blues-gradient;
+  border: 1px solid $pink;
+  padding: 2rem 4rem;
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+
+  .hs-viewport {
+    overflow: hidden;
+    position: relative;
+
+    .hs-track {
+      display: flex;
+      will-change: transform;
+
+      .hs-slide {
+        flex: 0 0 100%;
+        display: grid;
+        grid-template-columns: repeat(var(--per-page, 4), 1fr);
+        gap: 6vw;
+        padding: 8px 0;
+
+        .hs-item {
+          min-width: 0;
+        }
+      }
+    }
+  }
+
+  .hs-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: $ctrl-w;
+    height: $ctrl-h;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    z-index: 5;
+
+    display: grid;
+    place-items: center;
+
+    > img:first-child {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    > img:last-child {
+      width: $icon;
+      height: $icon;
+      display: grid;
+      place-items: center;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    &.is-left {
+      left: $side-offset;
+
+      > img:last-child {
+        margin-right: 2px;
+      }
+    }
+
+    &.is-right {
+      right: $side-offset;
+    }
+  }
+
+  @keyframes move-arrow {
+    0% {
+      transform: scale(0);
+    }
+    60% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .move-arrow > img:last-child {
+    animation: move-arrow .35s ease-out;
+  }
+}
+
+
+
+
+
+
+
