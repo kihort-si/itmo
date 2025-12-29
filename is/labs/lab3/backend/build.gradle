@@ -1,0 +1,71 @@
+plugins {
+  id 'java'
+  id 'war'
+}
+
+group 'ru.itmo.is'
+version '1.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  junitVersion = '5.13.2'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+dependencies {
+  // Jakarta EE API (provided by TomEE)
+  compileOnly('jakarta.platform:jakarta.jakartaee-web-api:10.0.0')
+  
+  // Hibernate
+  implementation('org.hibernate.orm:hibernate-core:6.6.37.Final')
+  implementation('org.hibernate.orm:hibernate-jcache:6.6.37.Final')
+  
+  // Ehcache for Hibernate L2 Cache
+  implementation("org.ehcache:ehcache:3.11.1") {
+    capabilities {
+      requireCapability("org.ehcache:ehcache-jakarta")
+    }
+  }
+  implementation("javax.cache:cache-api:1.1.1")
+  runtimeOnly("org.glassfish.jaxb:jaxb-runtime:4.0.5")
+  
+  // JAXB API (required for Ehcache XML configuration - Ehcache 3.10.8 uses old javax.xml.bind)
+  implementation('javax.xml.bind:jaxb-api:2.3.1')
+  implementation('org.glassfish.jaxb:jaxb-runtime:2.3.8')
+  
+  // PostgreSQL
+  implementation('org.postgresql:postgresql:42.7.1')
+  
+  // Jackson
+  implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
+  
+  // MinIO
+  implementation('io.minio:minio:8.5.17')
+  
+  // MicroProfile Config (for TomEE)
+  compileOnly('org.eclipse.microprofile.config:microprofile-config-api:3.0.3')
+  // MicroProfile Config implementation (TomEE может не предоставлять, поэтому добавляем)
+  implementation('org.eclipse.microprofile.config:microprofile-config-api:3.0.3')
+  
+  // Apache CXF for multipart (provided by TomEE, but needed for compilation)
+  compileOnly('org.apache.cxf:cxf-rt-rs-extension-providers:4.0.3')
+  
+  // Lombok
+  compileOnly("org.projectlombok:lombok:1.18.40")
+  annotationProcessor("org.projectlombok:lombok:1.18.40")
+
+  testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+useJUnitPlatform()}

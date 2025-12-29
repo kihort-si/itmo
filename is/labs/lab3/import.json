@@ -1,0 +1,56 @@
+{
+  "movies": {
+    "Inception": {
+      "coordinates": {
+        "x": 34.0522,
+        "y": -118
+      },
+      "oscarsCount": 3,
+      "budget": 230000000,
+      "totalBoxOffice": 829895144,
+      "mpaaRating": "PG_13",
+      "director": {
+        "name": "John All",
+        "eyeColor": "BLUE",
+        "hairColor": "GREEN",
+        "nationality": "UNITED_KINGDOM",
+        "location": {
+          "x": 100,
+          "y": 200,
+          "z": 300,
+          "name": "Los Angeles"
+        },
+        "passportID": "A12645178"
+      },
+      "screenwriter": {
+        "name": "John Boo",
+        "eyeColor": "BLUE",
+        "hairColor": "GREEN",
+        "nationality": "UNITED_KINGDOM",
+        "location": {
+          "x": 100,
+          "y": 200,
+          "z": 300,
+          "name": "Los Angeles"
+        },
+        "passportID": "A12655678"
+      },
+      "operator": {
+        "name": "John Doe",
+        "eyeColor": "BLUE",
+        "hairColor": "GREEN",
+        "nationality": "UNITED_KINGDOM",
+        "location": {
+          "x": 100,
+          "y": 200,
+          "z": 300,
+          "name": "Los Angeles"
+        },
+        "passportID": "A12645678"
+      },
+      "length": 148,
+      "goldenPalmCount": 4,
+      "genre": "ADVENTURE"
+    }
+  }
+}

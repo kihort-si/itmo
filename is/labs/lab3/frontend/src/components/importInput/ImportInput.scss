@@ -1,0 +1,76 @@
+.imort-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.file-upload-section {
+  margin-top: 2rem;
+  max-width: 500px;
+  border: 3px dashed #e94560;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(233, 69, 96, 0.05);
+    border-color: #ff577f;
+  }
+
+  &.dragging {
+    background: rgba(233, 69, 96, 0.1);
+    border-color: #ff577f;
+    transform: scale(1.02);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .upload-text {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+  }
+
+  .upload-subtext {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  .file-upload-wrapper {
+    position: relative;
+
+    input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .file-upload-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #e94560 0%, #c72c41 100%);
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(233, 69, 96, 0.3);
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      font-size: 11px;
+      font-family: ".AppleSystemUIFont", sans-serif;
+
+      &:hover {
+        box-shadow: 0 6px 15px rgba(233, 69, 96, 0.5);
+      }
+    }
+  }
+}
