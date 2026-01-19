@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-auth-schema
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/001-auth-schema.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true

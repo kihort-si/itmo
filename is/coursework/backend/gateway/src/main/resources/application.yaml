@@ -1,0 +1,58 @@
+server:
+  port: ${GATEWAY_PORT:8080}
+  forward-headers-strategy: framework
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+spring:
+  application:
+    name: gateway
+
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            client-id: ${AUTH_GATEWAY_CLIENT_ID:gateway}
+            client-secret: ${AUTH_GATEWAY_CLIENT_SECRET:secret}
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://${SPA_HOST:localhost}:${SPA_PORT:5173}/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+        provider:
+          gateway:
+            authorization-uri: http://${SPA_HOST:localhost}:${SPA_PORT:5173}/gateway/auth/oauth2/authorize
+            token-uri: http://${AUTH_HOST:localhost}:${AUTH_PORT:8081}/auth/oauth2/token
+            jwk-set-uri: http://${AUTH_HOST:localhost}:${AUTH_PORT:8081}/auth/oauth2/jwks
+            user-info-uri: http://${AUTH_HOST:localhost}:${AUTH_PORT:8081}/auth/userinfo
+            user-name-attribute: sub
+
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: auth-service
+              uri: http://${AUTH_HOST:localhost}:${AUTH_PORT:8081}
+              predicates:
+                - Path=/auth/**
+              filters:
+                - AddRequestHeader=X-Forwarded-Proto,http
+                - AddRequestHeader=X-Forwarded-Host,${SPA_HOST:localhost}
+                - AddRequestHeader=X-Forwarded-Port,${SPA_PORT:5173}
+
+            - id: resource-service
+              uri: http://${RESOURCE_HOST:localhost}:${RESOURCE_PORT:8082}
+              predicates:
+                - Path=/resource/**
+              filters:
+                - TokenRelay=
+
+app:
+  spa-url: http://${SPA_HOST:localhost}:${SPA_PORT:5173}
+  end-session-endpoint: http://${SPA_HOST:localhost}:${SPA_PORT:5173}/gateway/auth/connect/logout

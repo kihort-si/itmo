@@ -1,0 +1,59 @@
+server:
+  port: ${RESOURCE_PORT:8082}
+  servlet:
+    context-path: /resource
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+spring:
+
+  application:
+    name: resource
+
+  security:
+    oauth2:
+      client:
+        provider:
+          auth:
+            token-uri: http://${AUTH_HOST:localhost}:${AUTH_PORT:8081}/auth/oauth2/token
+        registration:
+          resource:
+            provider: auth
+            client-id: ${AUTH_RESOURCE_CLIENT_ID:resource}
+            client-secret: ${AUTH_RESOURCE_CLIENT_SECRET:aboba}
+            authorization-grant-type: client_credentials
+            scope: internal
+      resource-server:
+        jwt:
+          issuer-uri: http://${SPA_HOST:localhost}:${SPA_PORT:5173}/gateway/auth
+          jwk-set-uri: http://${AUTH_HOST:localhost}:${AUTH_PORT:8081}/auth/oauth2/jwks
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:laserworks}
+    username: ${POSTGRES_USER:laserworks}
+    password: ${POSTGRES_PASSWORD:laserworks}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+minio:
+  url: http://${MINIO_HOST:localhost}:${MINIO_PORT:9000}
+  accessKey: ${MINIO_ROOT_USER:minioadmin}
+  secretKey: ${MINIO_ROOT_PASSWORD:minioadmin}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+app:
+  feign:
+    auth-url: http://${AUTH_HOST:localhost}:${AUTH_PORT:8081}/auth
+  swagger:
+    server-url: http://${GATEWAY_HOST:localhost}:${GATEWAY_PORT:8080}/resource

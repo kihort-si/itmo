@@ -1,0 +1,65 @@
+server:
+  port: ${AUTH_PORT:8081}
+  servlet:
+    session:
+      cookie:
+        name: ${AUTH_COOKIE_NAME:AUTHSESSION}
+        http-only: true
+        secure: ${AUTH_COOKIE_SECURE:false}
+        same-site: ${AUTH_COOKIE_SAMESITE:lax}
+        path: /
+    context-path: /auth
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: auth
+
+  security:
+    oauth2:
+      authorization-server:
+        issuer: http://${SPA_HOST:localhost}:${SPA_PORT:5173}/gateway/auth
+        client:
+          gateway:
+            registration:
+              client-id: ${AUTH_GATEWAY_CLIENT_ID:gateway}
+              client-secret: ${AUTH_GATEWAY_CLIENT_SECRET_HASH:$2a$10$UcOUhlkkH9vz0zQwQqhZfeVTmtRTP6zKlMJi7IJjQ3FA2ILMKJ7gq}
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - authorization_code
+                - refresh_token
+              post-logout-redirect-uris:
+                - http://${SPA_HOST:localhost}:${SPA_PORT:5173}
+              redirect-uris:
+                - http://${SPA_HOST:localhost}:${SPA_PORT:5173}/login/oauth2/code/gateway
+              scopes:
+                - openid
+                - profile
+            require-authorization-consent: false
+          resource:
+            registration:
+              client-id: ${AUTH_RESOURCE_CLIENT_ID:resource}
+              client-secret: ${AUTH_RESOURCE_CLIENT_SECRET_HASH:$2a$10$GEr1XoNf/0HA/q9ibnLyneZjYDwzVhtKcfypHUX0MNjFEi04OQ/ta}
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - client_credentials
+              scopes:
+                - internal
+            require-authorization-consent: false
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:laserworks}
+    username: ${POSTGRES_USER:laserworks}
+    password: ${POSTGRES_PASSWORD:laserworks}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

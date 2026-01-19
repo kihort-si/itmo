@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login</title>
+
+    <style>
+        :root{
+            --bg: #0c0a09;
+            --card: rgba(28,25,23,.8);
+            --card-border: #27272a;
+            --field-bg: rgba(12,10,9,.7);
+            --field-border: #3f3f46;
+            --text: #ffffff;
+            --muted: #d4d4d8;
+            --placeholder: #71717a;
+            --focus: #34d399;
+            --danger: #f87171;
+            --danger-bg: rgba(127,29,29,.35);
+            --danger-border: rgba(248,113,113,.55);
+        }
+
+        *{ box-sizing: border-box; }
+        html, body { height: 100%; }
+        body{
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+            background: radial-gradient(1200px 600px at 50% 0%, rgba(52,211,153,.10), transparent 55%),
+            var(--bg);
+            color: var(--text);
+        }
+
+        .page{
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        .wrap{
+            width: 100%;
+            max-width: 448px;
+        }
+
+        .card{
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            background: var(--card);
+            padding: 32px;
+            box-shadow: 0 0 40px rgba(0,0,0,.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        h2{
+            margin: 0 0 16px 0;
+            font-size: 24px;
+            line-height: 1.2;
+            font-weight: 650;
+            letter-spacing: .2px;
+        }
+
+        .err{
+            display: none;
+            margin: 0 0 14px 0;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid var(--danger-border);
+            background: var(--danger-bg);
+            color: #fecaca;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        form{ margin-top: 8px; }
+
+        .row{ margin: 0 0 14px 0; }
+
+        label{
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            user-select: none;
+        }
+
+        input{
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid var(--field-border);
+            background: var(--field-bg);
+            color: var(--text);
+            padding: 11px 14px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+        }
+
+        input::placeholder{ color: var(--placeholder); }
+
+        input:focus{
+            border-color: var(--focus);
+            box-shadow: 0 0 0 3px rgba(52,211,153,.25);
+        }
+
+        input:-webkit-autofill{
+            -webkit-text-fill-color: var(--text);
+            transition: background-color 9999s ease-in-out 0s;
+            box-shadow: 0 0 0 1000px rgba(12,10,9,.85) inset;
+            border: 1px solid var(--field-border);
+        }
+
+        button[type="submit"]{
+            margin-top: 10px;
+            width: 100%;
+            border: 0;
+            border-radius: 999px;
+            background: #fff;
+            color: #000;
+            font-size: 14px;
+            font-weight: 650;
+            padding: 11px 16px;
+            cursor: pointer;
+            transition: transform .04s ease, background-color .15s ease, opacity .15s ease;
+        }
+
+        button[type="submit"]:hover{ background: #e5e7eb; } /* gray-200 */
+        button[type="submit"]:active{ transform: translateY(1px); }
+        button[type="submit"]:disabled{ opacity: .7; cursor: not-allowed; }
+
+        .stack > * + * { margin-top: 14px; }
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <div class="wrap">
+        <div class="card">
+            <h2>Вход</h2>
+
+            <div id="errorBox" class="err">
+                Неверный логин или пароль
+            </div>
+
+            <!-- ВАЖНО: context-path /auth -->
+            <form method="post" action="/auth/login" class="stack">
+                <div class="row">
+                    <label for="username">Адрес электронной почты или имя пользователя</label>
+                    <input id="username" name="username" autocomplete="username" required
+                           placeholder="email@example.com" />
+                </div>
+
+                <div class="row">
+                    <label for="password">Пароль</label>
+                    <input id="password" name="password" type="password"
+                           autocomplete="current-password" required
+                           placeholder="Введите пароль" />
+                </div>
+
+                <button type="submit">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('error')) {
+        document.getElementById('errorBox').style.display = 'block';
+    }
+</script>
+</body>
+</html>

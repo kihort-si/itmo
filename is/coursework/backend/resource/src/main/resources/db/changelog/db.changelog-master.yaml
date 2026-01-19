@@ -1,0 +1,90 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-schema
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/001-schema.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 002-indexes
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/002-indexes.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 003-functions
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/003-functions.sql
+            relativeToChangelogFile: false
+            splitStatements: false
+            stripComments: false
+
+  - changeSet:
+      id: 005-message-attachments
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/005-message-attachments.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 006-add-ready-for-pickup-status
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/006-add-ready-for-pickup-status.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 007-remove-production-task-non-null-contraint
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/007-remove-production-task-non-null-contraint.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 008-pending-status
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/008-pending-status.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 009-pending-status-update
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/009-pending-status-update.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 010-client-rework-status
+      author: you
+      changes:
+        - sqlFile:
+            path: db/changelog/010-client-rework-status.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true
