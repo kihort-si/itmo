@@ -58,7 +58,7 @@
 ### **5 семестр**
 
 - [**Архитектура программных систем**](https://github.com/kihort-si/itmo/tree/main/software%20systems%20architecture)
-- [**Встроенные системы**](https://github.com/kihort-si/itmo/tree/main/integrated%20systems)
+- [**Встроенные системы**](https://github.com/kihort-si/itmo/tree/main/embedded%20systems)
 - [**Графы знаний**](https://github.com/kihort-si/itmo/tree/main/knowledge%20graphs)
 - **Иностранный язык**
 - [**Информационные системы**](https://github.com/kihort-si/itmo/tree/main/is)

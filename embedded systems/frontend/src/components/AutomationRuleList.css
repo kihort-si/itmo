@@ -1,0 +1,129 @@
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.rule-item {
+  background: var(--eco-cream);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 2px solid rgba(73, 125, 116, 0.15);
+  transition: all 0.3s ease;
+}
+
+.rule-item:hover {
+  border-color: var(--eco-secondary);
+  box-shadow: 0 4px 12px rgba(73, 125, 116, 0.1);
+}
+
+.rule-item.rule-disabled {
+  opacity: 0.6;
+  background-color: rgba(244, 244, 244, 0.8);
+}
+
+.rule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid rgba(73, 125, 116, 0.2);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.rule-title-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.rule-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--eco-dark);
+}
+
+.rule-status {
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.rule-status.enabled {
+  background-color: var(--eco-success);
+  color: white;
+  box-shadow: 0 2px 6px rgba(92, 184, 92, 0.2);
+}
+
+.rule-status.disabled {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.rule-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.rule-body {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.rule-condition,
+.rule-action {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.rule-label {
+  font-weight: 600;
+  color: var(--eco-primary);
+  font-size: 0.95rem;
+}
+
+.rule-value {
+  color: var(--eco-dark);
+  padding: 0.5rem 0.75rem;
+  background-color: var(--eco-cream);
+  border-radius: 6px;
+  border: 1px solid rgba(73, 125, 116, 0.2);
+  font-weight: 500;
+}
+
+.rule-operator {
+  font-weight: 700;
+  color: var(--eco-secondary);
+  font-size: 1.25rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.rule-arrow {
+  font-size: 1.75rem;
+  color: var(--eco-primary);
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.empty-rules {
+  text-align: center;
+  padding: 4rem;
+  color: var(--eco-primary);
+  background-color: var(--eco-cream);
+  border-radius: 12px;
+  font-size: 1.1rem;
+}
+

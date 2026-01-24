@@ -1,0 +1,17 @@
+.control-page {
+  width: 100%;
+}
+
+.control-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card-description {
+  color: var(--eco-primary);
+  margin-bottom: 2rem;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+

@@ -1,0 +1,28 @@
+:root {
+  --eco-primary: #497D74;
+  --eco-secondary: #71BBB2;
+  --eco-light: #F4F4F4;
+  --eco-dark: #27445D;
+  --eco-cream: #EFE9D5;
+
+  --eco-success: #5CB85C;
+  --eco-warning: #F0AD4E;
+  --eco-danger: #D9534F;
+  --eco-info: #5BC0DE;
+  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--eco-light);
+  color: var(--eco-dark);
+}
+
+#root {
+  min-height: 100vh;
+}
+
