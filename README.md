@@ -66,3 +66,15 @@
 - [**Операционные системы**](https://github.com/kihort-si/itmo/tree/main/operating%20systems)
 - [**Проектирование пользовательских интерфейсов**](https://github.com/kihort-si/itmo/tree/main/ppi)
 - [**Системы искусственного интеллекта**](https://github.com/kihort-si/itmo/tree/main/ai%20systems)
+
+### **6 семестр**
+- [**Бизнес-логика программных систем**](https://github.com/kihort-si/itmo/tree/main/blps)
+- **Иностранный язык**
+- [**Компьютерные сети**](https://github.com/kihort-si/itmo/tree/main/computer%20networks)
+- **Основы интеллектуальной собственности**
+- **Основы сетевых технологий**
+- [**Разработка мобильных приложений**](https://github.com/kihort-si/itmo/tree/main/mobile%20application%20development)
+- [**Распределенные системы хранения данных**](https://github.com/kihort-si/itmo/tree/main/rshd)
+- [**Системы ввода-вывода**](https://github.com/kihort-si/itmo/tree/main/io%20systems)
+- [**Тестирование программного обеспечения**](https://github.com/kihort-si/itmo/tree/main/tpo)
+- **Философия**
