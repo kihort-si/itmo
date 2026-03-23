@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="5. Невалидные входные данные" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-03-23T08:46:22.554Z" hostname="MacBook-Air-Nikita" time="0.007">
+  <properties/>
+  <testcase name="value=-1" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.001"/>
+  <testcase name="value=1000" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="Выбрасывает исключение при null входе" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="value=-1 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="value=-100 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.001"/>
+  <testcase name="value=1000 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="value=1001 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="value=9999 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="value=-500 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="value=1500 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="value=-999999 — вне диапазона" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.0"/>
+  <testcase name="Выбрасывает исключение если список содержит null" classname="ru.itmo.tpo.BucketSortTest$InvalidInputs" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

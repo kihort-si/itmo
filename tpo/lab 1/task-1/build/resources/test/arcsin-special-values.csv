@@ -1,0 +1,4 @@
+x,expected,tolerance,description
+0.0,0.0,0.0,arcsin(0) = 0
+1.0,1.5707963267948966,1e-9,arcsin(1) = pi/2
+-1.0,-1.5707963267948966,1e-9,arcsin(-1) = -pi/2

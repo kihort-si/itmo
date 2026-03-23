@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="8. Граничные индексы бакетов" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-03-23T08:46:22.544Z" hostname="MacBook-Air-Nikita" time="0.004">
+  <properties/>
+  <testcase name="value=0 -&gt; bucket=0" classname="ru.itmo.tpo.BucketSortTest$BucketIndexCalculation" time="0.001"/>
+  <testcase name="value=33 -&gt; bucket=0" classname="ru.itmo.tpo.BucketSortTest$BucketIndexCalculation" time="0.0"/>
+  <testcase name="value=34 -&gt; bucket=1" classname="ru.itmo.tpo.BucketSortTest$BucketIndexCalculation" time="0.001"/>
+  <testcase name="value=67 -&gt; bucket=2" classname="ru.itmo.tpo.BucketSortTest$BucketIndexCalculation" time="0.0"/>
+  <testcase name="value=333 -&gt; bucket=9" classname="ru.itmo.tpo.BucketSortTest$BucketIndexCalculation" time="0.001"/>
+  <testcase name="value=666 -&gt; bucket=19" classname="ru.itmo.tpo.BucketSortTest$BucketIndexCalculation" time="0.0"/>
+  <testcase name="value=999 -&gt; bucket=29" classname="ru.itmo.tpo.BucketSortTest$BucketIndexCalculation" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

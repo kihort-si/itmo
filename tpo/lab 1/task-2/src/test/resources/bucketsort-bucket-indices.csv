@@ -1,0 +1,8 @@
+value,expectedBucket,description
+0,0,minimum to first bucket
+33,0,boundary 0-33
+34,1,boundary 33-34
+67,2,boundary 66-67
+333,9,middle
+666,19,two thirds
+999,29,maximum to last bucket

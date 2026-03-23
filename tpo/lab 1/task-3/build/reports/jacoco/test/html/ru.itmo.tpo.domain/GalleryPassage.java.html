@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GalleryPassage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">task-3</a> &gt; <a href="index.source.html" class="el_package">ru.itmo.tpo.domain</a> &gt; <span class="el_source">GalleryPassage.java</span></div><h1>GalleryPassage.java</h1><pre class="source lang-java linenums">package ru.itmo.tpo.domain;
+
+import java.time.Duration;
+
+public class GalleryPassage {
+    private final String id;
+    private final Blockage blockage;
+    private final double baseDarkness;
+    private double dustLevel;
+
+<span class="nc" id="L11">    public GalleryPassage(String id, Blockage blockage, double dustLevel, double baseDarkness) {</span>
+<span class="nc bnc" id="L12" title="All 4 branches missed.">        if (id == null || id.isBlank()) {</span>
+<span class="nc" id="L13">            throw new IllegalArgumentException(&quot;id must not be blank&quot;);</span>
+        }
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        if (blockage == null) {</span>
+<span class="nc" id="L16">            throw new IllegalArgumentException(&quot;blockage must not be null&quot;);</span>
+        }
+<span class="nc" id="L18">        this.id = id;</span>
+<span class="nc" id="L19">        this.blockage = blockage;</span>
+<span class="nc" id="L20">        this.dustLevel = clamp(dustLevel);</span>
+<span class="nc" id="L21">        this.baseDarkness = clamp(baseDarkness);</span>
+<span class="nc" id="L22">    }</span>
+
+    public double clearBy(Clearer clearer, Duration duration) {
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (clearer == null) {</span>
+<span class="nc" id="L26">            throw new IllegalArgumentException(&quot;clearer must not be null&quot;);</span>
+        }
+<span class="nc bnc" id="L28" title="All 4 branches missed.">        if (duration == null || duration.isNegative()) {</span>
+<span class="nc" id="L29">            throw new IllegalArgumentException(&quot;duration must be non-negative&quot;);</span>
+        }
+<span class="nc" id="L31">        double seconds = duration.toMillis() / 1000.0;</span>
+<span class="nc" id="L32">        return blockage.clear(clearer.clearancePerSecond() * seconds);</span>
+    }
+
+    public PassageState state() {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (blockage.isCleared()) {</span>
+<span class="nc" id="L37">            return PassageState.PASSABLE;</span>
+        }
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (blockage.progress() &gt; 0.0) {</span>
+<span class="nc" id="L40">            return PassageState.PARTIALLY_CLEARED;</span>
+        }
+<span class="nc" id="L42">        return PassageState.BLOCKED;</span>
+    }
+
+    public boolean isPassable() {
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        return state() == PassageState.PASSABLE;</span>
+    }
+
+    public double visibility(LightSource light, AirState airState) {
+<span class="nc bnc" id="L50" title="All 4 branches missed.">        if (light == null || airState == null) {</span>
+<span class="nc" id="L51">            throw new IllegalArgumentException(&quot;light and airState must not be null&quot;);</span>
+        }
+<span class="nc" id="L53">        double effectiveLight = light.effectiveLight(dustLevel);</span>
+<span class="nc" id="L54">        double darknessPenalty = baseDarkness * 0.7 + dustLevel * 0.2 + airState.rawness() * 0.1;</span>
+<span class="nc" id="L55">        return clamp(effectiveLight - darknessPenalty);</span>
+    }
+
+    public String id() {
+<span class="nc" id="L59">        return id;</span>
+    }
+
+    public Blockage blockage() {
+<span class="nc" id="L63">        return blockage;</span>
+    }
+
+    public double dustLevel() {
+<span class="nc" id="L67">        return dustLevel;</span>
+    }
+
+    public void setDustLevel(double dustLevel) {
+<span class="nc" id="L71">        this.dustLevel = clamp(dustLevel);</span>
+<span class="nc" id="L72">    }</span>
+
+    private static double clamp(double value) {
+<span class="nc" id="L75">        return Math.max(0.0, Math.min(1.0, value));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

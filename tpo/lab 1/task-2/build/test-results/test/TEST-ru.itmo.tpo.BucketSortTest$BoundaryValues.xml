@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="4. Граничные значения диапазона [0, 999]" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-03-23T08:46:22.562Z" hostname="MacBook-Air-Nikita" time="0.001">
+  <properties/>
+  <testcase name="with zero: 100,0,500 -&gt; 0,100,500" classname="ru.itmo.tpo.BucketSortTest$BoundaryValues" time="0.0"/>
+  <testcase name="with max value: 999,0,500 -&gt; 0,500,999" classname="ru.itmo.tpo.BucketSortTest$BoundaryValues" time="0.001"/>
+  <testcase name="min and max only: 999,0 -&gt; 0,999" classname="ru.itmo.tpo.BucketSortTest$BoundaryValues" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

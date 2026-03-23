@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="8. Редукция аргумента (|x| &gt; 1/sqrt2 = 0.7071)" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-03-23T09:31:20.173Z" hostname="MacBook-Air-Nikita" time="0.009">
+  <properties/>
+  <testcase name="arcsin(0.75) = 0.848062078981481 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(0.8) = 0.9272952180016123 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(0.85) = 1.0159852938148251 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(0.9) = 1.1197695149986342 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(0.95) = 1.2532358975033751 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(0.99) = 1.4292568534704693 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(0.999) = 1.5260712396261631 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(-0.75) = -0.848062078981481 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(-0.8) = -0.9272952180016123 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.001"/>
+  <testcase name="arcsin(-0.85) = -1.0159852938148251 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(-0.9) = -1.1197695149986342 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.0"/>
+  <testcase name="arcsin(-0.95) = -1.2532358975033751 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.001"/>
+  <testcase name="arcsin(-0.99) = -1.4292568534704693 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.001"/>
+  <testcase name="arcsin(0.9999) = 1.5566540733173846 через редукцию" classname="ru.itmo.tpo.utils.CalculationTest$ArgumentReduction" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

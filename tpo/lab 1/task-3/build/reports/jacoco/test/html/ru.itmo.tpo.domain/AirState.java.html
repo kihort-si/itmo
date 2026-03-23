@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AirState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">task-3</a> &gt; <a href="index.source.html" class="el_package">ru.itmo.tpo.domain</a> &gt; <span class="el_source">AirState.java</span></div><h1>AirState.java</h1><pre class="source lang-java linenums">package ru.itmo.tpo.domain;
+
+public class AirState {
+    private double rawness;
+    private double flowFromDepths;
+
+<span class="fc" id="L7">    public AirState(double rawness, double flowFromDepths) {</span>
+<span class="fc" id="L8">        this.rawness = clamp(rawness);</span>
+<span class="fc" id="L9">        this.flowFromDepths = clamp(flowFromDepths);</span>
+<span class="fc" id="L10">    }</span>
+
+    public void intensifyFromDepths(double delta) {
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">        if (delta &lt; 0) {</span>
+<span class="nc" id="L14">            throw new IllegalArgumentException(&quot;delta must be &gt;= 0&quot;);</span>
+        }
+<span class="fc" id="L16">        flowFromDepths = clamp(flowFromDepths + delta);</span>
+<span class="fc" id="L17">        rawness = clamp(rawness + delta * 0.5);</span>
+<span class="fc" id="L18">    }</span>
+
+    public double rawness() {
+<span class="fc" id="L21">        return rawness;</span>
+    }
+
+    public double flowFromDepths() {
+<span class="fc" id="L25">        return flowFromDepths;</span>
+    }
+
+    private static double clamp(double value) {
+<span class="fc" id="L29">        return Math.max(0.0, Math.min(1.0, value));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

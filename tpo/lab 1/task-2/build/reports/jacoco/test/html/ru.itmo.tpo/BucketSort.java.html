@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BucketSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">task-2</a> &gt; <a href="index.source.html" class="el_package">ru.itmo.tpo</a> &gt; <span class="el_source">BucketSort.java</span></div><h1>BucketSort.java</h1><pre class="source lang-java linenums">package ru.itmo.tpo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="fc" id="L6">public class BucketSort {</span>
+    public static final int BUCKET_COUNT = 30;
+    public static final int MAX_DATA_VALUE = 999;
+
+<span class="fc" id="L10">    public enum Point {</span>
+<span class="fc" id="L11">        START,</span>
+<span class="fc" id="L12">        CALC_INDEX,</span>
+<span class="fc" id="L13">        INSERT_EMPTY,</span>
+<span class="fc" id="L14">        INSERT_HEAD,</span>
+<span class="fc" id="L15">        INSERT_MIDDLE,</span>
+<span class="fc" id="L16">        INSERT_TAIL,</span>
+<span class="fc" id="L17">        MERGE,</span>
+<span class="fc" id="L18">        END</span>
+    }
+
+    public static final class TraceStep {
+        private final Point point;
+        private final String detail;
+
+<span class="fc" id="L25">        public TraceStep(Point point, String detail) {</span>
+<span class="fc" id="L26">            this.point = point;</span>
+<span class="fc" id="L27">            this.detail = detail;</span>
+<span class="fc" id="L28">        }</span>
+
+        public Point point() {
+<span class="fc" id="L31">            return point;</span>
+        }
+
+        public String detail() {
+<span class="fc" id="L35">            return detail;</span>
+        }
+    }
+
+    public static final class SortResult {
+        private final List&lt;Integer&gt; sorted;
+        private final List&lt;TraceStep&gt; trace;
+
+<span class="fc" id="L43">        public SortResult(List&lt;Integer&gt; sorted, List&lt;TraceStep&gt; trace) {</span>
+<span class="fc" id="L44">            this.sorted = sorted;</span>
+<span class="fc" id="L45">            this.trace = trace;</span>
+<span class="fc" id="L46">        }</span>
+
+        public List&lt;Integer&gt; sorted() {
+<span class="fc" id="L49">            return sorted;</span>
+        }
+
+        public List&lt;TraceStep&gt; trace() {
+<span class="fc" id="L53">            return trace;</span>
+        }
+    }
+
+    private static final class Node {
+        private final int data;
+        private Node next;
+
+<span class="fc" id="L61">        private Node(int data) {</span>
+<span class="fc" id="L62">            this.data = data;</span>
+<span class="fc" id="L63">        }</span>
+    }
+
+    public List&lt;Integer&gt; sort(List&lt;Integer&gt; input) {
+<span class="fc" id="L67">        return sortWithTrace(input).sorted();</span>
+    }
+
+    public SortResult sortWithTrace(List&lt;Integer&gt; input) {
+<span class="fc" id="L71">        validateInput(input);</span>
+
+<span class="fc" id="L73">        List&lt;TraceStep&gt; trace = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L74">        trace.add(new TraceStep(Point.START, &quot;n=&quot; + input.size()));</span>
+
+<span class="fc" id="L76">        Node[] buckets = new Node[BUCKET_COUNT];</span>
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        for (int value : input) {</span>
+<span class="fc" id="L79">            int index = bucketIndex(value);</span>
+<span class="fc" id="L80">            trace.add(new TraceStep(Point.CALC_INDEX, &quot;v=&quot; + value + &quot;,b=&quot; + index));</span>
+
+<span class="fc" id="L82">            Node node = new Node(value);</span>
+<span class="fc" id="L83">            Node head = buckets[index];</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if (head == null) {</span>
+<span class="fc" id="L86">                buckets[index] = node;</span>
+<span class="fc" id="L87">                trace.add(new TraceStep(Point.INSERT_EMPTY, &quot;b=&quot; + index + &quot;,v=&quot; + value));</span>
+<span class="fc" id="L88">                continue;</span>
+            }
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            if (head.data &gt;= node.data) {</span>
+<span class="fc" id="L92">                node.next = head;</span>
+<span class="fc" id="L93">                buckets[index] = node;</span>
+<span class="fc" id="L94">                trace.add(new TraceStep(Point.INSERT_HEAD, &quot;b=&quot; + index + &quot;,v=&quot; + value));</span>
+<span class="fc" id="L95">                continue;</span>
+            }
+
+<span class="fc" id="L98">            Node current = head;</span>
+<span class="fc bfc" id="L99" title="All 4 branches covered.">            while (current.next != null &amp;&amp; current.next.data &lt; node.data) {</span>
+<span class="fc" id="L100">                current = current.next;</span>
+            }
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (current.next != null) {</span>
+<span class="fc" id="L104">                node.next = current.next;</span>
+<span class="fc" id="L105">                current.next = node;</span>
+<span class="fc" id="L106">                trace.add(new TraceStep(Point.INSERT_MIDDLE, &quot;b=&quot; + index + &quot;,v=&quot; + value));</span>
+            } else {
+<span class="fc" id="L108">                current.next = node;</span>
+<span class="fc" id="L109">                trace.add(new TraceStep(Point.INSERT_TAIL, &quot;b=&quot; + index + &quot;,v=&quot; + value));</span>
+            }
+<span class="fc" id="L111">        }</span>
+
+<span class="fc" id="L113">        List&lt;Integer&gt; out = new ArrayList&lt;&gt;(input.size());</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        for (int i = 0; i &lt; BUCKET_COUNT; i++) {</span>
+<span class="fc" id="L115">            Node current = buckets[i];</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            while (current != null) {</span>
+<span class="fc" id="L117">                out.add(current.data);</span>
+<span class="fc" id="L118">                trace.add(new TraceStep(Point.MERGE, &quot;b=&quot; + i + &quot;,v=&quot; + current.data + &quot;,pos=&quot; + (out.size() - 1)));</span>
+<span class="fc" id="L119">                current = current.next;</span>
+            }
+        }
+
+<span class="fc" id="L123">        trace.add(new TraceStep(Point.END, &quot;n=&quot; + out.size()));</span>
+<span class="fc" id="L124">        return new SortResult(out, trace);</span>
+    }
+
+    static int bucketIndex(int value) {
+<span class="fc" id="L128">        return (value * BUCKET_COUNT) / (MAX_DATA_VALUE + 1);</span>
+    }
+
+    private static void validateInput(List&lt;Integer&gt; input) {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (input == null) {</span>
+<span class="fc" id="L133">            throw new IllegalArgumentException(&quot;input must not be null&quot;);</span>
+        }
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        for (Integer v : input) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            if (v == null) {</span>
+<span class="fc" id="L137">                throw new IllegalArgumentException(&quot;input contains null&quot;);</span>
+            }
+<span class="fc bfc" id="L139" title="All 4 branches covered.">            if (v &lt; 0 || v &gt; MAX_DATA_VALUE) {</span>
+<span class="fc" id="L140">                throw new IllegalArgumentException(&quot;value out of range [0..&quot; + MAX_DATA_VALUE + &quot;]: &quot; + v);</span>
+            }
+<span class="fc" id="L142">        }</span>
+<span class="fc" id="L143">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

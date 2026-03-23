@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="2. Табличные значения" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-03-23T09:31:20.205Z" hostname="MacBook-Air-Nikita" time="0.002">
+  <properties/>
+  <testcase name="pi/6: arcsin(0.5) = 0.5235987755982988" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="pi/4 (sqrt2/2): arcsin(0.7071067811865476) = 0.7853981633974483" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="pi/3 (sqrt3/2): arcsin(0.8660254037844387) = 1.0471975511965976" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="-pi/6: arcsin(-0.5) = -0.5235987755982988" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.001"/>
+  <testcase name="x=0.1: arcsin(0.1) = 0.10016742116155979" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="x=0.3: arcsin(0.3) = 0.3046926540153975" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="x=0.9: arcsin(0.9) = 1.1197695149986342" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="x=-0.9: arcsin(-0.9) = -1.1197695149986342" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="near boundary 0.99: arcsin(0.99) = 1.4292553553761878" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <testcase name="near boundary -0.99: arcsin(-0.99) = -1.4292553553761878" classname="ru.itmo.tpo.utils.CalculationTest$TableValues" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

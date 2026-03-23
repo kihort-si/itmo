@@ -1,0 +1,5 @@
+x,expected,tolerance,description
+0.2,1.5707963267948966,1e-9,identity arcsin(x)+arcsin(sqrt(1-x²))=pi/2
+0.4,1.5707963267948966,1e-9,identity arcsin(x)+arcsin(sqrt(1-x²))=pi/2
+0.6,1.5707963267948966,1e-9,identity arcsin(x)+arcsin(sqrt(1-x²))=pi/2
+0.8,1.5707963267948966,1e-9,identity arcsin(x)+arcsin(sqrt(1-x²))=pi/2

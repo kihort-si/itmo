@@ -1,0 +1,7 @@
+x,expected,description
+1.0001,IllegalArgumentException,just outside [1]
+2.0,IllegalArgumentException,x=2
+100.0,IllegalArgumentException,x=100
+-1.0001,IllegalArgumentException,just outside [-1]
+-2.0,IllegalArgumentException,x=-2
+-100.0,IllegalArgumentException,x=-100

@@ -1,0 +1,4 @@
+x,eps,expected,tolerance,description
+0.6,1e-3,0.64350110879328437,1e-3,coarse eps=1e-3
+0.6,1e-6,0.64350110879328437,1e-6,medium eps=1e-6
+0.6,1e-10,0.64350110879328437,1e-9,precise eps=1e-10

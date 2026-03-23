@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.itmo.tpo.domain.AirStateTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-03-23T09:49:27.712Z" hostname="MacBook-Air-Nikita" time="0.007">
+  <properties/>
+  <testcase name="shouldClampValuesIntoRange()" classname="ru.itmo.tpo.domain.AirStateTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

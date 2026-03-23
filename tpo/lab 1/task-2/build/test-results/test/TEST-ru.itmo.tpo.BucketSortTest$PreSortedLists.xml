@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="2. Уже отсортированные и обратно отсортированные списки" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-03-23T08:46:22.566Z" hostname="MacBook-Air-Nikita" time="0.001">
+  <properties/>
+  <testcase name="ascending sorted: 0,100,200,300,500,700,999 -&gt; 0,100,200,300,500,700,999" classname="ru.itmo.tpo.BucketSortTest$PreSortedLists" time="0.001"/>
+  <testcase name="descending sorted: 999,700,500,300,200,100,0 -&gt; 0,100,200,300,500,700,999" classname="ru.itmo.tpo.BucketSortTest$PreSortedLists" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

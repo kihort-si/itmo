@@ -1,0 +1,15 @@
+x,expected,tolerance,description
+0.75,0.848062078981481,1e-9,reduced argument
+0.8,0.9272952180016123,1e-9,reduced argument
+0.85,1.0159852938148251,1e-9,reduced argument
+0.9,1.1197695149986342,1e-9,reduced argument
+0.95,1.2532358975033751,1e-9,reduced argument
+0.99,1.4292568534704693,1e-9,reduced argument
+0.999,1.5260712396261631,1e-9,reduced argument
+-0.75,-0.848062078981481,1e-9,reduced argument
+-0.8,-0.9272952180016123,1e-9,reduced argument
+-0.85,-1.0159852938148251,1e-9,reduced argument
+-0.9,-1.1197695149986342,1e-9,reduced argument
+-0.95,-1.2532358975033751,1e-9,reduced argument
+-0.99,-1.4292568534704693,1e-9,reduced argument
+0.9999,1.5566540733173846,1e-9,very close to 1
