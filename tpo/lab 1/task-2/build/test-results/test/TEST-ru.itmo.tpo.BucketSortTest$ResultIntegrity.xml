@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="10. Проверка целостности результата" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-03-23T08:46:22.539Z" hostname="MacBook-Air-Nikita" time="0.001">
-  <properties/>
-  <testcase name="Результат не содержит лишних элементов" classname="ru.itmo.tpo.BucketSortTest$ResultIntegrity" time="0.0"/>
-  <testcase name="Результат содержит все исходные элементы" classname="ru.itmo.tpo.BucketSortTest$ResultIntegrity" time="0.0"/>
-  <testcase name="Результат отсортирован по неубыванию" classname="ru.itmo.tpo.BucketSortTest$ResultIntegrity" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

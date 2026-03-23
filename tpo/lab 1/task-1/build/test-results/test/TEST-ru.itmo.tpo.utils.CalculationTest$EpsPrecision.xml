@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="4. Зависимость точности от eps" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-03-23T09:31:20.198Z" hostname="MacBook-Air-Nikita" time="0.001">
-  <properties/>
-  <testcase name="x=0.6, eps=1e-3, expected=0.64350110879328437" classname="ru.itmo.tpo.utils.CalculationTest$EpsPrecision" time="0.001"/>
-  <testcase name="x=0.6, eps=1e-6, expected=0.64350110879328437" classname="ru.itmo.tpo.utils.CalculationTest$EpsPrecision" time="0.0"/>
-  <testcase name="x=0.6, eps=1e-10, expected=0.64350110879328437" classname="ru.itmo.tpo.utils.CalculationTest$EpsPrecision" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

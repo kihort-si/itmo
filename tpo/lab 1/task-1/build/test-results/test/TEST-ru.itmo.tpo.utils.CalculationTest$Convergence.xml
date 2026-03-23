@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="7. Расходящийся ряд (maxIter слишком мал)" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-03-23T09:31:20.183Z" hostname="MacBook-Air-Nikita" time="0.005">
-  <properties/>
-  <testcase name="Для x=0.9 и maxIter=1 — ArithmeticException (ряд не успевает сойтись)" classname="ru.itmo.tpo.utils.CalculationTest$Convergence" time="0.003"/>
-  <testcase name="Для x=0.5 достаточно 50 итераций (ряд хорошо сходится)" classname="ru.itmo.tpo.utils.CalculationTest$Convergence" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -1,6 +1,0 @@
-input,description
-"0,999",empty and max
-"10,5",head insertion
-"5,15,10",tail and middle insertion
-"100,100",duplicates in bucket
-"0,333,666,999",multiple buckets

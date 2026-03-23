@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="3. Дубликаты и повторения" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-03-23T08:46:22.564Z" hostname="MacBook-Air-Nikita" time="0.001">
-  <properties/>
-  <testcase name="all same: 42,42,42,42 -&gt; 42,42,42,42" classname="ru.itmo.tpo.BucketSortTest$DuplicatesAndRepeats" time="0.0"/>
-  <testcase name="pairs of duplicates: 100,50,100,50,100 -&gt; 50,50,100,100,100" classname="ru.itmo.tpo.BucketSortTest$DuplicatesAndRepeats" time="0.0"/>
-  <testcase name="triple duplicates: 5,5,5 -&gt; 5,5,5" classname="ru.itmo.tpo.BucketSortTest$DuplicatesAndRepeats" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

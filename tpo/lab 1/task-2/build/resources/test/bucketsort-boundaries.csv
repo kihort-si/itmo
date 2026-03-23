@@ -1,4 +1,0 @@
-input,expected,description
-"100,0,500","0,100,500",with zero
-"999,0,500","0,500,999",with max value
-"999,0","0,999",min and max only

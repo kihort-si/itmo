@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="16. Стабильность и мультипрогон" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-03-23T08:46:22.467Z" hostname="MacBook-Air-Nikita" time="0.012">
-  <properties/>
-  <testcase name="Большой список дает стабильный результат" classname="ru.itmo.tpo.BucketSortTest$StabilityTests" time="0.011"/>
-  <testcase name="Повторный прогон дает тот же результат" classname="ru.itmo.tpo.BucketSortTest$StabilityTests" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
