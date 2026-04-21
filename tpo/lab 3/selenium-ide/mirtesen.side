@@ -1,0 +1,108 @@
+{
+  "id": "b7c77c5d-2857-4d9c-a8be-4a2206bf6957",
+  "version": "2.0",
+  "name": "MirTesen UC-1..UC-9",
+  "url": "https://mirtesen.ru/",
+  "tests": [
+    {
+      "id": "uc-1",
+      "name": "UC-1 Открыть главную страницу",
+      "commands": [
+        {"id": "uc-1-1", "comment": "", "command": "open", "target": "/", "targets": [], "value": ""},
+        {"id": "uc-1-2", "comment": "", "command": "assertElementPresent", "target": "xpath=//*[normalize-space()='Рубрики']", "targets": [], "value": ""},
+        {"id": "uc-1-3", "comment": "", "command": "assertElementPresent", "target": "xpath=//a[normalize-space()='Моя лента']", "targets": [], "value": ""},
+        {"id": "uc-1-4", "comment": "", "command": "assertElementPresent", "target": "xpath=//a[normalize-space()='Популярное']", "targets": [], "value": ""},
+        {"id": "uc-1-5", "comment": "", "command": "assertElementPresent", "target": "xpath=(//*[self::h1 or self::h2 or self::h3][string-length(normalize-space()) > 20])[1]", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-2",
+      "name": "UC-2 Принять cookies",
+      "commands": [
+        {"id": "uc-2-1", "comment": "", "command": "open", "target": "/", "targets": [], "value": ""},
+        {"id": "uc-2-2", "comment": "Выполняется только если баннер показан в текущей сессии браузера.", "command": "click", "target": "xpath=//button[contains(normalize-space(), 'Принять') or contains(normalize-space(), 'Понятно') or contains(normalize-space(), 'Хорошо') or contains(normalize-space(), 'Соглас')]", "targets": [], "value": ""},
+        {"id": "uc-2-3", "comment": "", "command": "assertElementNotPresent", "target": "xpath=//button[contains(normalize-space(), 'Принять') or contains(normalize-space(), 'Понятно') or contains(normalize-space(), 'Хорошо') or contains(normalize-space(), 'Соглас')]", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-3",
+      "name": "UC-3 Просмотреть рубрики",
+      "commands": [
+        {"id": "uc-3-1", "comment": "", "command": "open", "target": "/", "targets": [], "value": ""},
+        {"id": "uc-3-2", "comment": "", "command": "assertElementPresent", "target": "xpath=//*[normalize-space()='Рубрики']", "targets": [], "value": ""},
+        {"id": "uc-3-3", "comment": "", "command": "assertElementPresent", "target": "xpath=//a[normalize-space()='Кулинария']", "targets": [], "value": ""},
+        {"id": "uc-3-4", "comment": "", "command": "assertElementPresent", "target": "xpath=//a[normalize-space()='Политика']", "targets": [], "value": ""},
+        {"id": "uc-3-5", "comment": "", "command": "assertElementPresent", "target": "xpath=//a[normalize-space()='Здоровье']", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-4",
+      "name": "UC-4 Перейти в рубрику",
+      "commands": [
+        {"id": "uc-4-1", "comment": "", "command": "open", "target": "/", "targets": [], "value": ""},
+        {"id": "uc-4-2", "comment": "", "command": "click", "target": "xpath=//a[normalize-space()='Кулинария']", "targets": [], "value": ""},
+        {"id": "uc-4-3", "comment": "", "command": "assertElementPresent", "target": "xpath=(//*[self::h1 or self::h2 or self::h3][string-length(normalize-space()) > 20])[1]", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-5",
+      "name": "UC-5 Открыть материал из ленты",
+      "commands": [
+        {"id": "uc-5-1", "comment": "", "command": "open", "target": "/", "targets": [], "value": ""},
+        {"id": "uc-5-2", "comment": "", "command": "click", "target": "xpath=(//a[contains(@href, '.mirtesen.ru/blog/')])[1]", "targets": [], "value": ""},
+        {"id": "uc-5-3", "comment": "", "command": "assertElementPresent", "target": "xpath=//h1 | //h2 | //h3", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-6",
+      "name": "UC-6 Перейти к странице источника материала",
+      "commands": [
+        {"id": "uc-6-1", "comment": "", "command": "open", "target": "/", "targets": [], "value": ""},
+        {"id": "uc-6-2", "comment": "", "command": "click", "target": "xpath=(//a[contains(@href, '.mirtesen.ru') and not(contains(@href, 'info.mirtesen.ru')) and not(contains(@href, '.mirtesen.ru/blog/'))])[1]", "targets": [], "value": ""},
+        {"id": "uc-6-3", "comment": "", "command": "assertElementPresent", "target": "xpath=//h1 | //h2 | //h3 | (//a[contains(@href, '.mirtesen.ru/blog/')])[1]", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-7",
+      "name": "UC-7 Зарегистрироваться",
+      "commands": [
+        {"id": "uc-7-1", "comment": "", "command": "open", "target": "/register", "targets": [], "value": ""},
+        {"id": "uc-7-2", "comment": "", "command": "assertElementPresent", "target": "xpath=//form | //input | //*[contains(normalize-space(), 'Зарегистр') or contains(normalize-space(), 'Регистра')]", "targets": [], "value": ""},
+        {"id": "uc-7-3", "comment": "", "command": "assertElementPresent", "target": "xpath=//input[@type='email' or @type='tel' or @type='text' or @name='email' or @name='phone'] | //*[contains(translate(normalize-space(), 'EMAILТЕЛЕФОН', 'emailтелефон'), 'email') or contains(translate(normalize-space(), 'EMAILТЕЛЕФОН', 'emailтелефон'), 'телефон')]", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-8",
+      "name": "UC-8 Войти в аккаунт",
+      "commands": [
+        {"id": "uc-8-1", "comment": "В Selenium IDE значения учетной записи задаются вручную перед запуском.", "command": "open", "target": "/?auth=login", "targets": [], "value": ""},
+        {"id": "uc-8-2", "comment": "", "command": "click", "target": "xpath=//button[contains(normalize-space(), 'Вход по почте')]", "targets": [], "value": ""},
+        {"id": "uc-8-3", "comment": "", "command": "type", "target": "xpath=(//input[@type='email' or contains(@name, 'email') or contains(@name, 'login')])[1]", "targets": [], "value": "${login}"},
+        {"id": "uc-8-4", "comment": "", "command": "type", "target": "xpath=(//input[@type='password' or contains(@name, 'password')])[1]", "targets": [], "value": "${password}"},
+        {"id": "uc-8-5", "comment": "", "command": "click", "target": "xpath=(//button[contains(normalize-space(), 'Войти') or contains(normalize-space(), 'Продолжить') or @type='submit'])[1]", "targets": [], "value": ""},
+        {"id": "uc-8-6", "comment": "", "command": "assertElementPresent", "target": "xpath=//a[normalize-space()='Моя лента']", "targets": [], "value": ""}
+      ]
+    },
+    {
+      "id": "uc-9",
+      "name": "UC-9 Просматривать Мою ленту",
+      "commands": [
+        {"id": "uc-9-1", "comment": "Требуется предварительная авторизация.", "command": "open", "target": "/", "targets": [], "value": ""},
+        {"id": "uc-9-2", "comment": "", "command": "click", "target": "xpath=//a[normalize-space()='Моя лента']", "targets": [], "value": ""},
+        {"id": "uc-9-3", "comment": "", "command": "assertElementPresent", "target": "xpath=(//*[self::h1 or self::h2 or self::h3][string-length(normalize-space()) > 20])[1]", "targets": [], "value": ""}
+      ]
+    }
+  ],
+  "suites": [
+    {
+      "id": "mirtesen-uc-suite",
+      "name": "MirTesen UC-1..UC-9 suite",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 300,
+      "tests": ["uc-1", "uc-2", "uc-3", "uc-4", "uc-5", "uc-6", "uc-7", "uc-8", "uc-9"]
+    }
+  ],
+  "urls": ["https://mirtesen.ru/"],
+  "plugins": []
+}
