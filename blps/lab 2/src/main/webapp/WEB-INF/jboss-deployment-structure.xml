@@ -1,0 +1,16 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.3">
+    <deployment>
+        <exclude-subsystems>
+            <subsystem name="jaxrs" />
+            <subsystem name="microprofile-openapi-smallrye" />
+        </exclude-subsystems>
+        <exclusions>
+            <module name="com.fasterxml.jackson.databind" />
+            <module name="com.fasterxml.jackson.core" />
+            <module name="com.fasterxml.jackson.dataformat" />
+            <module name="com.fasterxml.jackson.jakarta" />
+            <module name="com.fasterxml.jackson.jaxrs" />
+            <module name="com.fasterxml.jackson.core.jackson-annotations" />
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>

@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:blpslab;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: false
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 0
+
+app:
+  process:
+    jms:
+      enabled: false
+  security:
+    basic:
+      realm: Test Realm
+    user-store:
+      path: ./build/test-users/users.xml

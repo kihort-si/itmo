@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: blps-lab
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/studs}
+    username: "s409091"
+    password: "0QdjvOPZ6gsasXOL"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: ${DDL_AUTO:create-drop}
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: ${SQL_INIT_MODE:always}
+  jta:
+    enabled: ${JTA_ENABLED:false}
+  logging:
+    level:
+      org.springframework: DEBUG
+
+server:
+  port: ${SERVER_PORT:25203}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+  api-docs:
+    path: /v3/api-docs
+
+app:
+  process:
+    jms:
+      enabled: ${PROCESS_JMS_ENABLED:false}
+      connection-factory-jndi: ${PROCESS_JMS_CONNECTION_FACTORY_JNDI:java:/JmsXA}
+      checkout-queue-jndi: ${PROCESS_JMS_CHECKOUT_QUEUE_JNDI:java:/jms/queue/checkoutQueue}
+      delivery-queue-jndi: ${PROCESS_JMS_DELIVERY_QUEUE_JNDI:java:/jms/queue/deliveryQueue}
+  security:
+    basic:
+      realm: ${BASIC_REALM:MTS Shop}
+    user-store:
+      path: ${USER_STORE_PATH:./build/security/users.xml}
+    cors:
+      allowed-origins:
+        - "http://localhost:3000"
+        - "http://localhost:8080"
+        - "http://127.0.0.1:3000"
+        - "**"

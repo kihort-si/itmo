@@ -1,0 +1,21 @@
+# ============================================================
+# configure.cli — конфигурация WildFly для blps-lab
+# Запускается один раз при сборке Docker-образа через
+# jboss-cli.sh --file=configure.cli (embed-server mode)
+# ============================================================
+
+embed-server --server-config=standalone-full.xml --std-out=echo
+
+# ---- JMS-очереди для обработки заказов ---------------------
+
+# Очередь событий оформления заказов
+/subsystem=messaging-activemq/server=default/jms-queue=checkoutQueue:add(\
+  entries=["java:/jms/queue/checkoutQueue",\
+            "java:jboss/exported/jms/queue/checkoutQueue"])
+
+# Очередь событий назначения доставки
+/subsystem=messaging-activemq/server=default/jms-queue=deliveryQueue:add(\
+  entries=["java:/jms/queue/deliveryQueue",\
+            "java:jboss/exported/jms/queue/deliveryQueue"])
+
+stop-embedded-server
