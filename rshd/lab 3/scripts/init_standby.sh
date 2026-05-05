@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/actions.sh"
+
+action_init_standby
+log "Standby recovery state:"
+action_show_standby_recovery_state
