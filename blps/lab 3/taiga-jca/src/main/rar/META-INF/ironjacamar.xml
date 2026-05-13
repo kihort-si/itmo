@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ironjacamar xmlns="http://www.ironjacamar.org/doc/schema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.ironjacamar.org/doc/schema
+                                 http://www.ironjacamar.org/doc/schema/ironjacamar_1_2.xsd">
+    <connection-definitions>
+        <connection-definition
+                class-name="ru.itmo.blps.taiga.jca.TaigaManagedConnectionFactory"
+                jndi-name="java:/eis/TaigaConnectionFactory"
+                enabled="true"
+                use-java-context="true"
+                pool-name="TaigaConnectionFactory"/>
+    </connection-definitions>
+</ironjacamar>

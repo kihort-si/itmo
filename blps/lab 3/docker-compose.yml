@@ -1,0 +1,203 @@
+name: blps-lab
+
+services:
+
+  activemq:
+    image: apache/activemq-classic:5.18.3
+    profiles: [infra]
+    container_name: blps-activemq
+    restart: unless-stopped
+    ports:
+      - "${ACTIVEMQ_OPENWIRE_PORT:-61616}:61616"
+      - "${ACTIVEMQ_STOMP_PORT:-61613}:61613"
+      - "${ACTIVEMQ_CONSOLE_PORT:-8161}:8161"
+    environment:
+      ACTIVEMQ_OPTS: "-Xmx512M"
+
+  pg:
+    image: postgres:17
+    profiles: [infra]
+    container_name: blps-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER:     ${POSTGRES_USER:-s409091}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-0QdjvOPZ6gsasXOL}
+      POSTGRES_DB:       ${POSTGRES_DB:-studs}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-s409091} -d ${POSTGRES_DB:-studs}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # Taiga (project management, Jira-like)
+  # Профиль: taiga
+  # Запуск:  docker compose --profile taiga up -d
+  # URL:     http://localhost:${TAIGA_PORT:-9000}
+  #
+  # Первый запуск — создать суперпользователя:
+  #   docker exec -it blps-taiga-back python manage.py createsuperuser
+  # Получить Bearer-токен:
+  #   curl -s -X POST http://localhost:9000/api/v1/auth \
+  #     -H 'Content-Type: application/json' \
+  #     -d '{"type":"normal","username":"<user>","password":"<pass>"}' \
+  #     | jq -r .auth_token
+  # ---------------------------------------------------------------------------
+
+  taiga-db:
+    image: postgres:14
+    profiles: [taiga]
+    container_name: blps-taiga-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       taiga
+      POSTGRES_USER:     taiga
+      POSTGRES_PASSWORD: ${TAIGA_DB_PASSWORD:-taiga}
+    volumes:
+      - taiga_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taiga -d taiga"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  taiga-rabbitmq:
+    image: rabbitmq:3.13-alpine
+    profiles: [taiga]
+    container_name: blps-taiga-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_ERLANG_COOKIE:  ${TAIGA_RABBIT_COOKIE:-taiga-rabbit-cookie}
+      RABBITMQ_DEFAULT_USER:   taiga
+      RABBITMQ_DEFAULT_PASS:   ${TAIGA_RABBIT_PASSWORD:-taiga}
+      RABBITMQ_DEFAULT_VHOST:  taiga
+    volumes:
+      - taiga_rabbit_data:/var/lib/rabbitmq
+
+  taiga-back:
+    image: taigaio/taiga-back:6.8.1
+    profiles: [taiga]
+    container_name: blps-taiga-back
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       taiga
+      POSTGRES_USER:     taiga
+      POSTGRES_PASSWORD: ${TAIGA_DB_PASSWORD:-taiga}
+      POSTGRES_HOST:     taiga-db
+      TAIGA_SECRET_KEY:  ${TAIGA_SECRET_KEY:-changeme-use-long-random-string}
+      TAIGA_SITES_DOMAIN: ${TAIGA_SITES_DOMAIN:-localhost:9000}
+      TAIGA_SITES_SCHEME: http
+      ENABLE_TELEMETRY:  "False"
+      RABBITMQ_USER:     taiga
+      RABBITMQ_PASS:     ${TAIGA_RABBIT_PASSWORD:-taiga}
+      RABBITMQ_VHOST:    taiga
+      RABBITMQ_HOST:     taiga-rabbitmq
+      RABBITMQ_PORT:     5672
+      CELERY_BROKER_URL: "amqp://taiga:${TAIGA_RABBIT_PASSWORD:-taiga}@taiga-rabbitmq:5672/taiga"
+      EVENTS_PUSH_BACKEND_URL: "amqp://taiga:${TAIGA_RABBIT_PASSWORD:-taiga}@taiga-rabbitmq:5672/taiga"
+      EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+    volumes:
+      - taiga_static:/taiga-back/static
+      - taiga_media:/taiga-back/media
+    depends_on:
+      taiga-db:
+        condition: service_healthy
+      taiga-rabbitmq:
+        condition: service_started
+
+  taiga-async:
+    image: taigaio/taiga-back:6.8.1
+    profiles: [taiga]
+    container_name: blps-taiga-async
+    restart: unless-stopped
+    entrypoint: ["/taiga-back/docker/async_entrypoint.sh"]
+    environment:
+      POSTGRES_DB:       taiga
+      POSTGRES_USER:     taiga
+      POSTGRES_PASSWORD: ${TAIGA_DB_PASSWORD:-taiga}
+      POSTGRES_HOST:     taiga-db
+      TAIGA_SECRET_KEY:  ${TAIGA_SECRET_KEY:-changeme-use-long-random-string}
+      TAIGA_SITES_DOMAIN: ${TAIGA_SITES_DOMAIN:-localhost:9000}
+      TAIGA_SITES_SCHEME: http
+      ENABLE_TELEMETRY:  "False"
+      RABBITMQ_USER:     taiga
+      RABBITMQ_PASS:     ${TAIGA_RABBIT_PASSWORD:-taiga}
+      RABBITMQ_VHOST:    taiga
+      RABBITMQ_HOST:     taiga-rabbitmq
+      RABBITMQ_PORT:     5672
+      CELERY_BROKER_URL: "amqp://taiga:${TAIGA_RABBIT_PASSWORD:-taiga}@taiga-rabbitmq:5672/taiga"
+    volumes:
+      - taiga_static:/taiga-back/static
+      - taiga_media:/taiga-back/media
+    depends_on:
+      taiga-back:
+        condition: service_started
+
+  taiga-front:
+    image: taigaio/taiga-front:6.8.1
+    profiles: [taiga]
+    container_name: blps-taiga-front
+    restart: unless-stopped
+    environment:
+      TAIGA_URL:            http://${TAIGA_SITES_DOMAIN:-localhost:9000}
+      TAIGA_WEBSOCKETS_URL: ws://${TAIGA_SITES_DOMAIN:-localhost:9000}
+      ENABLE_TELEMETRY:     "False"
+
+  taiga-events:
+    image: taigaio/taiga-events:latest
+    profiles: [taiga]
+    container_name: blps-taiga-events
+    restart: unless-stopped
+    environment:
+      RABBITMQ_USER:    taiga
+      RABBITMQ_PASS:    ${TAIGA_RABBIT_PASSWORD:-taiga}
+      RABBITMQ_VHOST:   taiga
+      RABBITMQ_HOST:    taiga-rabbitmq
+      RABBITMQ_PORT:    5672
+      TAIGA_SECRET_KEY: ${TAIGA_SECRET_KEY:-changeme-use-long-random-string}
+    depends_on:
+      - taiga-rabbitmq
+
+  taiga-protected:
+    image: taigaio/taiga-protected:latest
+    profiles: [taiga]
+    container_name: blps-taiga-protected
+    restart: unless-stopped
+    environment:
+      MAX_AGE:    360
+      SECRET_KEY: ${TAIGA_SECRET_KEY:-changeme-use-long-random-string}
+
+  taiga-gateway:
+    image: nginx:1.27-alpine
+    profiles: [taiga]
+    container_name: blps-taiga-gateway
+    restart: unless-stopped
+    ports:
+      - "${TAIGA_PORT:-9000}:80"
+    volumes:
+      - ./docker/taiga/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - taiga_static:/taiga/static:ro
+      - taiga_media:/taiga/media:ro
+    depends_on:
+      - taiga-back
+      - taiga-front
+      - taiga-events
+      - taiga-protected
+
+volumes:
+  pg_data:
+    driver: local
+  user_store:
+    driver: local
+  taiga_db_data:
+    driver: local
+  taiga_rabbit_data:
+    driver: local
+  taiga_static:
+    driver: local
+  taiga_media:
+    driver: local
