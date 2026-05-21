@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "MyBroker",
+    "slug": "mybroker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": false,
+    "splash": {
+      "backgroundColor": "#07090C",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "ru.itmo.mybroker"
+    },
+    "android": {
+      "package": "ru.itmo.mybroker",
+      "adaptiveIcon": {
+        "backgroundColor": "#07090C"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}

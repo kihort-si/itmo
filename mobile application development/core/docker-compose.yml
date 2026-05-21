@@ -1,0 +1,259 @@
+services:    
+  core-postgres:
+    build:
+      context: ./core-database
+      dockerfile: Dockerfile
+    container_name: core-postgres
+    env_file: env/database.env
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./core-database/liquibase:/opt/liquibase-projects
+
+
+  core-refs:
+    build:
+      context: core-refs/
+      dockerfile: Dockerfile
+    hostname: core-refs
+    env_file: env/refs.env
+    restart: unless-stopped
+    depends_on:
+      - core-postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway" 
+  
+  core-clients:
+    build:
+      context: core-clients/
+      dockerfile: Dockerfile
+    hostname: core-clients
+    env_file: env/clients.env
+    restart: unless-stopped
+    depends_on:
+      - core-postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  core-auth:
+    build:
+      context: core-auth/
+      dockerfile: Dockerfile
+    hostname: core-auth
+    env_file: env/auth.env
+    restart: unless-stopped
+    depends_on:
+      - core-postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  core-balm:
+    build:
+      context: core-balm/
+      dockerfile: Dockerfile
+    hostname: core-balm
+    env_file: env/balm.env
+    restart: unless-stopped
+    depends_on:
+      - core-postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  core-depository:
+    build:
+      context: core-depository/
+      dockerfile: Dockerfile
+    hostname: core-depository
+    env_file: env/depository.env
+    restart: unless-stopped
+    depends_on:
+      - core-postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  core-orders:
+    build:
+      context: core-orders/
+      dockerfile: Dockerfile
+    hostname: core-orders
+    env_file: env/orders.env
+    restart: unless-stopped
+    depends_on:
+      - core-postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  core-gateway:
+    build:
+      context: core-gateway/
+      dockerfile: Dockerfile
+    hostname: core-gateway
+    env_file: env/gateway.env
+    restart: unless-stopped
+    depends_on:
+      - temporal
+      - rabbit
+      - core-worker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis:
+    image: redis:7-alpine
+    hostname: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  bff:
+    build:
+      context: bff/
+      dockerfile: Dockerfile
+    hostname: bff
+    env_file: env/bff.env
+    restart: unless-stopped
+    depends_on:
+      - core-nginx
+      - redis
+    ports:
+      - "8060:8060"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  core-mocker:
+    build:
+      context: core-mocker/
+      dockerfile: Dockerfile
+    hostname: core-mocker
+    restart: unless-stopped
+
+  exchange-adapter:
+   build:
+     context: exchange-adapter
+     dockerfile: Dockerfile
+   hostname: exchange-adapter
+   env_file: env/exchange-adapter.env
+   restart: unless-stopped
+   depends_on:
+     - clickhouse
+   ports:
+     - "8040:8040"
+
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro      
+      - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro      
+  
+  temporal:
+    image: temporalio/auto-setup:1.29.6.1
+    hostname: temporal
+    container_name: temporal
+    depends_on:
+      - core-postgres
+    env_file: env/temporal.env
+    ports:
+      - "7233:7233"                         
+    restart: unless-stopped
+  
+  temporal-ui:
+    image: temporalio/ui:2.49.1 
+    hostname: temporal-ui
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:8088
+    ports:
+      - "8088:8080"                         
+    restart: unless-stopped
+  
+  core-nginx:
+    image: nginx:latest
+    hostname: core-nginx
+    depends_on:
+      - core-refs
+      - core-clients
+      - core-auth
+      - core-balm
+      - core-depository
+      - core-orders
+      - core-gateway
+#      - exchange-adapter
+    ports:
+      - "8050:8050"
+    volumes:
+      - ./core-nginx:/etc/nginx/conf.d/:ro
+    restart: unless-stopped
+  
+  core-rep:
+    build:
+      context: core-rep/
+      dockerfile: Dockerfile
+    hostname: core-rep
+    env_file: env/rep.env
+    restart: unless-stopped
+    depends_on:
+      - core-postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  core-mds:
+    build:
+      context: core-mds/
+      dockerfile: Dockerfile
+    hostname: core-mds
+    env_file: env/mds.env
+    restart: unless-stopped
+    depends_on:
+      - clickhouse
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  core-notify:
+    build:
+      context: core-notify/
+      dockerfile: Dockerfile
+    hostname: core-notify
+    env_file: env/notify.env
+    restart: unless-stopped
+    depends_on:
+      - rabbit
+      - core-rep
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  core-worker:
+    build:
+      context: ./core-worker
+      dockerfile: Dockerfile
+    depends_on:
+      - temporal
+    restart: unless-stopped
+    env_file: env/worker.env
+  
+  clickhouse:
+    build:
+      context: ./clickhouse
+      dockerfile: Dockerfile
+    container_name: clickhouse
+    env_file: env/clickhouse.env
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - ./clickhouse/liquibase:/opt/liquibase-projects
+   
+
+  

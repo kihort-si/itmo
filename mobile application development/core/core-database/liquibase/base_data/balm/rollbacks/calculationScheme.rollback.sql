@@ -1,0 +1,1 @@
+DELETE FROM balm.scheme_script WHERE scht_id = 1;

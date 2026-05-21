@@ -1,0 +1,1 @@
+DROP SCHEMA orders CASCADE;

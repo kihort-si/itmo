@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="fuzis">
+        <sql>
+            CREATE TABLE IF NOT EXISTS broker.broker_stocks (
+                stockId Int32,
+                ticker String,
+                _version DateTime DEFAULT now()
+            )
+            ENGINE = ReplacingMergeTree(_version)
+            ORDER BY stockId;
+        </sql>
+        <rollback>
+            DROP TABLE IF EXISTS broker.broker_stocks;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="fuzis">
+        <sql>
+            CREATE TABLE IF NOT EXISTS broker.stocks_trades (
+                ingestedAt DateTime64(3),
+                stockId Int32,
+                ticker String,
+                price Decimal(18, 8),
+                volume UInt64,
+                eventId UInt32
+            )
+            ENGINE = MergeTree()
+            PARTITION BY toYYYYMM(ingestedAt)
+            ORDER BY (ticker, eventId, ingestedAt);
+        </sql>
+        <rollback>
+            DROP TABLE IF EXISTS broker.stocks_trades;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

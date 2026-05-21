@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="base_data_balm_trigger" author="fuzis">
+        <sqlFile path="trigger.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/trigger.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="base_data_balm_fee" author="fuzis">
+        <sqlFile path="fee.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/fee.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+     <changeSet id="base_data_balm_commissionScheme" author="fuzis">
+        <sqlFile path="commissionScheme.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/commissionScheme.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="base_data_balm_calculationScheme" author="fuzis">
+        <sqlFile path="calculationScheme.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/calculationScheme.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

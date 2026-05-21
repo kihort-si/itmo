@@ -1,0 +1,1 @@
+DELETE FROM refs.entity_list_schema WHERE eschema_id = 4;

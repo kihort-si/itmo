@@ -1,0 +1,122 @@
+### Exchange adapter full order flow
+### This scenario is ordered for the current implementation:
+### 1. Create client order first
+### 2. Generate a NEW exchange trade after that
+### 3. Wait one poll interval
+### 4. Verify FILLED state and RabbitMQ events
+
+@exchangeHost = http://127.0.0.1:8040
+@rabbitApi = http://127.0.0.1:15672/api
+
+@ticker = GAZP
+@limitPrice = 136
+@clientOrderQty = 5
+
+@clientOrderId = 30000000-0000-0000-0000-000000000001
+@clientUserId = 11111111-1111-1111-1111-111111111111
+
+@seedSellOrderId = 10000000-0000-0000-0000-000000000011
+@seedSellUserId = 00000000-0000-0000-0000-000000000011
+@seedBuyOrderId = 10000000-0000-0000-0000-000000000012
+@seedBuyUserId = 00000000-0000-0000-0000-000000000012
+
+###
+# 0. Health check
+GET {{exchangeHost}}/health
+
+###
+# 1. Optional: inspect current client orders for this user
+GET {{exchangeHost}}/v1/client-orders?userId={{clientUserId}}
+
+###
+# 2. Optional: inspect current trades before starting
+GET {{exchangeHost}}/v1/trades/{{ticker}}
+
+###
+# 3. Optional: inspect current order book before starting
+GET {{exchangeHost}}/v1/orderbook/{{ticker}}
+
+###
+# 4. Create client order.
+# Expected right away:
+# - HTTP 201
+# - status = PENDING
+# - filledQuantity = 0
+POST {{exchangeHost}}/v1/client-orders
+Content-Type: application/json
+
+{
+  "orderId": "{{clientOrderId}}",
+  "userId": "{{clientUserId}}",
+  "ticker": "{{ticker}}",
+  "side": "BUY",
+  "type": "LIMIT",
+  "quantity": {{clientOrderQty}},
+  "limitPrice": {{limitPrice}}
+}
+
+###
+# 5. Verify immediate state after creation
+GET {{exchangeHost}}/v1/client-orders/{{clientOrderId}}
+
+###
+# 6. Create a NEW exchange-side SELL order after the client order exists
+POST {{exchangeHost}}/v1/orders
+Content-Type: application/json
+
+{
+  "orderId": "{{seedSellOrderId}}",
+  "userId": "{{seedSellUserId}}",
+  "ticker": "{{ticker}}",
+  "side": "SELL",
+  "type": "LIMIT",
+  "quantity": {{clientOrderQty}},
+  "limitPrice": {{limitPrice}}
+}
+
+###
+# 7. Cross it with a BUY order to generate a NEW exchange trade event
+POST {{exchangeHost}}/v1/orders
+Content-Type: application/json
+
+{
+  "orderId": "{{seedBuyOrderId}}",
+  "userId": "{{seedBuyUserId}}",
+  "ticker": "{{ticker}}",
+  "side": "BUY",
+  "type": "LIMIT",
+  "quantity": {{clientOrderQty}},
+  "limitPrice": {{limitPrice}}
+}
+
+###
+# 8. Verify that a new trade is visible on the exchange
+GET {{exchangeHost}}/v1/trades/{{ticker}}
+
+###
+# 9. Wait at least one POLL_INTERVAL, then run this request.
+# Expected now:
+# - status = FILLED
+# - filledQuantity = 5
+# - remainingQuantity = 0
+GET {{exchangeHost}}/v1/client-orders/{{clientOrderId}}
+
+###
+# 10. Read RabbitMQ debug queue.
+# Expected messages for this order:
+# - order.created
+# - order.filled
+POST {{rabbitApi}}/queues/%2F/exchange.orders.debug/get
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+
+{
+  "count": 20,
+  "ackmode": "ack_requeue_false",
+  "encoding": "auto",
+  "truncate": 50000
+}
+
+###
+# 11. Optional: list all orders for the user after completion
+GET {{exchangeHost}}/v1/client-orders?userId={{clientUserId}}

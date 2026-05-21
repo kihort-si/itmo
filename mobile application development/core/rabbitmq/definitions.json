@@ -1,0 +1,236 @@
+{
+  "rabbit_version": "3.13.0",
+  "users": [
+    {
+      "name": "admin",
+      "password_hash": "qteyJI1rxGCWRm9z7cW+BU3uRjq+NWGdtGmu/qCnX2Thts+L",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    { "name": "/" },
+    { "name": "/clients" },
+    { "name": "/balm" },
+    { "name": "/worker" },
+    { "name": "/reports" }
+  ],
+  "permissions": [
+    {
+      "user": "admin",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "admin",
+      "vhost": "/clients",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "admin",
+      "vhost": "/balm",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "admin",
+      "vhost": "/worker",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "admin",
+      "vhost": "/reports",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "exchange.orders",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "clients.attribute.ntf",
+      "vhost": "/clients",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "balm.reports.daily",
+      "vhost": "/balm",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "worker.mails",
+      "vhost": "/worker",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "exchange.orders.debug",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "clients.attribute.ntf.balm",
+      "vhost": "/clients",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "clients.attribute.ntf.balm",
+      "vhost": "/balm",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "balm.reports",
+      "vhost": "/balm",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "worker.mails",
+      "vhost": "/worker",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "reports.in",
+      "vhost": "/reports",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "exchange.orders",
+      "vhost": "/",
+      "destination": "exchange.orders.debug",
+      "destination_type": "queue",
+      "routing_key": "order.created",
+      "arguments": {}
+    },
+    {
+      "source": "exchange.orders",
+      "vhost": "/",
+      "destination": "exchange.orders.debug",
+      "destination_type": "queue",
+      "routing_key": "order.partially_filled",
+      "arguments": {}
+    },
+    {
+      "source": "exchange.orders",
+      "vhost": "/",
+      "destination": "exchange.orders.debug",
+      "destination_type": "queue",
+      "routing_key": "order.filled",
+      "arguments": {}
+    },
+    {
+      "source": "exchange.orders",
+      "vhost": "/",
+      "destination": "exchange.orders.debug",
+      "destination_type": "queue",
+      "routing_key": "order.rejected",
+      "arguments": {}
+    },
+    {
+      "source": "clients.attribute.ntf",
+      "vhost": "/clients",
+      "destination": "clients.attribute.ntf.balm",
+      "destination_type": "queue",
+      "arguments": {}
+    },
+    {
+      "source": "balm.reports.daily",
+      "vhost": "/balm",
+      "destination": "balm.reports",
+      "destination_type": "queue",
+      "arguments": {}
+    },
+    {
+      "source": "worker.mails",
+      "vhost": "/worker",
+      "destination": "worker.mails",
+      "destination_type": "queue",
+      "arguments": {}
+    }
+  ],
+  "parameters": [
+    {
+      "value": {
+        "src-uri": "amqp://admin:admin@localhost:5672/%2Fclients",
+        "src-queue": "clients.attribute.ntf.balm",
+        "dest-uri": "amqp://admin:admin@localhost:5672/%2Fbalm",
+        "dest-queue": "clients.attribute.ntf.balm",
+        "add-forward-headers": false,
+        "ack-mode": "on-confirm",
+        "delete-after": "never"
+      },
+      "vhost": "/balm",
+      "component": "shovel",
+      "name": "shovel-clients-attributes-to-balm"
+    },
+    {
+      "value": {
+        "src-uri": "amqp://admin:admin@localhost:5672/%2Fbalm",
+        "src-queue": "balm.reports",
+        "dest-uri": "amqp://admin:admin@localhost:5672/%2Freports",
+        "dest-queue": "reports.in",
+        "add-forward-headers": false,
+        "ack-mode": "on-confirm",
+        "delete-after": "never"
+      },
+      "vhost": "/reports",
+      "component": "shovel",
+      "name": "shovel-daily-reports-from-balm-to-reports"
+    },
+    {
+      "value": {
+        "src-uri": "amqp://admin:admin@localhost:5672/%2Fworker",
+        "src-queue": "worker.mails",
+        "dest-uri": "amqp://admin:admin@localhost:5672/%2Freports",
+        "dest-queue": "reports.in",
+        "add-forward-headers": false,
+        "ack-mode": "on-confirm",
+        "delete-after": "never"
+      },
+      "vhost": "/reports",
+      "component": "shovel",
+      "name": "shovel-mails-from-worker-to-reports"
+    }
+  ]
+}

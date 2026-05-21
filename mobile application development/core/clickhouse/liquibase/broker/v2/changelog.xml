@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Add display name and currency to broker_stocks for MDS -->
+    <changeSet id="3" author="mds">
+        <sql>
+            ALTER TABLE broker.broker_stocks
+                ADD COLUMN IF NOT EXISTS name String DEFAULT ticker,
+                ADD COLUMN IF NOT EXISTS currency LowCardinality(String) DEFAULT 'RUB';
+        </sql>
+        <rollback>
+            ALTER TABLE broker.broker_stocks
+                DROP COLUMN IF EXISTS name,
+                DROP COLUMN IF EXISTS currency;
+        </rollback>
+    </changeSet>
+
+    <!-- FX rates table for currency conversion endpoint -->
+    <changeSet id="4" author="mds">
+        <sql>
+            CREATE TABLE IF NOT EXISTS broker.fx_rates (
+                base     LowCardinality(String),
+                quote    LowCardinality(String),
+                rate     Decimal(18, 8),
+                updatedAt DateTime DEFAULT now()
+            )
+            ENGINE = ReplacingMergeTree(updatedAt)
+            ORDER BY (base, quote);
+        </sql>
+        <rollback>
+            DROP TABLE IF EXISTS broker.fx_rates;
+        </rollback>
+    </changeSet>
+
+    <!-- Seed default FX rates -->
+    <changeSet id="5" author="mds">
+        <sql>
+            INSERT INTO broker.fx_rates (base, quote, rate) VALUES
+                ('RUB', 'RUB', 1.0),
+                ('USD', 'USD', 1.0),
+                ('EUR', 'EUR', 1.0),
+                ('RUB', 'USD', 0.01100000),
+                ('USD', 'RUB', 90.00000000),
+                ('RUB', 'EUR', 0.01000000),
+                ('EUR', 'RUB', 100.00000000),
+                ('USD', 'EUR', 0.92000000),
+                ('EUR', 'USD', 1.09000000);
+        </sql>
+        <rollback>
+            ALTER TABLE broker.fx_rates DELETE WHERE 1=1;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

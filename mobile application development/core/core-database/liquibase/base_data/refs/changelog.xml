@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="base_data_refs_languages" author="fuzis">
+        <sqlFile path="languages.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/languages.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="base_data_refs_regions" author="fuzis">
+        <sqlFile path="regions.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/regions.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="base_data_refs_attributes" author="fuzis">
+        <sqlFile path="attributes.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/attributes.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="base_data_refs_currency" author="fuzis">
+        <sqlFile path="currency.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/currency.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="base_data_refs_billing_details" author="fuzis">
+        <sqlFile path="billing_details.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/billing_details.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="base_data_refs_fix_sequence" author="fuzis">
+        <sqlFile path="fix_sequence.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            
+        </rollback>
+    </changeSet>
+    
+
+</databaseChangeLog>

@@ -1,0 +1,1 @@
+DELETE FROM depository.operations_type;

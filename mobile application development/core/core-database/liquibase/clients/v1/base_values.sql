@@ -1,0 +1,1 @@
+INSERT INTO clients.client_status (clst_id, def) VALUES (1, 'ACTIVE'), (2, 'CLOSED');

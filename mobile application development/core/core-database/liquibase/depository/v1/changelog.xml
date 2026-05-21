@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="v1_orders_entities" author="fuzis">
+        <sqlFile path="entities.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/entities.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="v1_orders_base_values" author="fuzis">
+        <sqlFile path="base_values.sql"
+                 relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        <rollback>
+            <sqlFile path="./rollbacks/base_values.rollback.sql"
+                     relativeToChangelogFile="true" splitStatements="false" endDelimiter=""/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

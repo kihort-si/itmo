@@ -1,0 +1,1 @@
+DELETE FROM orders.order_status CASCADE;
