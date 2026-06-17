@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 12,
+  "id": "confirm-pickup-form",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "id": "info_pickup",
+      "text": "### Получить заказ в салоне\nВаш заказ готов к выдаче. Предъявите документ, удостоверяющий личность, и подтвердите получение."
+    },
+    {
+      "type": "checkbox",
+      "id": "field_confirmed",
+      "key": "confirmed",
+      "label": "Подтверждаю получение заказа",
+      "validate": { "required": true }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+package ru.itmo.blps.app.security.access;
+
+public enum Privilege {
+    CATALOG_READ,
+    PRODUCT_MANAGE,
+    SHOP_MANAGE,
+    PROMO_MANAGE,
+    CART_MANAGE,
+    CUSTOMER_PROFILE_READ,
+    ORDER_CHECKOUT,
+    ORDER_READ_OWN,
+    ORDER_READ_ASSIGNED,
+    ORDER_PROCESS_PICKUP,
+    ORDER_PROCESS_DELIVERY
+}

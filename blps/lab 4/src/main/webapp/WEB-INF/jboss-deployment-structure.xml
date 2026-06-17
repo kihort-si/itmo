@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Excludes WildFly JPA subsystem so Spring Boot's own Hibernate is used.
+  Excludes WildFly SLF4J so Spring Boot's bundled Logback is used.
+  Do NOT exclude hibernate.validator — CDI (Weld) still needs it for interceptors.
+-->
+<jboss-deployment-structure>
+    <deployment>
+        <exclude-subsystems>
+            <subsystem name="jpa"/>
+            <subsystem name="logging"/>
+        </exclude-subsystems>
+        <exclusions>
+            <module name="org.hibernate.orm.main"/>
+            <module name="jakarta.persistence.api"/>
+            <module name="org.slf4j"/>
+            <module name="org.slf4j.impl"/>
+            <module name="org.apache.log4j"/>
+            <module name="org.jboss.logging"/>
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>

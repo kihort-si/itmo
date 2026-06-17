@@ -1,0 +1,90 @@
+spring:
+  application:
+    name: blps-lab
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/studs}
+    username: "s409091"
+    password: "0QdjvOPZ6gsasXOL"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: ${DDL_AUTO:create-drop}
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: ${SQL_INIT_MODE:always}
+  jta:
+    enabled: false
+  logging:
+    level:
+      org.springframework: DEBUG
+
+server:
+  port: ${SERVER_PORT:25203}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+  api-docs:
+    path: /v3/api-docs
+
+app:
+  orders:
+    stale-status-hours: ${STALE_ORDER_HOURS:48}
+    stale-check-ms: ${STALE_ORDER_CHECK_MS:3600000}
+  messaging:
+    order-status:
+      enabled: ${ORDER_STATUS_EVENTS_ENABLED:false}
+      broker-url: ${ORDER_STATUS_AMQ_BROKER_URL:tcp://127.0.0.1:61616}
+      stomp-host: ${ORDER_STATUS_STOMP_HOST:127.0.0.1}
+      stomp-port: ${ORDER_STATUS_STOMP_PORT:61613}
+      stomp-login: ${ORDER_STATUS_STOMP_LOGIN:}
+      stomp-passcode: ${ORDER_STATUS_STOMP_PASSCODE:}
+      topic-name: ${ORDER_STATUS_TOPIC:OrderStatusEvents}
+      stomp-topic-prefix: ${ORDER_STATUS_STOMP_TOPIC_PREFIX:/topic/}
+  audit:
+    datasource:
+      url: ${AUDIT_DB_URL:${spring.datasource.url}}
+      username: ${AUDIT_DB_USERNAME:${spring.datasource.username}}
+      password: ${AUDIT_DB_PASSWORD:${spring.datasource.password}}
+      driver-class-name: ${AUDIT_DB_DRIVER:org.postgresql.Driver}
+  taiga:
+    jca:
+      connection-factory-jndi: ${TAIGA_JCA_CF_JNDI:java:/eis/TaigaConnectionFactory}
+  process:
+    jms:
+      enabled: ${PROCESS_JMS_ENABLED:false}
+      connection-factory-jndi: ${PROCESS_JMS_CONNECTION_FACTORY_JNDI:java:/JmsXA}
+      checkout-queue-jndi: ${PROCESS_JMS_CHECKOUT_QUEUE_JNDI:java:/jms/queue/checkoutQueue}
+      delivery-queue-jndi: ${PROCESS_JMS_DELIVERY_QUEUE_JNDI:java:/jms/queue/deliveryQueue}
+  camunda:
+    # Standalone Camunda Platform Run REST API URL
+    rest-api-url: ${CAMUNDA_REST_URL:http://localhost:8080/engine-rest}
+    worker-id: ${CAMUNDA_WORKER_ID:mts-shop-worker}
+    process-definition-key: mts-order-process
+    deployment-name: "MTS eShop Order Process"
+    # How long to hold a lock on an external task (ms)
+    lock-duration-ms: ${CAMUNDA_LOCK_DURATION_MS:30000}
+    # How many tasks to fetch per poll cycle per topic
+    max-tasks-per-poll: ${CAMUNDA_MAX_TASKS:5}
+    # Polling interval (ms)
+    poll-interval-ms: ${CAMUNDA_POLL_INTERVAL_MS:5000}
+    # Initial delay before first poll (wait for Camunda to be ready)
+    initial-delay-ms: ${CAMUNDA_INITIAL_DELAY_MS:20000}
+  security:
+    basic:
+      realm: ${BASIC_REALM:MTS Shop}
+    user-store:
+      path: ${USER_STORE_PATH:./build/security/users.xml}
+    cors:
+      allowed-origins:
+        - "http://localhost:3000"
+        - "http://localhost:8080"
+        - "http://127.0.0.1:3000"
+        - "**"

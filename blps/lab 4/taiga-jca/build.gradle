@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.itmo.blps'
+version = rootProject.version
+description = 'JCA outbound connector for Taiga (HTTP)'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'jakarta.resource:jakarta.resource-api:2.1.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+}
+
+tasks.named('jar', Jar) {
+    archiveBaseName = 'taiga-jca'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('.jar') }.collect { zipTree(it) }
+    }
+}
+
+tasks.register('rar', Zip) {
+    archiveExtension = 'rar'
+    archiveFileName = 'taiga-jca.rar'
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    from(jar)
+    from(layout.projectDirectory.dir('src/main/rar'))
+}
+
+tasks.named('assemble') {
+    dependsOn tasks.rar
+}

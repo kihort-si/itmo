@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 12,
+  "id": "deliver-form",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "id": "info_deliver",
+      "text": "### Доставить заказ покупателю\nПередайте заказ покупателю по адресу доставки и получите подпись или подтверждение."
+    },
+    {
+      "type": "number",
+      "id": "field_courierId",
+      "key": "courierId",
+      "label": "ID курьера",
+      "validate": { "required": true, "min": 1 }
+    },
+    {
+      "type": "checkbox",
+      "id": "field_delivered",
+      "key": "delivered",
+      "label": "Подтверждаю доставку заказа покупателю",
+      "validate": { "required": true }
+    }
+  ]
+}

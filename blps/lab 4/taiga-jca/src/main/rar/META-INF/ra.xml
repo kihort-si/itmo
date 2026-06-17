@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connector xmlns="https://jakarta.ee/xml/ns/jakartaee"
+           version="2.1">
+    <vendor-name>itmo-blps</vendor-name>
+    <eis-type>Taiga</eis-type>
+    <resourceadapter-version>1.0</resourceadapter-version>
+    <resourceadapter>
+        <resourceadapter-class>ru.itmo.blps.taiga.jca.TaigaResourceAdapter</resourceadapter-class>
+        <outbound-resourceadapter>
+            <connection-definition>
+                <managedconnectionfactory-class>ru.itmo.blps.taiga.jca.TaigaManagedConnectionFactory</managedconnectionfactory-class>
+                <config-property>
+                    <config-property-name>baseUrl</config-property-name>
+                    <config-property-type>java.lang.String</config-property-type>
+                    <config-property-value>http://localhost:9000</config-property-value>
+                </config-property>
+                <config-property>
+                    <config-property-name>bearerToken</config-property-name>
+                    <config-property-type>java.lang.String</config-property-type>
+                    <config-property-value>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4NzY0OTI4LCJqdGkiOiIyM2QwYWE0MGNmMjY0YWIzYTBlMTZiMmExZjQ2ZjBjZiIsInVzZXJfaWQiOjQ0fQ.HKCxN--sF4ruLLgu-hYpbUUWGhElp9TT29oSo7bp7V4</config-property-value>
+                </config-property>
+                <config-property>
+                    <config-property-name>userStoryId</config-property-name>
+                    <config-property-type>java.lang.String</config-property-type>
+                    <config-property-value>3</config-property-value>
+                </config-property>
+                <connectionfactory-interface>ru.itmo.blps.taiga.jca.TaigaEisConnectionFactory</connectionfactory-interface>
+                <connectionfactory-impl-class>ru.itmo.blps.taiga.jca.TaigaEisConnectionFactoryImpl</connectionfactory-impl-class>
+                <connection-interface>ru.itmo.blps.taiga.jca.TaigaPhysicalConnection</connection-interface>
+                <connection-impl-class>ru.itmo.blps.taiga.jca.TaigaPhysicalConnection</connection-impl-class>
+            </connection-definition>
+            <transaction-support>NoTransaction</transaction-support>
+        </outbound-resourceadapter>
+    </resourceadapter>
+</connector>

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 12,
+  "id": "courier-pickup-form",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "id": "info_pickup",
+      "text": "### Забрать заказ в салоне\nПолучите заказ у сотрудника салона и подтвердите факт получения."
+    },
+    {
+      "type": "number",
+      "id": "field_courierId",
+      "key": "courierId",
+      "label": "ID курьера",
+      "validate": { "required": true, "min": 1 }
+    },
+    {
+      "type": "checkbox",
+      "id": "field_pickedUp",
+      "key": "pickedUp",
+      "label": "Подтверждаю получение заказа из салона",
+      "validate": { "required": true }
+    }
+  ]
+}

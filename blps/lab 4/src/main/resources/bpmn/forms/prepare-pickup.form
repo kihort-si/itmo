@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 12,
+  "id": "prepare-pickup-form",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "id": "info_order",
+      "text": "### Подготовить заказ к выдаче\nПосмотрите заказ в системе, соберите товары и подтвердите готовность."
+    },
+    {
+      "type": "number",
+      "id": "field_assistantId",
+      "key": "assistantId",
+      "label": "ID сотрудника салона",
+      "validate": { "required": true, "min": 1 }
+    }
+  ]
+}

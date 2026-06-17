@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+             targetNamespace="http://bpmn.io/schema/bpmn"
+             exporter="Camunda Modeler"
+             exporterVersion="5.48.0">
+
+  <process id="mts-order-process" name="MTS eShop — Оформление заказа" isExecutable="true"
+           camunda:historyTimeToLive="30">
+
+    <startEvent id="Start_checkout" name="Начать оформление заказа"
+                camunda:formKey="camunda-forms:deployment:checkout.form">
+      <outgoing>Flow_start_to_worker</outgoing>
+    </startEvent>
+
+    <serviceTask id="Task_checkout_worker"
+                 name="Зарезервировать товар и создать заказ"
+                 camunda:type="external"
+                 camunda:topic="checkout">
+      <incoming>Flow_start_to_worker</incoming>
+      <outgoing>Flow_worker_to_payment_gw</outgoing>
+    </serviceTask>
+
+    <exclusiveGateway id="GW_payment" name="Способ оплаты?" default="Flow_cash">
+      <incoming>Flow_worker_to_payment_gw</incoming>
+      <outgoing>Flow_online</outgoing>
+      <outgoing>Flow_cash</outgoing>
+    </exclusiveGateway>
+
+    <serviceTask id="Task_pay_online"
+                 name="Провести онлайн-оплату"
+                 camunda:type="external"
+                 camunda:topic="payment">
+      <incoming>Flow_online</incoming>
+      <outgoing>Flow_online_done</outgoing>
+    </serviceTask>
+
+    <exclusiveGateway id="GW_payment_merge">
+      <incoming>Flow_online_done</incoming>
+      <incoming>Flow_cash</incoming>
+      <outgoing>Flow_to_fulfillment_gw</outgoing>
+    </exclusiveGateway>
+
+    <exclusiveGateway id="GW_fulfillment" name="Способ получения?" default="Flow_delivery">
+      <incoming>Flow_to_fulfillment_gw</incoming>
+      <outgoing>Flow_pickup</outgoing>
+      <outgoing>Flow_delivery</outgoing>
+    </exclusiveGateway>
+
+    <userTask id="Task_SA_prepare"
+              name="Подготовить товар к выдаче"
+              camunda:candidateGroups="shopAssistants"
+              camunda:formKey="camunda-forms:deployment:prepare-pickup.form">
+      <incoming>Flow_pickup</incoming>
+      <outgoing>Flow_sa_prepared</outgoing>
+    </userTask>
+
+    <boundaryEvent id="Timer_SA_prepare" attachedToRef="Task_SA_prepare" cancelActivity="true">
+      <outgoing>Flow_timer_SA_prepare</outgoing>
+      <timerEventDefinition id="TD_SA_prepare">
+        <timeDuration>PT48H</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+
+    <serviceTask id="Task_ready_pickup_worker"
+                 name="Пометить заказ READY_FOR_PICKUP"
+                 camunda:type="external"
+                 camunda:topic="ready-for-pickup">
+      <incoming>Flow_sa_prepared</incoming>
+      <outgoing>Flow_to_customer_confirm</outgoing>
+    </serviceTask>
+
+    <userTask id="Task_customer_pickup"
+              name="Получить товар в салоне связи"
+              camunda:candidateGroups="customers"
+              camunda:formKey="camunda-forms:deployment:confirm-pickup.form">
+      <incoming>Flow_to_customer_confirm</incoming>
+      <outgoing>Flow_pickup_confirmed</outgoing>
+    </userTask>
+
+    <serviceTask id="Task_complete_pickup"
+                 name="Завершить заказ (самовывоз)"
+                 camunda:type="external"
+                 camunda:topic="complete-order">
+      <incoming>Flow_pickup_confirmed</incoming>
+      <outgoing>Flow_end_pickup</outgoing>
+    </serviceTask>
+
+    <endEvent id="End_pickup" name="Заказ завершён (самовывоз)">
+      <incoming>Flow_end_pickup</incoming>
+    </endEvent>
+
+    <userTask id="Task_SA_delivery"
+              name="Передать заказ курьеру"
+              camunda:candidateGroups="shopAssistants"
+              camunda:formKey="camunda-forms:deployment:assign-courier.form">
+      <incoming>Flow_delivery</incoming>
+      <outgoing>Flow_sa_delivery_done</outgoing>
+    </userTask>
+
+    <boundaryEvent id="Timer_SA_delivery" attachedToRef="Task_SA_delivery" cancelActivity="true">
+      <outgoing>Flow_timer_SA_delivery</outgoing>
+      <timerEventDefinition id="TD_SA_delivery">
+        <timeDuration>PT48H</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+
+    <serviceTask id="Task_assign_courier_worker"
+                 name="Назначить курьера"
+                 camunda:type="external"
+                 camunda:topic="assign-courier">
+      <incoming>Flow_sa_delivery_done</incoming>
+      <outgoing>Flow_to_courier_pickup</outgoing>
+    </serviceTask>
+
+    <userTask id="Task_courier_pickup"
+              name="Забрать заказ в салоне связи"
+              camunda:candidateGroups="couriers"
+              camunda:formKey="camunda-forms:deployment:courier-pickup.form">
+      <incoming>Flow_to_courier_pickup</incoming>
+      <outgoing>Flow_courier_picked</outgoing>
+    </userTask>
+
+    <boundaryEvent id="Timer_courier_pickup" attachedToRef="Task_courier_pickup" cancelActivity="true">
+      <outgoing>Flow_timer_courier_pickup</outgoing>
+      <timerEventDefinition id="TD_courier_pickup">
+        <timeDuration>PT48H</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+
+    <serviceTask id="Task_courier_picked_worker"
+                 name="Пометить COURIER_PICKED_UP"
+                 camunda:type="external"
+                 camunda:topic="courier-picked-up">
+      <incoming>Flow_courier_picked</incoming>
+      <outgoing>Flow_to_courier_deliver</outgoing>
+    </serviceTask>
+
+    <userTask id="Task_courier_deliver"
+              name="Доставить товар покупателю"
+              camunda:candidateGroups="couriers"
+              camunda:formKey="camunda-forms:deployment:deliver.form">
+      <incoming>Flow_to_courier_deliver</incoming>
+      <outgoing>Flow_courier_delivered</outgoing>
+    </userTask>
+
+    <boundaryEvent id="Timer_courier_deliver" attachedToRef="Task_courier_deliver" cancelActivity="true">
+      <outgoing>Flow_timer_courier_deliver</outgoing>
+      <timerEventDefinition id="TD_courier_deliver">
+        <timeDuration>PT48H</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+
+    <serviceTask id="Task_complete_delivery"
+                 name="Завершить заказ (доставка)"
+                 camunda:type="external"
+                 camunda:topic="complete-order">
+      <incoming>Flow_courier_delivered</incoming>
+      <outgoing>Flow_end_delivery</outgoing>
+    </serviceTask>
+
+    <endEvent id="End_delivery" name="Заказ завершён (доставка)">
+      <incoming>Flow_end_delivery</incoming>
+    </endEvent>
+
+    <serviceTask id="Task_cancel_order"
+                 name="Отменить / вернуть просроченный заказ"
+                 camunda:type="external"
+                 camunda:topic="cancel-order">
+      <incoming>Flow_timer_SA_prepare</incoming>
+      <incoming>Flow_timer_SA_delivery</incoming>
+      <incoming>Flow_timer_courier_pickup</incoming>
+      <incoming>Flow_timer_courier_deliver</incoming>
+      <outgoing>Flow_end_cancelled</outgoing>
+    </serviceTask>
+
+    <endEvent id="End_cancelled" name="Заказ отменён / возврат средств">
+      <incoming>Flow_end_cancelled</incoming>
+    </endEvent>
+
+    <sequenceFlow id="Flow_start_to_worker"       sourceRef="Start_checkout"          targetRef="Task_checkout_worker" />
+    <sequenceFlow id="Flow_worker_to_payment_gw"  sourceRef="Task_checkout_worker"    targetRef="GW_payment" />
+
+    <sequenceFlow id="Flow_online" name="Онлайн" sourceRef="GW_payment" targetRef="Task_pay_online">
+      <conditionExpression>${paymentMethod == 'ONLINE'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="Flow_cash"   name="Наличные" sourceRef="GW_payment"             targetRef="GW_payment_merge" />
+    <sequenceFlow id="Flow_online_done"            sourceRef="Task_pay_online"         targetRef="GW_payment_merge" />
+    <sequenceFlow id="Flow_to_fulfillment_gw"      sourceRef="GW_payment_merge"        targetRef="GW_fulfillment" />
+
+    <sequenceFlow id="Flow_pickup" name="Самовывоз" sourceRef="GW_fulfillment" targetRef="Task_SA_prepare">
+      <conditionExpression>${fulfillmentMethod == 'PICKUP'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="Flow_delivery" name="Доставка" sourceRef="GW_fulfillment"       targetRef="Task_SA_delivery" />
+
+    <sequenceFlow id="Flow_sa_prepared"            sourceRef="Task_SA_prepare"         targetRef="Task_ready_pickup_worker" />
+    <sequenceFlow id="Flow_timer_SA_prepare"       sourceRef="Timer_SA_prepare"        targetRef="Task_cancel_order" />
+    <sequenceFlow id="Flow_to_customer_confirm"    sourceRef="Task_ready_pickup_worker" targetRef="Task_customer_pickup" />
+    <sequenceFlow id="Flow_pickup_confirmed"       sourceRef="Task_customer_pickup"    targetRef="Task_complete_pickup" />
+    <sequenceFlow id="Flow_end_pickup"             sourceRef="Task_complete_pickup"    targetRef="End_pickup" />
+
+    <sequenceFlow id="Flow_sa_delivery_done"       sourceRef="Task_SA_delivery"        targetRef="Task_assign_courier_worker" />
+    <sequenceFlow id="Flow_timer_SA_delivery"      sourceRef="Timer_SA_delivery"       targetRef="Task_cancel_order" />
+    <sequenceFlow id="Flow_to_courier_pickup"      sourceRef="Task_assign_courier_worker" targetRef="Task_courier_pickup" />
+    <sequenceFlow id="Flow_courier_picked"         sourceRef="Task_courier_pickup"     targetRef="Task_courier_picked_worker" />
+    <sequenceFlow id="Flow_timer_courier_pickup"   sourceRef="Timer_courier_pickup"    targetRef="Task_cancel_order" />
+    <sequenceFlow id="Flow_to_courier_deliver"     sourceRef="Task_courier_picked_worker" targetRef="Task_courier_deliver" />
+    <sequenceFlow id="Flow_courier_delivered"      sourceRef="Task_courier_deliver"    targetRef="Task_complete_delivery" />
+    <sequenceFlow id="Flow_timer_courier_deliver"  sourceRef="Timer_courier_deliver"   targetRef="Task_cancel_order" />
+    <sequenceFlow id="Flow_end_delivery"           sourceRef="Task_complete_delivery"  targetRef="End_delivery" />
+
+    <sequenceFlow id="Flow_end_cancelled"          sourceRef="Task_cancel_order"       targetRef="End_cancelled" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_order">
+    <bpmndi:BPMNPlane id="BPMNPlane_order" bpmnElement="mts-order-process">
+
+      <bpmndi:BPMNShape id="Start_checkout_di" bpmnElement="Start_checkout">
+        <omgdc:Bounds x="152" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="127" y="285" width="87" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_checkout_worker_di" bpmnElement="Task_checkout_worker">
+        <omgdc:Bounds x="240" y="220" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="GW_payment_di" bpmnElement="GW_payment" isMarkerVisible="true">
+        <omgdc:Bounds x="455" y="235" width="50" height="50" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="440" y="292" width="80" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_pay_online_di" bpmnElement="Task_pay_online">
+        <omgdc:Bounds x="560" y="140" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="GW_payment_merge_di" bpmnElement="GW_payment_merge" isMarkerVisible="true">
+        <omgdc:Bounds x="775" y="235" width="50" height="50" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="GW_fulfillment_di" bpmnElement="GW_fulfillment" isMarkerVisible="true">
+        <omgdc:Bounds x="885" y="235" width="50" height="50" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="862" y="292" width="96" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_SA_prepare_di" bpmnElement="Task_SA_prepare">
+        <omgdc:Bounds x="990" y="140" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Timer_SA_prepare_di" bpmnElement="Timer_SA_prepare">
+        <omgdc:Bounds x="1052" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="1036" y="242" width="68" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_ready_pickup_worker_di" bpmnElement="Task_ready_pickup_worker">
+        <omgdc:Bounds x="1200" y="140" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_customer_pickup_di" bpmnElement="Task_customer_pickup">
+        <omgdc:Bounds x="1410" y="140" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_complete_pickup_di" bpmnElement="Task_complete_pickup">
+        <omgdc:Bounds x="1620" y="140" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="End_pickup_di" bpmnElement="End_pickup">
+        <omgdc:Bounds x="1832" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="1806" y="205" width="88" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_SA_delivery_di" bpmnElement="Task_SA_delivery">
+        <omgdc:Bounds x="990" y="340" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Timer_SA_delivery_di" bpmnElement="Timer_SA_delivery">
+        <omgdc:Bounds x="1052" y="402" width="36" height="36" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="1036" y="442" width="68" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_assign_courier_worker_di" bpmnElement="Task_assign_courier_worker">
+        <omgdc:Bounds x="1200" y="340" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_courier_pickup_di" bpmnElement="Task_courier_pickup">
+        <omgdc:Bounds x="1410" y="340" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Timer_courier_pickup_di" bpmnElement="Timer_courier_pickup">
+        <omgdc:Bounds x="1472" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_courier_picked_worker_di" bpmnElement="Task_courier_picked_worker">
+        <omgdc:Bounds x="1620" y="340" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_courier_deliver_di" bpmnElement="Task_courier_deliver">
+        <omgdc:Bounds x="1830" y="340" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Timer_courier_deliver_di" bpmnElement="Timer_courier_deliver">
+        <omgdc:Bounds x="1892" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_complete_delivery_di" bpmnElement="Task_complete_delivery">
+        <omgdc:Bounds x="2040" y="340" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="End_delivery_di" bpmnElement="End_delivery">
+        <omgdc:Bounds x="2252" y="362" width="36" height="36" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="2228" y="405" width="84" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_cancel_order_di" bpmnElement="Task_cancel_order">
+        <omgdc:Bounds x="1200" y="540" width="160" height="80" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="End_cancelled_di" bpmnElement="End_cancelled">
+        <omgdc:Bounds x="1412" y="562" width="36" height="36" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="1386" y="605" width="88" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Flow_start_to_worker_di"      bpmnElement="Flow_start_to_worker">
+        <omgdi:waypoint x="188" y="260" /><omgdi:waypoint x="240" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_worker_to_payment_gw_di" bpmnElement="Flow_worker_to_payment_gw">
+        <omgdi:waypoint x="400" y="260" /><omgdi:waypoint x="455" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_online_di"               bpmnElement="Flow_online">
+        <omgdi:waypoint x="480" y="235" /><omgdi:waypoint x="480" y="180" /><omgdi:waypoint x="560" y="180" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="500" y="200" width="40" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_cash_di"                 bpmnElement="Flow_cash">
+        <omgdi:waypoint x="505" y="260" /><omgdi:waypoint x="775" y="260" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="620" y="240" width="48" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_online_done_di"          bpmnElement="Flow_online_done">
+        <omgdi:waypoint x="720" y="180" /><omgdi:waypoint x="800" y="180" /><omgdi:waypoint x="800" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_to_fulfillment_gw_di"    bpmnElement="Flow_to_fulfillment_gw">
+        <omgdi:waypoint x="825" y="260" /><omgdi:waypoint x="885" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_pickup_di"               bpmnElement="Flow_pickup">
+        <omgdi:waypoint x="910" y="235" /><omgdi:waypoint x="910" y="180" /><omgdi:waypoint x="990" y="180" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="930" y="200" width="60" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_delivery_di"             bpmnElement="Flow_delivery">
+        <omgdi:waypoint x="910" y="285" /><omgdi:waypoint x="910" y="380" /><omgdi:waypoint x="990" y="380" />
+        <bpmndi:BPMNLabel><omgdc:Bounds x="930" y="360" width="48" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_sa_prepared_di"          bpmnElement="Flow_sa_prepared">
+        <omgdi:waypoint x="1150" y="180" /><omgdi:waypoint x="1200" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_timer_SA_prepare_di"     bpmnElement="Flow_timer_SA_prepare">
+        <omgdi:waypoint x="1070" y="238" /><omgdi:waypoint x="1070" y="580" /><omgdi:waypoint x="1200" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_to_customer_confirm_di"  bpmnElement="Flow_to_customer_confirm">
+        <omgdi:waypoint x="1360" y="180" /><omgdi:waypoint x="1410" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_pickup_confirmed_di"     bpmnElement="Flow_pickup_confirmed">
+        <omgdi:waypoint x="1570" y="180" /><omgdi:waypoint x="1620" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_end_pickup_di"           bpmnElement="Flow_end_pickup">
+        <omgdi:waypoint x="1780" y="180" /><omgdi:waypoint x="1832" y="180" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_sa_delivery_done_di"     bpmnElement="Flow_sa_delivery_done">
+        <omgdi:waypoint x="1150" y="380" /><omgdi:waypoint x="1200" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_timer_SA_delivery_di"    bpmnElement="Flow_timer_SA_delivery">
+        <omgdi:waypoint x="1070" y="438" /><omgdi:waypoint x="1070" y="580" /><omgdi:waypoint x="1200" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_to_courier_pickup_di"    bpmnElement="Flow_to_courier_pickup">
+        <omgdi:waypoint x="1360" y="380" /><omgdi:waypoint x="1410" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_courier_picked_di"       bpmnElement="Flow_courier_picked">
+        <omgdi:waypoint x="1570" y="380" /><omgdi:waypoint x="1620" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_timer_courier_pickup_di" bpmnElement="Flow_timer_courier_pickup">
+        <omgdi:waypoint x="1490" y="438" /><omgdi:waypoint x="1490" y="580" /><omgdi:waypoint x="1360" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_to_courier_deliver_di"   bpmnElement="Flow_to_courier_deliver">
+        <omgdi:waypoint x="1780" y="380" /><omgdi:waypoint x="1830" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_courier_delivered_di"    bpmnElement="Flow_courier_delivered">
+        <omgdi:waypoint x="1990" y="380" /><omgdi:waypoint x="2040" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_timer_courier_deliver_di" bpmnElement="Flow_timer_courier_deliver">
+        <omgdi:waypoint x="1910" y="438" /><omgdi:waypoint x="1910" y="580" /><omgdi:waypoint x="1360" y="580" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_end_delivery_di"         bpmnElement="Flow_end_delivery">
+        <omgdi:waypoint x="2200" y="380" /><omgdi:waypoint x="2252" y="380" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_end_cancelled_di"        bpmnElement="Flow_end_cancelled">
+        <omgdi:waypoint x="1360" y="580" /><omgdi:waypoint x="1412" y="580" />
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

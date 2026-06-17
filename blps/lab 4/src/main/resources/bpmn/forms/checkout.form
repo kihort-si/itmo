@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 12,
+  "id": "checkout-form",
+  "type": "default",
+  "components": [
+    {
+      "type": "number",
+      "id": "field_customerId",
+      "key": "customerId",
+      "label": "ID покупателя",
+      "validate": { "required": true, "min": 1 }
+    },
+    {
+      "type": "textfield",
+      "id": "field_promoCode",
+      "key": "promoCode",
+      "label": "Промокод (необязательно)"
+    },
+    {
+      "type": "select",
+      "id": "field_fulfillmentMethod",
+      "key": "fulfillmentMethod",
+      "label": "Способ получения",
+      "validate": { "required": true },
+      "values": [
+        { "label": "Самовывоз из салона", "value": "PICKUP" },
+        { "label": "Курьерская доставка", "value": "COURIER_DELIVERY" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "field_paymentMethod",
+      "key": "paymentMethod",
+      "label": "Способ оплаты",
+      "validate": { "required": true },
+      "values": [
+        { "label": "Онлайн картой", "value": "ONLINE" },
+        { "label": "Наличными при получении", "value": "CASH_ON_RECEIPT" }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "field_shopId",
+      "key": "shopId",
+      "label": "ID салона для самовывоза",
+      "validate": { "required": true },
+      "conditional": {
+        "hide": "=fulfillmentMethod != \"PICKUP\""
+      }
+    },
+    {
+      "type": "textfield",
+      "id": "field_deliveryAddress",
+      "key": "deliveryAddress",
+      "label": "Адрес доставки",
+      "validate": { "required": true },
+      "conditional": {
+        "hide": "=fulfillmentMethod != \"COURIER_DELIVERY\""
+      }
+    }
+  ]
+}
