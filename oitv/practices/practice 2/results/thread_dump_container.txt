@@ -1,0 +1,82 @@
+2026-09-23 17:39:53
+Full thread dump OpenJDK 64-Bit Server VM (17.0.20+8 mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x0000ffff68001f40, length=12, elements={
+0x0000ffffb4029080, 0x0000ffffb43620b0, 0x0000ffffb4363520, 0x0000ffffb4368930,
+0x0000ffffb4369d70, 0x0000ffffb436b1a0, 0x0000ffffb436cb00, 0x0000ffffb436e050,
+0x0000ffffb436f4e0, 0x0000ffffb4376c70, 0x0000ffffb437a470, 0x0000ffff68000fa0
+}
+
+"main" #1 prio=5 os_prio=0 cpu=13.00ms elapsed=75.08s tid=0x0000ffffb4029080 nid=0x21 waiting on condition  [0x0000ffffb8a9e000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleep(java.base@17.0.20/Native Method)
+	at Main.main(Main.java:1)
+
+"Reference Handler" #2 daemon prio=10 os_prio=0 cpu=0.29ms elapsed=75.07s tid=0x0000ffffb43620b0 nid=0x28 waiting on condition  [0x0000ffff892cd000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@17.0.20/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@17.0.20/Reference.java:253)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@17.0.20/Reference.java:215)
+
+"Finalizer" #3 daemon prio=8 os_prio=0 cpu=0.18ms elapsed=75.07s tid=0x0000ffffb4363520 nid=0x29 in Object.wait()  [0x0000ffff890bf000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.20/Native Method)
+	- waiting on <0x000000008d302f40> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.20/ReferenceQueue.java:155)
+	- locked <0x000000008d302f40> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.20/ReferenceQueue.java:176)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@17.0.20/Finalizer.java:172)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=0 cpu=0.65ms elapsed=75.07s tid=0x0000ffffb4368930 nid=0x2a waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #5 daemon prio=9 os_prio=0 cpu=0.23ms elapsed=75.07s tid=0x0000ffffb4369d70 nid=0x2b runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Deflation Thread" #6 daemon prio=9 os_prio=0 cpu=15.23ms elapsed=75.07s tid=0x0000ffffb436b1a0 nid=0x2c runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #7 daemon prio=9 os_prio=0 cpu=1.71ms elapsed=75.07s tid=0x0000ffffb436cb00 nid=0x2d waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #10 daemon prio=9 os_prio=0 cpu=1.62ms elapsed=75.07s tid=0x0000ffffb436e050 nid=0x2e waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #11 daemon prio=9 os_prio=0 cpu=0.11ms elapsed=75.07s tid=0x0000ffffb436f4e0 nid=0x2f runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Notification Thread" #12 daemon prio=9 os_prio=0 cpu=0.11ms elapsed=75.07s tid=0x0000ffffb4376c70 nid=0x30 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #13 daemon prio=8 os_prio=0 cpu=0.81ms elapsed=75.07s tid=0x0000ffffb437a470 nid=0x32 in Object.wait()  [0x0000ffff5f9d4000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.20/Native Method)
+	- waiting on <0x000000008d3179a8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.20/ReferenceQueue.java:155)
+	- locked <0x000000008d3179a8> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@17.0.20/CleanerImpl.java:140)
+	at java.lang.Thread.run(java.base@17.0.20/Thread.java:840)
+	at jdk.internal.misc.InnocuousThread.run(java.base@17.0.20/InnocuousThread.java:162)
+
+"Attach Listener" #14 daemon prio=9 os_prio=0 cpu=0.52ms elapsed=0.10s tid=0x0000ffff68000fa0 nid=0x7b waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"VM Periodic Task Thread" os_prio=0 cpu=114.10ms elapsed=75.07s tid=0x0000ffffb43785d0 nid=0x31 waiting on condition  
+
+"VM Thread" os_prio=0 cpu=4.88ms elapsed=75.07s tid=0x0000ffffb435e0c0 nid=0x27 runnable  
+
+"G1 Service" os_prio=0 cpu=33.43ms elapsed=75.08s tid=0x0000ffffb420f6e0 nid=0x26 runnable  
+
+"G1 Refine#0" os_prio=0 cpu=0.23ms elapsed=75.08s tid=0x0000ffffb420e7d0 nid=0x25 runnable  
+
+"G1 Conc#0" os_prio=0 cpu=0.28ms elapsed=75.08s tid=0x0000ffffb4194550 nid=0x24 runnable  
+
+"G1 Main Marker" os_prio=0 cpu=0.28ms elapsed=75.08s tid=0x0000ffffb41935d0 nid=0x23 runnable  
+
+"GC Thread#0" os_prio=0 cpu=0.27ms elapsed=75.08s tid=0x0000ffffb4182c20 nid=0x22 runnable  
+
+JNI global refs: 6, weak refs: 0
+
