@@ -78,3 +78,14 @@
 - [**Системы ввода-вывода**](https://github.com/kihort-si/itmo/tree/main/io%20systems)
 - [**Тестирование программного обеспечения**](https://github.com/kihort-si/itmo/tree/main/tpo)
 - **Философия**
+
+### **7 семестр**
+- [**Информационная безопасность**](https://github.com/kihort-si/itmo/tree/main/information%20security)
+- [**Качество программного обеспечения**](https://github.com/kihort-si/itmo/tree/main/software%20quality)
+- [**Облачные и туманные вычисления**](https://github.com/kihort-si/itmo/tree/main/oitv)
+- [**Проектирование вычислительных систем**](https://github.com/kihort-si/itmo/tree/main/computer%20system%20design)
+- [**Распределенные вычисления**](https://github.com/kihort-si/itmo/tree/main/distributed%20computing)
+- [**Рефакторинг баз данных и приложений**](https://github.com/kihort-si/itmo/tree/main/database%20and%20application%20refactoring)
+- [**Сервис-ориентированная архитектура**](https://github.com/kihort-si/itmo/tree/main/soa)
+- [**Технологии виртуализации**](https://github.com/kihort-si/itmo/tree/main/virtualization%20technologies)
+- [**Экономика программной инженерии**](https://github.com/kihort-si/itmo/tree/main/economics%20of%20software%20engineering)
