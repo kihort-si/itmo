@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Документация API для сервисов управления организациями.">
+    <title>Менеджер организаций | Документация API</title>
+    <link rel="icon" type="image/png" href="./vendor/favicon-32x32.png">
+    <link rel="stylesheet" href="./vendor/swagger-ui.css">
+    <link rel="stylesheet" href="./swagger.css">
+  </head>
+  <body>
+    <nav class="swagger-ui"><div class="wrapper"><a href="./index.html">Сервис организаций</a> · <a href="./manager.html" aria-current="page">Менеджер организаций</a></div></nav>
+    <div id="swagger-ui"></div>
+    <noscript>Для Swagger UI нужен JavaScript. <a href="./openapi-manager.yaml">Скачать OpenAPI-спецификацию.</a></noscript>
+    <script src="./vendor/swagger-ui-bundle.js"></script>
+    <script>
+      window.ui = SwaggerUIBundle({
+        url: "./openapi-manager.yaml",
+        dom_id: "#swagger-ui",
+        deepLinking: true,
+        displayOperationId: false,
+        displayRequestDuration: true,
+        docExpansion: "list",
+        defaultModelsExpandDepth: 0,
+        filter: true,
+        persistAuthorization: false,
+        validatorUrl: null,
+        queryConfigEnabled: false,
+        presets: [SwaggerUIBundle.presets.apis],
+        layout: "BaseLayout"
+      });
+    </script>
+  </body>
+</html>

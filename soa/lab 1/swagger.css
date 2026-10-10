@@ -1,0 +1,182 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    background: #fff;
+}
+
+.swagger-ui {
+    color: #262b30;
+}
+
+.swagger-ui .wrapper {
+    max-width: 1320px;
+    padding: 0 24px;
+}
+
+.swagger-ui .info {
+    margin: 32px 0 24px;
+}
+
+.swagger-ui .info .title {
+    font-size: 28px;
+    line-height: 1.25;
+}
+
+.swagger-ui .opblock {
+    border-radius: 4px;
+}
+
+.swagger-ui .opblock .opblock-summary-path {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.swagger-ui .opblock .opblock-summary-path a {
+    overflow-wrap: anywhere;
+}
+
+.swagger-ui .opblock .opblock-summary-description {
+    min-width: 0;
+}
+
+.swagger-ui .opblock .opblock-summary-operation-id {
+    overflow-wrap: anywhere;
+}
+
+.swagger-ui .info p, .swagger-ui .renderedMarkdown p {
+    overflow-wrap: anywhere;
+}
+
+.swagger-ui textarea {
+    resize: vertical;
+}
+
+.swagger-ui input, .swagger-ui select, .swagger-ui textarea {
+    max-width: 100%;
+}
+
+.swagger-ui .opblock-body {
+    min-width: 0;
+}
+
+.swagger-ui .responses-wrapper {
+    overflow-x: auto;
+}
+
+.swagger-ui .model-box {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.swagger-ui .scheme-container {
+    box-shadow: none;
+    border-block: 1px solid #e2e5e8;
+}
+
+@media (max-width: 700px) {
+    .swagger-ui .wrapper {
+        padding: 0 12px;
+    }
+
+    .swagger-ui .info .title {
+        font-size: 24px;
+    }
+
+    .swagger-ui .opblock .opblock-summary {
+        align-items: flex-start;
+    }
+
+    .swagger-ui .opblock .opblock-summary-control {
+        flex-wrap: wrap;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .swagger-ui .opblock .opblock-summary-method {
+        min-width: 64px;
+        padding: 6px 8px;
+    }
+
+    .swagger-ui .opblock .opblock-summary-path {
+        flex: 1;
+        min-width: 0;
+        font-size: 13px;
+    }
+
+    .swagger-ui .opblock .opblock-summary-description {
+        flex-basis: 100%;
+        padding: 2px 0;
+    }
+
+    .swagger-ui .opblock .opblock-summary-operation-id {
+        flex-basis: 100%;
+        font-size: 11px;
+    }
+
+    .swagger-ui .opblock .opblock-section-header {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .swagger-ui .parameters-container, .swagger-ui .opblock-description-wrapper {
+        padding: 12px;
+    }
+
+    .swagger-ui .parameters {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .swagger-ui .parameters-col_name {
+        width: 40%;
+        overflow-wrap: anywhere;
+    }
+
+    .swagger-ui .parameters-col_description {
+        width: 60%;
+    }
+
+    .swagger-ui .parameter__name, .swagger-ui .parameter__type {
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
+
+    .swagger-ui .parameters-col_description input {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .swagger-ui .btn {
+        white-space: normal;
+    }
+
+    .swagger-ui .servers > label {
+        max-width: 100%;
+        margin-right: 0;
+    }
+
+    .swagger-ui .servers select {
+        min-width: 0;
+    }
+
+    .swagger-ui .servers .computed-url {
+        overflow-wrap: anywhere;
+    }
+
+    .swagger-ui .opblock-tag {
+        font-size: 19px;
+    }
+
+    .swagger-ui .opblock-tag small {
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
+}

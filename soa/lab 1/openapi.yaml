@@ -1,0 +1,1609 @@
+---
+openapi: 3.0.3
+info:
+  title: Сервис организаций
+  version: 1.0.0
+  description: |-
+    Организации и сотрудники. Формат данных – XML
+
+    - Неверные параметры URL, их повторы, неизвестные параметры запроса и отсутствие обязательного тела – 400. sort/filter передаются один раз, списком через запятую
+    - Некорректный XML – 400. Неверный корень, поля, типы, повторы элементов, xsi:nil или поля только для чтения – 422 до изменений. Вложенные обязательные поля проверяются, если объект задан
+    - Числа соответствуют типам и диапазонам схем. double допускает дроби, но не NaN/бесконечности. Имена могут состоять из пробелов. zipCode и имя town могут быть пустыми
+    - Ошибки используют Error. При 500 результат изменения может быть неизвестен: проверьте состояние перед повтором. Проверки выполняет сервер
+servers:
+  - url: "{baseUrl}"
+    description: Сервис организаций
+    variables:
+      baseUrl:
+        default: http://localhost:8080
+tags:
+  - name: Организации
+    description: Основные операции
+  - name: Дополнительные операции
+    description: Операции над коллекцией
+  - name: Сотрудники
+    description: Создание, чтение, изменение и удаление сотрудников
+paths:
+  "/organizations":
+    post:
+      tags:
+        - Организации
+      operationId: createOrganization
+      summary: Добавить организацию
+      description: Создаёт организацию без сотрудников
+      requestBody:
+        "$ref": "#/components/requestBodies/CreateOrganizationInput"
+      responses:
+        '201':
+          "$ref": "#/components/responses/OrganizationCreated"
+        '400':
+          description: "Неверные параметры URL, отсутствующее тело или некорректный XML. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                missingBody:
+                  $ref: "#/components/examples/missingBody"
+                malformedXml:
+                  $ref: "#/components/examples/malformedXml"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        '422':
+          "$ref": "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    get:
+      tags:
+        - Организации
+      operationId: listOrganizations
+      summary: Получить список организаций
+      description: Возвращает страницу организаций. Условия filter объединяются через И
+      parameters:
+        - "$ref": "#/components/parameters/Page"
+        - "$ref": "#/components/parameters/Size"
+        - "$ref": "#/components/parameters/Sort"
+        - "$ref": "#/components/parameters/Filter"
+      responses:
+        '200':
+          "$ref": "#/components/responses/OrganizationPage"
+        '400':
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                unknownSortField:
+                  $ref: "#/components/examples/unknownSortField"
+                malformedSort:
+                  $ref: "#/components/examples/malformedSort"
+                emptySortTerm:
+                  $ref: "#/components/examples/emptySortTerm"
+                duplicateSort:
+                  $ref: "#/components/examples/duplicateSort"
+                conflictingSort:
+                  $ref: "#/components/examples/conflictingSort"
+                invalidPagination:
+                  $ref: "#/components/examples/invalidPagination"
+                invalidFilter:
+                  $ref: "#/components/examples/invalidFilter"
+                malformedFilter:
+                  $ref: "#/components/examples/malformedFilter"
+                invalidFilterValue:
+                  $ref: "#/components/examples/invalidFilterValue"
+                repeatedSort:
+                  $ref: "#/components/examples/repeatedSort"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  "/organizations/{id}":
+    parameters:
+      - "$ref": "#/components/parameters/OrganizationId"
+    get:
+      tags:
+        - Организации
+      operationId: getOrganization
+      summary: Получить организацию по ID
+      description: Возвращает организацию по ID
+      responses:
+        '200':
+          "$ref": "#/components/responses/OrganizationResult"
+        "400":
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                invalid_id:
+                  $ref: "#/components/examples/invalid_id"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    put:
+      tags:
+        - Организации
+      operationId: updateOrganization
+      summary: Изменить организацию
+      description: Заменяет изменяемые поля, сохраняя ID и creationDate. Назначения сотрудников меняются через их API
+      requestBody:
+        "$ref": "#/components/requestBodies/UpdateOrganizationInput"
+      responses:
+        '200':
+          "$ref": "#/components/responses/OrganizationResult"
+        '400':
+          description: "Неверные параметры URL, отсутствующее тело или некорректный XML. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                invalid_id:
+                  $ref: "#/components/examples/invalid_id"
+                missingBody:
+                  $ref: "#/components/examples/missingBody"
+                malformedXml:
+                  $ref: "#/components/examples/malformedXml"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        '422':
+          "$ref": "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+        - Организации
+      operationId: deleteOrganization
+      summary: Удалить организацию
+      description: Атомарно удаляет организацию без сотрудников. Иначе – 409 без изменений
+      responses:
+        '204':
+          description: Организация удалена
+        "400":
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                invalid_id:
+                  $ref: "#/components/examples/invalid_id"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        '409':
+          "$ref": "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  "/employees":
+    post:
+      tags:
+        - Сотрудники
+      operationId: createEmployee
+      summary: Добавить сотрудника
+      description: Создаёт сотрудника. Указанный organizationId должен принадлежать существующей организации
+      requestBody:
+        "$ref": "#/components/requestBodies/EmployeeInput"
+      responses:
+        '201':
+          "$ref": "#/components/responses/EmployeeCreated"
+        '400':
+          description: "Неверные параметры URL, отсутствующее тело или некорректный XML. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                missingBody:
+                  $ref: "#/components/examples/missingBody2"
+                malformedXml:
+                  $ref: "#/components/examples/malformedXml"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        '422':
+          $ref: "#/components/responses/EmployeeValidationError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    get:
+      tags:
+        - Сотрудники
+      operationId: listEmployees
+      summary: Получить список сотрудников
+      description: "Возвращает страницу сотрудников. Фильтры работодателя: organizationId:eq:1 или organizationId:isNull:true"
+      parameters:
+        - "$ref": "#/components/parameters/Page"
+        - "$ref": "#/components/parameters/Size"
+        - "$ref": "#/components/parameters/EmployeeSort"
+        - "$ref": "#/components/parameters/EmployeeFilter"
+      responses:
+        '200':
+          "$ref": "#/components/responses/EmployeePage"
+        '400':
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                unknownSortField:
+                  $ref: "#/components/examples/unknownSortField"
+                malformedSort:
+                  $ref: "#/components/examples/malformedSort"
+                emptySortTerm:
+                  $ref: "#/components/examples/emptySortTerm"
+                duplicateSort:
+                  $ref: "#/components/examples/duplicateSort"
+                conflictingSort:
+                  $ref: "#/components/examples/conflictingSort"
+                invalidPagination:
+                  $ref: "#/components/examples/invalidPagination"
+                invalidFilter:
+                  $ref: "#/components/examples/invalidFilter"
+                malformedFilter:
+                  $ref: "#/components/examples/malformedFilter"
+                invalidFilterValue:
+                  $ref: "#/components/examples/invalidFilterValue"
+                repeatedSort:
+                  $ref: "#/components/examples/repeatedSort"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  "/employees/{employeeId}":
+    parameters:
+      - "$ref": "#/components/parameters/EmployeeId"
+    get:
+      tags:
+        - Сотрудники
+      operationId: getEmployee
+      summary: Получить сотрудника по ID
+      description: Возвращает сотрудника и его работодателя
+      responses:
+        '200':
+          "$ref": "#/components/responses/EmployeeResult"
+        '400':
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                invalid_employeeId:
+                  $ref: "#/components/examples/invalid_employeeId"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    put:
+      tags:
+        - Сотрудники
+      operationId: updateEmployee
+      summary: Изменить сотрудника
+      description: Заменяет имя и organizationId, сохраняя ID. Перенос атомарно меняет работодателя. Отсутствие organizationId снимает назначение. Ошибка валидации или неизвестный работодатель не меняют сотрудника
+      requestBody:
+        "$ref": "#/components/requestBodies/EmployeeInput"
+      responses:
+        '200':
+          "$ref": "#/components/responses/EmployeeResult"
+        '400':
+          description: "Неверные параметры URL, отсутствующее тело или некорректный XML. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                invalid_employeeId:
+                  $ref: "#/components/examples/invalid_employeeId"
+                missingBody:
+                  $ref: "#/components/examples/missingBody2"
+                malformedXml:
+                  $ref: "#/components/examples/malformedXml"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        '422':
+          $ref: "#/components/responses/EmployeeValidationError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+        - Сотрудники
+      operationId: deleteEmployee
+      summary: Удалить сотрудника
+      description: Удаляет сотрудника и его назначение работодателю
+      responses:
+        '204':
+          description: Сотрудник удалён
+        '400':
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                invalid_employeeId:
+                  $ref: "#/components/examples/invalid_employeeId"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  "/organizations/type/{type}":
+    delete:
+      tags:
+        - Дополнительные операции
+      operationId: deleteOneOrganizationByType
+      summary: Удалить одну организацию заданного типа
+      description: 'Выбирает любую организацию с указанным type и атомарно удаляет её, если сотрудников нет, иначе – 409. Автоматический повтор запрещён: он может выбрать другую организацию'
+      parameters:
+        - "$ref": "#/components/parameters/OrganizationTypePath"
+      responses:
+        '204':
+          description: Организация удалена
+        "400":
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                invalid_type:
+                  $ref: "#/components/examples/invalid_type"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        '409':
+          "$ref": "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  "/organizations/count":
+    get:
+      tags:
+        - Дополнительные операции
+      operationId: countOrganizationsByTypeGreaterThan
+      summary: Посчитать организации с большим type
+      description: Считает организации с type выше порога по порядку типов, отсутствующие значения исключаются
+      parameters:
+        - name: typeGreaterThan
+          in: query
+          required: true
+          description: Порог type по порядку типов, отсутствующие значения исключаются
+          schema:
+            $ref: "#/components/schemas/OrganizationType"
+      responses:
+        '200':
+          "$ref": "#/components/responses/CountResult"
+        '400':
+          description: "Неверные, пропущенные или повторяющиеся параметры либо лишнее тело запроса. Поля и причины – в details"
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                unknownQueryParameter:
+                  $ref: "#/components/examples/unknownQueryParameter"
+                unexpectedBody:
+                  $ref: "#/components/examples/unexpectedBody"
+                invalid_typeGreaterThan:
+                  $ref: "#/components/examples/invalid_typeGreaterThan"
+                missing_typeGreaterThan:
+                  $ref: "#/components/examples/missing_typeGreaterThan"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+components:
+  schemas:
+    EmployeeWrite:
+      type: object
+      description: Отсутствие organizationId означает отсутствие работодателя и снимает назначение при PUT. Неизвестный работодатель – 404
+      additionalProperties: false
+      required:
+        - name
+      xml:
+        name: employee
+      properties:
+        name:
+          type: string
+          minLength: 1
+        organizationId:
+          "$ref": "#/components/schemas/PositiveId"
+    Employee:
+      type: object
+      description: Сотрудник с уникальным ID. Без работодателя organizationId отсутствует. Одновременно возможна только одна организация
+      required:
+        - id
+        - name
+      xml:
+        name: employee
+      properties:
+        id:
+          "$ref": "#/components/schemas/PositiveId"
+        name:
+          type: string
+          minLength: 1
+        organizationId:
+          "$ref": "#/components/schemas/PositiveId"
+    EmployeeList:
+      type: array
+      xml:
+        name: employees
+        wrapped: true
+      items:
+        "$ref": "#/components/schemas/Employee"
+    PositiveId:
+      type: integer
+      format: int64
+      minimum: 1
+      maximum: 9223372036854775807
+    LocalDate:
+      type: string
+      format: date
+      pattern: "^(?!0000)\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$"
+    AnnualTurnover:
+      type: number
+      format: double
+      minimum: 0
+      exclusiveMinimum: true
+      maximum: 1.7976931348623157e+308
+    OrganizationType:
+      type: string
+      enum:
+        - PUBLIC
+        - GOVERNMENT
+        - TRUST
+        - PRIVATE_LIMITED_COMPANY
+    Coordinates:
+      type: object
+      required:
+        - x
+        - y
+      xml:
+        name: coordinates
+      properties:
+        x:
+          type: integer
+          format: int64
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        y:
+          type: integer
+          format: int32
+          minimum: -2147483648
+          maximum: 2147483647
+      additionalProperties: false
+    Location:
+      type: object
+      required:
+        - x
+        - y
+        - name
+      xml:
+        name: town
+      properties:
+        x:
+          type: integer
+          format: int64
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        y:
+          type: integer
+          format: int64
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        name:
+          type: string
+      additionalProperties: false
+    Address:
+      type: object
+      required:
+        - zipCode
+      xml:
+        name: officialAddress
+      properties:
+        zipCode:
+          type: string
+          maxLength: 18
+        town:
+          "$ref": "#/components/schemas/Location"
+      additionalProperties: false
+    OrganizationWrite:
+      type: object
+      required:
+        - name
+        - coordinates
+      additionalProperties: false
+      xml:
+        name: organization
+      properties:
+        name:
+          type: string
+          minLength: 1
+        coordinates:
+          "$ref": "#/components/schemas/Coordinates"
+        annualTurnover:
+          "$ref": "#/components/schemas/AnnualTurnover"
+        type:
+          "$ref": "#/components/schemas/OrganizationType"
+        officialAddress:
+          "$ref": "#/components/schemas/Address"
+    Organization:
+      type: object
+      required:
+        - id
+        - name
+        - coordinates
+        - creationDate
+      xml:
+        name: organization
+      properties:
+        id:
+          "$ref": "#/components/schemas/PositiveId"
+        name:
+          type: string
+          minLength: 1
+        coordinates:
+          "$ref": "#/components/schemas/Coordinates"
+        creationDate:
+          "$ref": "#/components/schemas/LocalDate"
+        annualTurnover:
+          "$ref": "#/components/schemas/AnnualTurnover"
+        type:
+          "$ref": "#/components/schemas/OrganizationType"
+        officialAddress:
+          "$ref": "#/components/schemas/Address"
+      additionalProperties: false
+    OrganizationList:
+      type: array
+      xml:
+        name: organizations
+        wrapped: true
+      items:
+        "$ref": "#/components/schemas/Organization"
+    Count:
+      type: object
+      required:
+        - count
+      xml:
+        name: countResult
+      properties:
+        count:
+          type: integer
+          format: int64
+          minimum: 0
+    Error:
+      type: object
+      additionalProperties: false
+      description: "code стабилен, message объясняет ошибку. details содержит все обнаруженные нарушения для 400/422. Без привязки к полю – пустой список. Внутренние сообщения не раскрываются"
+      required:
+        - code
+        - message
+        - details
+      xml:
+        name: error
+      properties:
+        code:
+          type: string
+          minLength: 1
+        message:
+          type: string
+          minLength: 1
+        details:
+          type: array
+          xml:
+            name: details
+            wrapped: true
+          items:
+            $ref: "#/components/schemas/ErrorDetail"
+    ErrorDetail:
+      type: object
+      additionalProperties: false
+      description: location – источник, field – путь поля (coordinates.x, sort[1]) или $ для тела. Индексы с нуля. code – причина, message – нарушенное правило
+      required:
+        - location
+        - field
+        - code
+        - message
+      xml:
+        name: detail
+      properties:
+        location:
+          type: string
+          enum:
+            - path
+            - query
+            - header
+            - body
+        field:
+          type: string
+          minLength: 1
+        code:
+          type: string
+          minLength: 1
+        message:
+          type: string
+          minLength: 1
+  parameters:
+    EmployeeId:
+      name: employeeId
+      in: path
+      required: true
+      description: ID сотрудника
+      schema:
+        "$ref": "#/components/schemas/PositiveId"
+    EmployeeSort:
+      name: sort
+      in: query
+      style: form
+      explode: false
+      description: |-
+        Допустимые поля через запятую. Один ведущий минус задаёт убывание
+        Плюс, пробелы, пустые элементы и повтор поля в любом направлении запрещены: 400 INVALID_SORT с sort[n]
+        По умолчанию id. Отсутствующие значения идут последними, ID по возрастанию завершает сортировку, если не задан явно
+      schema:
+        type: array
+        uniqueItems: true
+        default:
+          - id
+        items:
+          type: string
+          enum:
+            - id
+            - "-id"
+            - name
+            - "-name"
+            - organizationId
+            - "-organizationId"
+        minItems: 1
+    EmployeeFilter:
+      name: filter
+      in: query
+      style: form
+      explode: false
+      description: |-
+        Условия поле:оператор:значение через запятую объединяются через И. Регистр учитывается
+        - Числа, даты и типы организаций: eq, ne, gt, gte, lt, lte, in
+        - Строки: eq, ne, contains, startsWith, in
+        - Необязательные поля и их потомки: isNull:true/false. Объекты – только isNull
+        in разделяет непустые значения через |. contains/startsWith требуют непустую строку. Типы и ограничения – как в схемах. Сравнения исключают отсутствующие значения
+        Двоеточия после оператора входят в значение. Запятые и | не экранируются. Ошибки – 400 INVALID_FILTER с filter[n]
+        Поля: id, name, organizationId. isNull – только для organizationId
+      schema:
+        type: array
+        items:
+          type: string
+          minLength: 1
+        minItems: 1
+      example:
+        - organizationId:eq:1
+    OrganizationId:
+      name: id
+      in: path
+      required: true
+      description: ID организации
+      schema:
+        "$ref": "#/components/schemas/PositiveId"
+    OrganizationTypePath:
+      name: type
+      in: path
+      required: true
+      description: Тип организации
+      schema:
+        "$ref": "#/components/schemas/OrganizationType"
+    Page:
+      name: page
+      in: query
+      description: Целое >= 1. По умолчанию 1 при отсутствии. Неверное значение – 400
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Size:
+      name: size
+      in: query
+      description: Целое от 1 до 100. По умолчанию 20 при отсутствии. Неверное значение – 400
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    Sort:
+      name: sort
+      in: query
+      style: form
+      explode: false
+      description: |-
+        Допустимые поля через запятую. Один ведущий минус задаёт убывание
+        Плюс, пробелы, пустые элементы и повтор поля в любом направлении запрещены: 400 INVALID_SORT с sort[n]
+        По умолчанию id. Отсутствующие значения идут последними, ID по возрастанию завершает сортировку, если не задан явно
+      schema:
+        type: array
+        uniqueItems: true
+        default:
+          - id
+        items:
+          type: string
+          enum:
+            - id
+            - "-id"
+            - name
+            - "-name"
+            - coordinates.x
+            - "-coordinates.x"
+            - coordinates.y
+            - "-coordinates.y"
+            - creationDate
+            - "-creationDate"
+            - annualTurnover
+            - "-annualTurnover"
+            - type
+            - "-type"
+            - officialAddress.zipCode
+            - "-officialAddress.zipCode"
+            - officialAddress.town.x
+            - "-officialAddress.town.x"
+            - officialAddress.town.y
+            - "-officialAddress.town.y"
+            - officialAddress.town.name
+            - "-officialAddress.town.name"
+        minItems: 1
+    Filter:
+      name: filter
+      in: query
+      style: form
+      explode: false
+      description: |-
+        Условия поле:оператор:значение через запятую объединяются через И. Регистр учитывается
+        - Числа, даты и типы организаций: eq, ne, gt, gte, lt, lte, in
+        - Строки: eq, ne, contains, startsWith, in
+        - Необязательные поля и их потомки: isNull:true/false. Объекты – только isNull
+        in разделяет непустые значения через |. contains/startsWith требуют непустую строку. Типы и ограничения – как в схемах. Сравнения исключают отсутствующие значения
+        Двоеточия после оператора входят в значение. Запятые и | не экранируются. Ошибки – 400 INVALID_FILTER с filter[n]
+        Поля: скалярные из Sort, officialAddress и officialAddress.town (isNull). employees не фильтруется
+      schema:
+        type: array
+        items:
+          type: string
+          minLength: 1
+        minItems: 1
+      example:
+        - name:contains:ООО
+        - annualTurnover:gte:1000
+        - annualTurnover:lte:5000
+        - type:in:PUBLIC|TRUST
+  requestBodies:
+    EmployeeInput:
+      required: true
+      description: Имя и необязательный organizationId. ID не передаётся
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/EmployeeWrite"
+          examples:
+            assigned:
+              value: |
+                <employee>
+                  <name>Иван Иванов</name>
+                  <organizationId>1</organizationId>
+                </employee>
+            unassigned:
+              value: |
+                <employee>
+                  <name>Иван Иванов</name>
+                </employee>
+    CreateOrganizationInput:
+      required: true
+      description: Данные новой организации
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/OrganizationWrite"
+          examples:
+            example:
+              value: |
+                <organization>
+                  <name>Ромашка</name>
+                  <coordinates>
+                    <x>10</x>
+                    <y>20</y>
+                  </coordinates>
+                  <annualTurnover>1500.5</annualTurnover>
+                  <type>PUBLIC</type>
+                </organization>
+    UpdateOrganizationInput:
+      required: true
+      description: Новые значения полей организации
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/OrganizationWrite"
+          examples:
+            example:
+              value: |
+                <organization>
+                  <name>Новое название</name>
+                  <coordinates>
+                    <x>15</x>
+                    <y>25</y>
+                  </coordinates>
+                  <annualTurnover>2000</annualTurnover>
+                  <type>PRIVATE_LIMITED_COMPANY</type>
+                </organization>
+  responses:
+    EmployeeCreated:
+      description: Сотрудник создан
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/Employee"
+    EmployeeResult:
+      description: Сотрудник
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/Employee"
+    OrganizationCreated:
+      description: Организация создана
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/Organization"
+    OrganizationResult:
+      description: Организация
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/Organization"
+    OrganizationPage:
+      description: Страница организаций
+      headers:
+        X-Total-Count:
+          description: Общее количество
+          schema:
+            type: integer
+            minimum: 0
+        X-Page:
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+        X-Page-Size:
+          description: Размер страницы
+          schema:
+            type: integer
+            minimum: 1
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/OrganizationList"
+    EmployeePage:
+      description: Страница сотрудников
+      headers:
+        X-Total-Count:
+          description: Общее количество
+          schema:
+            type: integer
+            minimum: 0
+        X-Page:
+          description: Номер страницы
+          schema:
+            type: integer
+            minimum: 1
+        X-Page-Size:
+          description: Размер страницы
+          schema:
+            type: integer
+            minimum: 1
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/EmployeeList"
+    CountResult:
+      description: Количество
+      content:
+        application/xml:
+          schema:
+            "$ref": "#/components/schemas/Count"
+    NotFound:
+      description: Организация, сотрудник или работодатель не найдены. Неверный формат ID – 400
+      content:
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            missingOrganization:
+              $ref: "#/components/examples/missingOrganization"
+    Conflict:
+      description: Конфликт состояния. Выполненные переносы при поглощении сохраняются
+      content:
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            nonemptyOrganization:
+              $ref: "#/components/examples/nonemptyOrganization"
+    ValidationError:
+      description: "Корректный XML нарушает схему тела. Поля и причины указаны в details. Изменения не применяются"
+      content:
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            multipleViolations:
+              $ref: "#/components/examples/multipleViolations"
+            invalidNestedField:
+              $ref: "#/components/examples/invalidNestedField"
+            invalidEnum:
+              $ref: "#/components/examples/invalidEnum"
+            readOnlyField:
+              $ref: "#/components/examples/readOnlyField"
+            unknownElement:
+              $ref: "#/components/examples/unknownElement"
+            duplicateElement:
+              $ref: "#/components/examples/duplicateElement"
+            wrongRoot:
+              $ref: "#/components/examples/wrongRoot"
+    NotAcceptable:
+      description: Accept исключает application/xml. Ответ 406 может не содержать тела
+      content:
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            unsupportedAccept:
+              $ref: "#/components/examples/unsupportedAccept"
+    UnsupportedMediaType:
+      description: Требуется application/xml. Content-Encoding должен отсутствовать или быть identity
+      content:
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            unsupportedContentType:
+              $ref: "#/components/examples/unsupportedContentType"
+            unsupportedContentEncoding:
+              $ref: "#/components/examples/unsupportedContentEncoding"
+    InternalServerError:
+      description: Внутренняя ошибка. Результат изменения может быть неизвестен. Перед повтором проверьте состояние
+      content:
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            internalError:
+              $ref: "#/components/examples/internalError"
+    EmployeeValidationError:
+      description: "Корректный XML нарушает схему сотрудника. Поля и причины указаны в details. Изменения не применяются"
+      content:
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            invalidEmployee:
+              $ref: "#/components/examples/invalidEmployee"
+            readOnlyField:
+              $ref: "#/components/examples/readOnlyField"
+            unknownElement:
+              $ref: "#/components/examples/unknownElement"
+            duplicateElement:
+              $ref: "#/components/examples/duplicateElement"
+            wrongRoot:
+              $ref: "#/components/examples/wrongRoot2"
+  examples:
+    unknownQueryParameter:
+      summary: Неизвестный параметр запроса
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Неизвестный параметр запроса</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>unexpected</field>
+              <code>UNKNOWN_FIELD</code>
+              <message>Эта операция не поддерживает параметр unexpected. Удалите его из запроса</message>
+            </detail>
+          </details>
+        </error>
+    missingBody:
+      summary: Отсутствует обязательное XML-тело
+      value: |
+        <error>
+          <code>MISSING_BODY</code>
+          <message>Отсутствует обязательное XML-тело</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>$</field>
+              <code>REQUIRED</code>
+              <message>Передайте XML-тело с корневым элементом organization</message>
+            </detail>
+          </details>
+        </error>
+    malformedXml:
+      summary: XML-тело не удалось разобрать
+      value: |
+        <error>
+          <code>MALFORMED_XML</code>
+          <message>XML-тело не удалось разобрать</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>$</field>
+              <code>INVALID_FORMAT</code>
+              <message>XML должен содержать один корректно закрытый корневой элемент</message>
+            </detail>
+          </details>
+        </error>
+    unknownSortField:
+      summary: Неизвестное поле сортировки
+      value: |
+        <error>
+          <code>INVALID_SORT</code>
+          <message>Неизвестное поле сортировки</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>sort[1]</field>
+              <code>UNKNOWN_FIELD</code>
+              <message>По полю salary сортировать нельзя. Выберите поле из списка допустимых значений sort</message>
+            </detail>
+          </details>
+        </error>
+    malformedSort:
+      summary: Некорректное направление сортировки
+      value: |
+        <error>
+          <code>INVALID_SORT</code>
+          <message>Некорректное направление сортировки</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>sort[0]</field>
+              <code>INVALID_FORMAT</code>
+              <message>В sort=--name разрешён только один ведущий минус: используйте name или -name</message>
+            </detail>
+          </details>
+        </error>
+    emptySortTerm:
+      summary: Пустой элемент сортировки
+      value: |
+        <error>
+          <code>INVALID_SORT</code>
+          <message>Пустой элемент сортировки</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>sort[1]</field>
+              <code>INVALID_FORMAT</code>
+              <message>В sort=name,,id пропущено поле после первой запятой. Удалите лишнюю запятую</message>
+            </detail>
+          </details>
+        </error>
+    duplicateSort:
+      summary: Поле сортировки повторяется
+      value: |
+        <error>
+          <code>INVALID_SORT</code>
+          <message>Поле сортировки повторяется</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>sort[1]</field>
+              <code>DUPLICATE_SORT</code>
+              <message>Поле name указано в sort дважды. Оставьте его только один раз</message>
+            </detail>
+          </details>
+        </error>
+    conflictingSort:
+      summary: Противоречащие направления сортировки
+      value: |
+        <error>
+          <code>INVALID_SORT</code>
+          <message>Противоречащие направления сортировки</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>sort[1]</field>
+              <code>CONFLICTING_SORT</code>
+              <message>Для поля name указаны два направления сортировки. Выберите name или -name</message>
+            </detail>
+          </details>
+        </error>
+    invalidPagination:
+      summary: Неверные параметры пагинации
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Неверные параметры пагинации</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>page</field>
+              <code>OUT_OF_RANGE</code>
+              <message>page должен быть целым числом не меньше 1</message>
+            </detail>
+            <detail>
+              <location>query</location>
+              <field>size</field>
+              <code>OUT_OF_RANGE</code>
+              <message>size должен быть целым числом от 1 до 100 включительно</message>
+            </detail>
+          </details>
+        </error>
+    invalidFilter:
+      summary: Оператор фильтра не подходит полю
+      value: |
+        <error>
+          <code>INVALID_FILTER</code>
+          <message>Оператор фильтра не подходит полю</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>filter[0]</field>
+              <code>UNKNOWN_OPERATOR</code>
+              <message>Оператор gt не подходит для поля name. Используйте eq, ne, contains, startsWith или in</message>
+            </detail>
+          </details>
+        </error>
+    malformedFilter:
+      summary: Некорректный фильтр
+      value: |
+        <error>
+          <code>INVALID_FILTER</code>
+          <message>Некорректный фильтр</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>filter[0]</field>
+              <code>INVALID_FORMAT</code>
+              <message>Фильтр должен иметь вид поле:оператор:значение, например name:eq:Иван</message>
+            </detail>
+          </details>
+        </error>
+    invalidFilterValue:
+      summary: Значение фильтра имеет неверный тип
+      value: |
+        <error>
+          <code>INVALID_FILTER</code>
+          <message>Значение фильтра имеет неверный тип</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>filter[0]</field>
+              <code>INVALID_TYPE</code>
+              <message>В id:eq:abc значение id должно быть положительным десятичным int64</message>
+            </detail>
+          </details>
+        </error>
+    repeatedSort:
+      summary: Параметр sort передан несколько раз
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Параметр sort передан несколько раз</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>sort</field>
+              <code>DUPLICATE_PARAMETER</code>
+              <message>Используйте sort=name,-id вместо sort=name&amp;sort=-id</message>
+            </detail>
+          </details>
+        </error>
+    unexpectedBody:
+      summary: Неожиданное тело запроса
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Операция не принимает тело запроса</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>$</field>
+              <code>UNEXPECTED_BODY</code>
+              <message>Эта операция не принимает тело запроса. Передайте данные в параметрах пути или строки запроса</message>
+            </detail>
+          </details>
+        </error>
+    invalid_id:
+      summary: Неверный параметр id
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Неверный параметр id</message>
+          <details>
+            <detail>
+              <location>path</location>
+              <field>id</field>
+              <code>INVALID_TYPE</code>
+              <message>ID должен быть целым числом от 1 до 9223372036854775807. Значение abc не подходит</message>
+            </detail>
+          </details>
+        </error>
+    invalid_type:
+      summary: Неверный параметр type
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Неверный параметр type</message>
+          <details>
+            <detail>
+              <location>path</location>
+              <field>type</field>
+              <code>INVALID_ENUM</code>
+              <message>Допустимы только PUBLIC, GOVERNMENT, TRUST, PRIVATE_LIMITED_COMPANY</message>
+            </detail>
+          </details>
+        </error>
+    invalidTurnover:
+      summary: Неверный порог оборота
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Неверный порог оборота</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>lessThan</field>
+              <code>INVALID_TYPE</code>
+              <message>Укажите конечное число. NaN и бесконечность недопустимы. Нулевой или отрицательный порог вернёт пустой список</message>
+            </detail>
+          </details>
+        </error>
+    missingBody2:
+      summary: Отсутствует обязательное XML-тело
+      value: |
+        <error>
+          <code>MISSING_BODY</code>
+          <message>Отсутствует обязательное XML-тело</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>$</field>
+              <code>REQUIRED</code>
+              <message>Передайте XML-тело с корневым элементом employee</message>
+            </detail>
+          </details>
+        </error>
+    invalid_employeeId:
+      summary: Неверный параметр employeeId
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Неверный параметр employeeId</message>
+          <details>
+            <detail>
+              <location>path</location>
+              <field>employeeId</field>
+              <code>INVALID_TYPE</code>
+              <message>ID должен быть целым числом от 1 до 9223372036854775807. Значение abc не подходит</message>
+            </detail>
+          </details>
+        </error>
+    missingOrganization:
+      summary: Организация с указанным ID не найдена
+      value: |
+        <error>
+          <code>NOT_FOUND</code>
+          <message>Организация с указанным ID не найдена</message>
+          <details/>
+        </error>
+    nonemptyOrganization:
+      summary: Нельзя удалить организацию, пока в ней есть сотрудники
+      value: |
+        <error>
+          <code>ORGANIZATION_NOT_EMPTY</code>
+          <message>Нельзя удалить организацию, пока в ней есть сотрудники</message>
+          <details/>
+        </error>
+    multipleViolations:
+      summary: Несколько полей организации не прошли проверку
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Несколько полей организации не прошли проверку</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>name</field>
+              <code>TOO_SHORT</code>
+              <message>name обязателен и должен содержать минимум один символ</message>
+            </detail>
+            <detail>
+              <location>body</location>
+              <field>coordinates.x</field>
+              <code>REQUIRED</code>
+              <message>Отсутствует обязательная координата x типа int64</message>
+            </detail>
+            <detail>
+              <location>body</location>
+              <field>annualTurnover</field>
+              <code>OUT_OF_RANGE</code>
+              <message>annualTurnover должен быть конечным числом строго больше 0</message>
+            </detail>
+          </details>
+        </error>
+    invalidNestedField:
+      summary: Неверная вложенная координата
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Неверная вложенная координата</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>officialAddress.town.x</field>
+              <code>INVALID_TYPE</code>
+              <message>Координата x должна быть целым числом в диапазоне int64. Дробные значения недопустимы</message>
+            </detail>
+          </details>
+        </error>
+    invalidEnum:
+      summary: Неизвестный тип организации
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Неизвестный тип организации</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>type</field>
+              <code>INVALID_ENUM</code>
+              <message>Выберите PUBLIC, GOVERNMENT, TRUST или PRIVATE_LIMITED_COMPANY. Используйте заглавные буквы</message>
+            </detail>
+          </details>
+        </error>
+    readOnlyField:
+      summary: Передано поле, управляемое сервером
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Передано поле, управляемое сервером</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>id</field>
+              <code>READ_ONLY_FIELD</code>
+              <message>Сервер назначает ID автоматически. Удалите поле id из тела запроса</message>
+            </detail>
+          </details>
+        </error>
+    unknownElement:
+      summary: Неизвестное поле тела
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Неизвестное поле тела</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>nickname</field>
+              <code>UNKNOWN_FIELD</code>
+              <message>Поле nickname не поддерживается. Удалите его из тела запроса</message>
+            </detail>
+          </details>
+        </error>
+    duplicateElement:
+      summary: Одиночное поле повторяется
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Одиночное поле повторяется</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>name</field>
+              <code>DUPLICATE_FIELD</code>
+              <message>XML-тело должно содержать ровно один элемент name</message>
+            </detail>
+          </details>
+        </error>
+    wrongRoot:
+      summary: Неверный корневой элемент
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Неверный корневой элемент</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>$</field>
+              <code>INVALID_FORMAT</code>
+              <message>Корневой элемент XML должен называться organization</message>
+            </detail>
+          </details>
+        </error>
+    unsupportedAccept:
+      summary: Доступный формат ответа – application/xml
+      value: |
+        <error>
+          <code>NOT_ACCEPTABLE</code>
+          <message>Доступный формат ответа – application/xml</message>
+          <details>
+            <detail>
+              <location>header</location>
+              <field>Accept</field>
+              <code>UNSUPPORTED_MEDIA_TYPE</code>
+              <message>Укажите application/xml или подходящую маску типа в Accept</message>
+            </detail>
+          </details>
+        </error>
+    unsupportedContentType:
+      summary: Тип тела запроса не поддерживается
+      value: |
+        <error>
+          <code>UNSUPPORTED_MEDIA_TYPE</code>
+          <message>Тип тела запроса не поддерживается</message>
+          <details>
+            <detail>
+              <location>header</location>
+              <field>Content-Type</field>
+              <code>UNSUPPORTED_MEDIA_TYPE</code>
+              <message>Отправьте XML с заголовком Content-Type: application/xml. Формат application/json не поддерживается</message>
+            </detail>
+          </details>
+        </error>
+    unsupportedContentEncoding:
+      summary: Кодирование тела запроса не поддерживается
+      value: |
+        <error>
+          <code>UNSUPPORTED_MEDIA_TYPE</code>
+          <message>Кодирование тела запроса не поддерживается</message>
+          <details>
+            <detail>
+              <location>header</location>
+              <field>Content-Encoding</field>
+              <code>UNSUPPORTED_ENCODING</code>
+              <message>Используйте identity или не передавайте Content-Encoding</message>
+            </detail>
+          </details>
+        </error>
+    internalError:
+      summary: Не удалось завершить запрос. Если вы изменяли данные, проверьте, применились ли изменения
+      value: |
+        <error>
+          <code>INTERNAL_ERROR</code>
+          <message>Не удалось завершить запрос. Если вы изменяли данные, проверьте, применились ли изменения</message>
+          <details/>
+        </error>
+    invalidEmployee:
+      summary: Поля сотрудника не прошли проверку
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Поля сотрудника не прошли проверку</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>name</field>
+              <code>TOO_SHORT</code>
+              <message>name не может быть пустой строкой</message>
+            </detail>
+            <detail>
+              <location>body</location>
+              <field>organizationId</field>
+              <code>OUT_OF_RANGE</code>
+              <message>organizationId должен быть целым числом от 1 до 9223372036854775807. Если работодателя нет, не передавайте этот элемент</message>
+            </detail>
+          </details>
+        </error>
+    wrongRoot2:
+      summary: Неверный корневой элемент
+      value: |
+        <error>
+          <code>VALIDATION_FAILED</code>
+          <message>Неверный корневой элемент</message>
+          <details>
+            <detail>
+              <location>body</location>
+              <field>$</field>
+              <code>INVALID_FORMAT</code>
+              <message>Корневой элемент XML должен называться employee</message>
+            </detail>
+          </details>
+        </error>
+    invalid_typeGreaterThan:
+      summary: Неверный параметр typeGreaterThan
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Неверный параметр typeGreaterThan</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>typeGreaterThan</field>
+              <code>INVALID_ENUM</code>
+              <message>Допустимы только PUBLIC, GOVERNMENT, TRUST, PRIVATE_LIMITED_COMPANY</message>
+            </detail>
+          </details>
+        </error>
+    missing_typeGreaterThan:
+      summary: Отсутствует обязательный параметр typeGreaterThan
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Отсутствует обязательный параметр typeGreaterThan</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>typeGreaterThan</field>
+              <code>REQUIRED</code>
+              <message>Передайте обязательный query-параметр typeGreaterThan</message>
+            </detail>
+          </details>
+        </error>
+    missing_lessThan:
+      summary: Отсутствует обязательный параметр lessThan
+      value: |
+        <error>
+          <code>INVALID_REQUEST</code>
+          <message>Отсутствует обязательный параметр lessThan</message>
+          <details>
+            <detail>
+              <location>query</location>
+              <field>lessThan</field>
+              <code>REQUIRED</code>
+              <message>Передайте обязательный query-параметр lessThan</message>
+            </detail>
+          </details>
+        </error>
